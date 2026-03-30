@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { t } from '../utils/i18n';
-import { automationTasks } from '../data/mockDatabase';
+import { automationTasks, hotelAutomationTasks } from '../data/mockDatabase';
 
 const fade = (i = 0) => ({ initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, transition: { delay: i * 0.06, duration: 0.35 } });
 
@@ -127,7 +127,7 @@ const WorkflowPreview = ({ workflow, onClose, language }) => {
 
 export const AutomationHub = () => {
   const { language, businessData, isAuthenticated, workflows, addWorkflow, updateWorkflowStatus } = useApp();
-  const [tasks, setTasks] = useState(automationTasks);
+  const [tasks, setTasks] = useState(businessData?.category === 'hotel' ? hotelAutomationTasks : automationTasks);
   const [previewTask, setPreviewTask] = useState(null);
 
   const toggleTask = (id) => {

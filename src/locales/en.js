@@ -863,7 +863,9 @@ export default {
 
   // Nav additions
   lpNavHome: 'Home',
+  lpNavFeatures: 'Features',
   lpNavStories: 'Stories',
+  lpNavPricing: 'Pricing',
   lpNavContact: 'Contact',
 
   // Bento Stories

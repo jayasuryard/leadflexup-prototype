@@ -105,8 +105,8 @@ export const AnalyticsDashboard = () => {
   const scoreColor = (s) => s < 30 ? '#ef4444' : s < 60 ? '#eab308' : '#14a88a';
 
   // Computed deltas
-  const visitDelta = prev ? Math.round(((last.visits - prev.visits) / prev.visits) * 100) : 0;
-  const leadDelta = prev ? Math.round(((last.leads - prev.leads) / prev.leads) * 100) : 0;
+  const visitDelta = prev && prev.visits > 0 ? Math.round(((last.visits - prev.visits) / prev.visits) * 100) : 0;
+  const leadDelta = prev && prev.leads > 0 ? Math.round(((last.leads - prev.leads) / prev.leads) * 100) : 0;
 
   // Competitor data
   const competitors = competitorDatabase[businessData?.category] || competitorDatabase.restaurant;
@@ -121,8 +121,8 @@ export const AnalyticsDashboard = () => {
   const bizLng = businessData?.lng || 77.5946;
   const competitorPositions = competitors.map((c, i) => ({
     ...c,
-    lat: bizLat + (Math.sin(i * 2.4) * 0.015) + (i % 2 ? 0.005 : -0.005),
-    lng: bizLng + (Math.cos(i * 2.4) * 0.015) + (i % 2 ? -0.005 : 0.005),
+    lat: bizLat + (c.latOffset != null ? c.latOffset : (Math.sin(i * 2.4) * 0.015) + (i % 2 ? 0.005 : -0.005)),
+    lng: bizLng + (c.lngOffset != null ? c.lngOffset : (Math.cos(i * 2.4) * 0.015) + (i % 2 ? -0.005 : 0.005)),
   }));
 
   // Gaps + recommendations merged

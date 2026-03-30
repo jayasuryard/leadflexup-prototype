@@ -84,7 +84,8 @@ export const AppProvider = ({ children }) => {
 
   const onboardBusiness = (data) => {
     setBusinessData(data);
-    const analytics = generateAnalyticsData(45);
+    const initialScore = data.category === 'hotel' ? 3 : 45;
+    const analytics = generateAnalyticsData(initialScore);
     setAnalyticsData(analytics);
     const recs = generateRecommendations(data, analytics);
     setRecommendations(recs);

@@ -20,7 +20,7 @@ const bjColors = { awareness: '#8b5cf6', consideration: '#3b82f6', decision: '#f
 
 export const LeadManager = () => {
   const { language, businessData } = useApp();
-  const [leads] = useState(() => generateLeadData());
+  const [leads] = useState(() => generateLeadData(businessData?.category));
   const [view, setView] = useState('pipeline'); // pipeline | table | analytics
   const [selectedLead, setSelectedLead] = useState(null);
   const [filterOpen, setFilterOpen] = useState(false);

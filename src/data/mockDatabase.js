@@ -8,7 +8,8 @@ export const businessCategories = [
   { id: 'medical', label: { en: 'Medical Clinic', hi: 'चिकित्सा क्लिनिक', ta: 'மருத்துவ நிலையம்', kn: 'ವೈದ್ಯಕೀಯ ಕ್ಲಿನಿಕ್', te: 'మెడికల్ క్లినిక్', ml: 'മെഡിക്കൽ ക്ലിനിക്' } },
   { id: 'education', label: { en: 'Education & Training', hi: 'शिक्षा और प्रशिक्षण', ta: 'கல்வி', kn: 'ಶಿಕ್ಷಣ ಮತ್ತು ತರಬೇತಿ', te: 'విద్య & శిక్షణ', ml: 'വിദ്യാഭ്യാസം & പരിശീലനം' } },
   { id: 'professional', label: { en: 'Professional Services', hi: 'व्यावसायिक सेवाएं', ta: 'தொழில்முறை சேவைகள்', kn: 'ವೃತ್ತಿಪರ ಸೇವೆಗಳು', te: 'ప్రొఫెషనల్ సేవలు', ml: 'പ്രൊഫഷണൽ സേവനങ്ങൾ' } },
-  { id: 'automotive', label: { en: 'Automotive', hi: 'ऑटोमोटिव', ta: 'வாகனம்', kn: 'ಆಟೋಮೋಟಿವ್', te: 'ఆటోమోటివ్', ml: 'ഓട്ടോമോട്ടീവ്' } }
+  { id: 'automotive', label: { en: 'Automotive', hi: 'ऑटोमोटिव', ta: 'வாகனம்', kn: 'ಆಟೋಮೋಟಿವ್', te: 'ఆటోమోటివ్', ml: 'ഓട്ടോമോട്ടീವ്' } },
+  { id: 'hotel', label: { en: 'Hotel & Hospitality', hi: 'होटल और आतिथ्य', ta: 'ஹோட்டல் & விருந்தோம்பல்', kn: 'ಹೋಟೆಲ್ & ಆತಿಥ್ಯ', te: 'హోటల్ & హాస్పిటాలిటీ', ml: 'ഹോട്ടൽ & ഹോസ്പിറ്റാലിറ്റി' } }
 ];
 
 export const subscriptionPlans = [
@@ -83,12 +84,90 @@ export const competitorDatabase = {
     { name: 'Shine & Glow', score: 76, website: false, socialMedia: 2, reviews: 210, monthlyVisits: 6500 },
     { name: 'Quick Cuts', score: 70, website: false, socialMedia: 1, reviews: 125, monthlyVisits: 3800 },
     { name: 'Style Bar', score: 66, website: true, socialMedia: 2, reviews: 155, monthlyVisits: 4200 }
+  ],
+  hotel: [
+    { name: 'The Grand Palace Hotel', score: 95, website: true, socialMedia: 4, reviews: 2840, monthlyVisits: 85000, latOffset: 0.008, lngOffset: -0.012 },
+    { name: 'Radiance Suites & Spa', score: 92, website: true, socialMedia: 4, reviews: 2100, monthlyVisits: 72000, latOffset: -0.006, lngOffset: 0.015 },
+    { name: 'Hotel Majestic Inn', score: 89, website: true, socialMedia: 4, reviews: 1850, monthlyVisits: 64000, latOffset: 0.014, lngOffset: 0.005 },
+    { name: 'Royal Orchid Residency', score: 87, website: true, socialMedia: 3, reviews: 1620, monthlyVisits: 58000, latOffset: -0.011, lngOffset: -0.008 },
+    { name: 'Skyline Business Hotel', score: 84, website: true, socialMedia: 3, reviews: 1480, monthlyVisits: 52000, latOffset: 0.003, lngOffset: 0.019 },
+    { name: 'The Emerald Resort', score: 82, website: true, socialMedia: 3, reviews: 1350, monthlyVisits: 47000, latOffset: -0.017, lngOffset: 0.003 },
+    { name: 'Comfort Stay Hotels', score: 79, website: true, socialMedia: 3, reviews: 1120, monthlyVisits: 41000, latOffset: 0.009, lngOffset: -0.016 },
+    { name: 'Golden Leaf Hotel', score: 76, website: true, socialMedia: 3, reviews: 980, monthlyVisits: 36000, latOffset: -0.004, lngOffset: 0.011 },
+    { name: 'Heritage Haveli Hotel', score: 74, website: true, socialMedia: 2, reviews: 890, monthlyVisits: 32000, latOffset: 0.016, lngOffset: -0.007 },
+    { name: 'BlueStar Lodge & Suites', score: 71, website: true, socialMedia: 2, reviews: 760, monthlyVisits: 28000, latOffset: -0.013, lngOffset: -0.014 },
+    { name: 'Hotel Sunrise Point', score: 68, website: true, socialMedia: 2, reviews: 650, monthlyVisits: 24000, latOffset: 0.007, lngOffset: 0.013 },
+    { name: 'Park Avenue Rooms', score: 65, website: true, socialMedia: 2, reviews: 540, monthlyVisits: 20000, latOffset: -0.009, lngOffset: 0.006 },
+    { name: 'City Central Inn', score: 62, website: true, socialMedia: 2, reviews: 480, monthlyVisits: 17000, latOffset: 0.012, lngOffset: -0.004 },
+    { name: 'Lakeview Budget Hotel', score: 58, website: true, socialMedia: 1, reviews: 390, monthlyVisits: 14000, latOffset: -0.015, lngOffset: 0.009 },
+    { name: 'Hotel Sai Comfort', score: 55, website: false, socialMedia: 2, reviews: 320, monthlyVisits: 11000, latOffset: 0.005, lngOffset: -0.018 },
+    { name: 'Green View Guest House', score: 52, website: false, socialMedia: 1, reviews: 280, monthlyVisits: 8500, latOffset: -0.018, lngOffset: -0.002 },
+    { name: 'Travellers Nest Hotel', score: 48, website: false, socialMedia: 1, reviews: 210, monthlyVisits: 6200, latOffset: 0.011, lngOffset: 0.008 },
+    { name: 'Budget Inn Express', score: 44, website: false, socialMedia: 1, reviews: 165, monthlyVisits: 4800, latOffset: -0.002, lngOffset: -0.011 },
+    { name: 'Hotel New Bharat', score: 40, website: false, socialMedia: 1, reviews: 120, monthlyVisits: 3500, latOffset: 0.015, lngOffset: 0.002 },
+    { name: 'Shree Krishna Lodge', score: 36, website: false, socialMedia: 1, reviews: 85, monthlyVisits: 2200, latOffset: -0.007, lngOffset: 0.017 },
+    { name: 'Annapurna Guest House', score: 33, website: false, socialMedia: 0, reviews: 55, monthlyVisits: 1400, latOffset: 0.002, lngOffset: -0.009 },
+    { name: 'Balaji Rooms & Stay', score: 30, website: false, socialMedia: 0, reviews: 30, monthlyVisits: 800, latOffset: -0.014, lngOffset: 0.007 }
   ]
 };
 
 // Generate initial analytics data
 export const generateAnalyticsData = (userScore) => {
   const baseScore = userScore || 45; // Default low score for new businesses
+
+  // Zero-state: brand new business with absolutely no online presence
+  if (baseScore <= 5) {
+    return {
+      digitalPresence: {
+        overall: baseScore,
+        website: 0,
+        socialMedia: 0,
+        searchVisibility: 0,
+        onlineReviews: 0
+      },
+      traffic: {
+        monthly: [
+          { month: 'Oct', visits: 0, leads: 0 },
+          { month: 'Nov', visits: 0, leads: 0 },
+          { month: 'Dec', visits: 0, leads: 0 },
+          { month: 'Jan', visits: 0, leads: 0 },
+          { month: 'Feb', visits: 0, leads: 0 },
+          { month: 'Mar', visits: 0, leads: 0 }
+        ],
+        sources: [
+          { name: 'Direct', value: 0, color: '#6366f1' },
+          { name: 'Search', value: 0, color: '#8b5cf6' },
+          { name: 'Social', value: 0, color: '#ec4899' },
+          { name: 'Referral', value: 0, color: '#f59e0b' },
+          { name: 'Other', value: 0, color: '#6b7280' }
+        ]
+      },
+      socialMedia: {
+        platforms: [
+          { name: 'Instagram', followers: 0, engagement: 0, posts: 0 },
+          { name: 'Facebook', followers: 0, engagement: 0, posts: 0 },
+          { name: 'LinkedIn', followers: 0, engagement: 0, posts: 0 },
+          { name: 'Twitter', followers: 0, engagement: 0, posts: 0 }
+        ],
+        growth: [
+          { week: 'W1', followers: 0 },
+          { week: 'W2', followers: 0 },
+          { week: 'W3', followers: 0 },
+          { week: 'W4', followers: 0 }
+        ]
+      },
+      geoInsights: {
+        topCities: [
+          { city: 'Local Area', percentage: 0, leads: 0 },
+          { city: 'Nearby District', percentage: 0, leads: 0 },
+          { city: 'City Center', percentage: 0, leads: 0 },
+          { city: 'Metro Region', percentage: 0, leads: 0 },
+          { city: 'State', percentage: 0, leads: 0 }
+        ],
+        radius: { '5km': 0, '10km': 0, '15km': 0, '20km+': 0 }
+      }
+    };
+  }
   
   return {
     digitalPresence: {
@@ -179,6 +258,40 @@ export const generateRecommendations = (businessData, analyticsData) => {
       impact: '40% increase in local discovery',
       timeline: '1 week'
     });
+
+    // Hotel-specific extra recommendations
+    if (businessData && businessData.category === 'hotel') {
+      recommendations.push({
+        priority: 'critical',
+        category: 'social',
+        title: { en: 'List on OTA Platforms', hi: 'OTA प्लेटफॉर्म पर लिस्ट करें', ta: 'OTA தளங்களில் பதிவு செய்யுங்கள்', kn: 'OTA ಪ್ಲಾಟ್‌ಫಾರ್ಮ್‌ಗಳಲ್ಲಿ ಪಟ್ಟಿ ಮಾಡಿ', te: 'OTA ప్లాట్‌ఫార్మ్‌లలో లిస్ట్ చేయండి', ml: 'OTA പ്ലാറ്റ്ഫോമുകളിൽ ലിസ്റ്റ് ചെയ്യുക' },
+        description: {
+          en: 'Register on MakeMyTrip, Goibibo, Booking.com, and OYO to start getting online bookings. Your 22 competitors are already listed.',
+          hi: 'ऑनलाइन बुकिंग शुरू करने के लिए MakeMyTrip, Goibibo, Booking.com और OYO पर रजिस्टर करें। आपके 22 प्रतिस्पर्धी पहले से सूचीबद्ध हैं।',
+          ta: 'MakeMyTrip, Goibibo, Booking.com, OYO இல் பதிவு செய்யுங்கள். உங்கள் 22 போட்டியாளர்கள் ஏற்கனவே பட்டியலிடப்பட்டுள்ளனர்.',
+          kn: 'MakeMyTrip, Goibibo, Booking.com, OYO ನಲ್ಲಿ ನೋಂದಾಯಿಸಿ. ನಿಮ್ಮ 22 ಪ್ರತಿಸ್ಪರ್ಧಿಗಳು ಈಗಾಗಲೇ ಪಟ್ಟಿಯಲ್ಲಿದ್ದಾರೆ.',
+          te: 'MakeMyTrip, Goibibo, Booking.com, OYO లో రిజిస్టర్ చేయండి. మీ 22 పోటీదారులు ఇప్పటికే లిస్ట్ చేయబడ్డారు.',
+          ml: 'MakeMyTrip, Goibibo, Booking.com, OYO-യിൽ രജിസ്റ്റർ ചെയ്യുക. നിങ്ങളുടെ 22 എതിരാളികൾ ഇതിനകം ലിസ്റ്റ് ചെയ്തിട്ടുണ്ട്.'
+        },
+        impact: '80% of hotel bookings happen via OTAs',
+        timeline: '1-2 weeks'
+      });
+      recommendations.push({
+        priority: 'high',
+        category: 'reviews',
+        title: { en: 'Get Google Hotel Pack Listing', hi: 'Google Hotel Pack लिस्टिंग प्राप्त करें', ta: 'Google Hotel Pack பட்டியலைப் பெறுங்கள்', kn: 'Google Hotel Pack ಪಟ್ಟಿ ಪಡೆಯಿರಿ', te: 'Google Hotel Pack లిస్టింగ్ పొందండి', ml: 'Google Hotel Pack ലിസ്റ്റിംഗ് നേടുക' },
+        description: {
+          en: 'Setup Google Business Profile with photos, rates, and amenities to appear in Google Hotel Pack search results. Currently invisible to online travelers.',
+          hi: 'Google Hotel Pack सर्च रिजल्ट्स में दिखने के लिए फोटो, रेट्स और सुविधाओं के साथ Google Business Profile सेटअप करें।',
+          ta: 'Google Hotel Pack தேடல் முடிவுகளில் தோன்ற புகைப்படங்கள், கட்டணங்கள், வசதிகளுடன் Google Business Profile அமைக்கவும்.',
+          kn: 'Google Hotel Pack ಹುಡುಕಾಟ ಫಲಿತಾಂಶಗಳಲ್ಲಿ ಕಾಣಿಸಲು ಫೋಟೋಗಳು, ದರಗಳು, ಸೌಕರ್ಯಗಳೊಂದಿಗೆ Google Business Profile ಸೆಟಪ್ ಮಾಡಿ.',
+          te: 'Google Hotel Pack సెర్చ్ ఫలితాలలో కనిపించడానికి ఫోటోలు, రేట్లు, అమెనిటీలతో Google Business Profile సెటప్ చేయండి.',
+          ml: 'Google Hotel Pack സെർച്ച് ഫലങ്ങളിൽ കാണിക്കാൻ ഫോട്ടോകൾ, നിരക്കുകൾ, സൗകര്യങ്ങൾ ഉൾപ്പെടെ Google Business Profile സെറ്റപ്പ് ചെയ്യുക.'
+        },
+        impact: '55% increase in direct bookings',
+        timeline: '1 week'
+      });
+    }
   }
   
   if (score >= 50 && score < 70) {
@@ -358,6 +471,11 @@ export const websiteTemplates = {
   automotive: [
     { id: 'auto-1', name: 'AutoZone', preview: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&h=400&fit=crop', colors: ['#e17055','#2d3436','#dfe6e9'], sections: ['hero','services','inventory','reviews','booking','contact'] },
   ],
+  hotel: [
+    { id: 'hotel-1', name: 'Grand Hospitality', preview: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&h=400&fit=crop', colors: ['#1a1a2e','#c9a96e','#f5f5f5'], sections: ['hero','rooms','amenities','gallery','reviews','booking','contact'] },
+    { id: 'hotel-2', name: 'Modern Stay', preview: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=600&h=400&fit=crop', colors: ['#0c2461','#e58e26','#ffffff'], sections: ['hero','rooms','dining','spa','events','reviews','location'] },
+    { id: 'hotel-3', name: 'Budget Comfort', preview: 'https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=600&h=400&fit=crop', colors: ['#2d3436','#00b894','#f8f9fa'], sections: ['hero','rooms','rates','facilities','nearby','booking','contact'] },
+  ],
 };
 
 /* ══════════════════════════════════════════
@@ -386,7 +504,96 @@ const intentLevels = ['low','medium','high','surging'];
 const buyerJourneyStages = ['awareness','consideration','decision','purchase'];
 const channels = ['Website','Google Ads','Facebook','Instagram','Referral','Walk-in','WhatsApp','Email Campaign','LinkedIn','Cold Outreach'];
 
-export const generateLeadData = () => {
+/* ── Hotel-specific lead generator ── */
+const generateHotelLeadData = () => {
+  const hotelCompanies = [
+    { name: 'MakeMyTrip Corporate', domain: 'makemytrip.com', employees: 5200, revenue: '₹4800Cr', industry: 'OTA / Online Travel', city: 'Gurgaon', tech: ['Custom CRS','AWS','Salesforce'] },
+    { name: 'Goibibo Business Travel', domain: 'goibibo.com', employees: 1800, revenue: '₹1200Cr', industry: 'OTA / Online Travel', city: 'Bangalore', tech: ['GCP','React','Elasticsearch'] },
+    { name: 'Yatra.com Hotels Div', domain: 'yatra.com', employees: 900, revenue: '₹580Cr', industry: 'OTA / Online Travel', city: 'Gurgaon', tech: ['Azure','Custom PMS'] },
+    { name: 'Cleartrip for Business', domain: 'cleartrip.com', employees: 650, revenue: '₹320Cr', industry: 'OTA / Online Travel', city: 'Mumbai', tech: ['AWS','Kubernetes'] },
+    { name: 'Royal Events & Weddings', domain: 'royalevents.in', employees: 45, revenue: '₹6.5Cr', industry: 'Wedding Planning', city: 'Delhi', tech: ['Zoho CRM','Google Workspace'] },
+    { name: 'Dreamz Wedding Planners', domain: 'dreamzweddings.co.in', employees: 28, revenue: '₹3.8Cr', industry: 'Wedding Planning', city: 'Jaipur', tech: ['WordPress','WhatsApp Business'] },
+    { name: 'Shaadi Celebrations Co', domain: 'shaadicelebrations.com', employees: 35, revenue: '₹4.2Cr', industry: 'Wedding Planning', city: 'Hyderabad', tech: ['Canva','Instagram API'] },
+    { name: 'Infosys Corporate Travel', domain: 'infosys.com', employees: 340000, revenue: '₹146000Cr', industry: 'IT / Corporate', city: 'Bangalore', tech: ['SAP Concur','Oracle'] },
+    { name: 'TCS Conference Division', domain: 'tcs.com', employees: 614000, revenue: '₹225000Cr', industry: 'IT / Corporate', city: 'Mumbai', tech: ['SAP','ServiceNow'] },
+    { name: 'Wipro Travel Desk', domain: 'wipro.com', employees: 250000, revenue: '₹90000Cr', industry: 'IT / Corporate', city: 'Bangalore', tech: ['SAP Concur','AWS'] },
+    { name: 'Thomas Cook India', domain: 'thomascook.in', employees: 2200, revenue: '₹5500Cr', industry: 'Travel Agency', city: 'Mumbai', tech: ['Amadeus','Salesforce','Custom Portal'] },
+    { name: 'Cox & Kings Holidays', domain: 'coxandkings.com', employees: 1100, revenue: '₹2800Cr', industry: 'Travel Agency', city: 'Mumbai', tech: ['Galileo','Custom CRM'] },
+    { name: 'SOTC Travel', domain: 'sotc.in', employees: 800, revenue: '₹1500Cr', industry: 'Travel Agency', city: 'Mumbai', tech: ['Amadeus','Zoho'] },
+    { name: 'Thrillophilia Adventures', domain: 'thrillophilia.com', employees: 180, revenue: '₹85Cr', industry: 'Experience Platform', city: 'Ahmedabad', tech: ['React','Node.js','PostgreSQL'] },
+    { name: 'Zostel Backpackers', domain: 'zostel.com', employees: 320, revenue: '₹120Cr', industry: 'Hostel Chain', city: 'Jaipur', tech: ['Custom PMS','Stripe','React'] },
+    { name: 'OYO Rooms Regional', domain: 'oyorooms.com', employees: 15000, revenue: '₹16000Cr', industry: 'Hotel Aggregator', city: 'Gurgaon', tech: ['Custom PMS','AWS','ML Stack'] },
+    { name: 'FabHotels Division', domain: 'fabhotels.com', employees: 400, revenue: '₹280Cr', industry: 'Hotel Aggregator', city: 'Noida', tech: ['Python','GCP','Razorpay'] },
+    { name: 'Treebo Hotels Partners', domain: 'treebo.com', employees: 500, revenue: '₹350Cr', industry: 'Hotel Chain', city: 'Bangalore', tech: ['Custom PMS','AWS','Angular'] },
+    { name: 'Lemon Tree Procurement', domain: 'lemontreehotels.com', employees: 8000, revenue: '₹1800Cr', industry: 'Hotel Chain', city: 'Delhi', tech: ['Oracle Opera','Salesforce'] },
+    { name: 'Kolkata Film Festival Board', domain: 'kff.gov.in', employees: 60, revenue: '₹12Cr', industry: 'Events & Conferences', city: 'Kolkata', tech: ['WordPress','Government Portal'] },
+  ];
+
+  const hotelContacts = [
+    'Vikram Malhotra','Priyanka Singhania','Rajesh Mehra','Anita Deshmukh','Sunil Kapoor','Neha Bhatia',
+    'Aakash Jain','Kavitha Nair','Sameer Patel','Ritu Agarwal','Harish Reddy','Simran Kaur',
+    'Manish Tiwari','Deepa Iyer','Rohit Saxena','Anuradha Menon','Sanjay Gupta','Pooja Raghavan',
+    'Amit Sharma','Divya Pillai',
+  ];
+  const hotelTitles = [
+    'VP Partnerships','Hotel Relations Manager','Corporate Travel Manager','Wedding Coordinator','Business Development Head',
+    'Procurement Manager','Travel Desk Manager','Events Director','Regional Manager','Supply Head',
+    'Partner Relations Lead','Sr. Travel Consultant','Conference Organizer','Operations Head','Acquisitions Manager',
+    'Revenue Manager','Key Account Manager','Hospitality Consultant','Channel Manager','Partnership Lead',
+  ];
+
+  return hotelCompanies.map((co, i) => {
+    const stageIdx = Math.floor(Math.random() * leadStages.length);
+    const intentIdx = Math.floor(Math.random() * intentLevels.length);
+    const bjIdx = Math.floor(Math.random() * buyerJourneyStages.length);
+    const channelIdx = Math.floor(Math.random() * channels.length);
+    const intentScore = [22, 48, 72, 93][intentIdx];
+    const fitScore = 40 + Math.floor(Math.random() * 55);
+    const dealValue = Math.floor(Math.random() * 800000) + 75000;
+    const daysAgo = Math.floor(Math.random() * 90);
+    const lastActivity = Math.floor(Math.random() * 14);
+    const touchpoints = Math.floor(Math.random() * 15) + 1;
+
+    return {
+      id: `lead-${i + 1}`,
+      company: co,
+      contact: {
+        name: hotelContacts[i],
+        title: hotelTitles[i],
+        email: `${hotelContacts[i].split(' ')[0].toLowerCase()}@${co.domain}`,
+        phone: `+91 ${9800000000 + Math.floor(Math.random() * 199999999)}`
+      },
+      stage: leadStages[stageIdx],
+      intent: intentLevels[intentIdx],
+      intentScore,
+      fitScore,
+      combinedScore: Math.round((intentScore * 0.6) + (fitScore * 0.4)),
+      buyerJourney: buyerJourneyStages[bjIdx],
+      channel: channels[channelIdx],
+      dealValue,
+      probability: stageIdx <= 1 ? 15 : stageIdx <= 3 ? 45 : stageIdx <= 4 ? 70 : stageIdx === 5 ? 100 : 0,
+      weightedValue: Math.round(dealValue * (stageIdx <= 1 ? 0.15 : stageIdx <= 3 ? 0.45 : stageIdx <= 4 ? 0.7 : stageIdx === 5 ? 1 : 0)),
+      createdDaysAgo: daysAgo,
+      lastActivityDaysAgo: lastActivity,
+      touchpoints,
+      activities: [
+        { type: 'page_view', label: 'Viewed room rates & packages', time: `${lastActivity}d ago` },
+        { type: 'email', label: 'Opened partnership proposal', time: `${lastActivity + 1}d ago` },
+        { type: 'download', label: 'Downloaded hotel brochure', time: `${lastActivity + 3}d ago` },
+      ],
+      signals: intentIdx >= 2
+        ? ['Looking for bulk room bookings', 'Budget approved for Q1', 'Event date finalized', 'Comparing 3 hotel vendors']
+        : ['Early research phase', 'Browsing options'],
+    };
+  });
+};
+
+export const generateLeadData = (category) => {
+  // Hotel-specific leads: travel agencies, corporate clients, wedding planners, OTAs etc.
+  if (category === 'hotel') {
+    return generateHotelLeadData();
+  }
+  
   const companies = [
     { name: 'Apex Industries Pvt Ltd', domain: 'apexindustries.in', employees: 120, revenue: '₹8.5Cr', industry: 'Manufacturing', city: 'Pune', tech: ['SAP','Tally','WordPress'] },
     { name: 'Green Valley Organics', domain: 'greenvalleyorg.com', employees: 35, revenue: '₹2.1Cr', industry: 'Agriculture', city: 'Bangalore', tech: ['Shopify','Google Workspace'] },
@@ -476,4 +683,18 @@ export const automationTasks = [
   { id: 'auto-6', name: 'WhatsApp Auto-Reply', status: 'running', type: 'chat', schedule: 'Always on', replied: 84, avgResponse: '< 1m', lastRun: 'Now', icon: '💬' },
   { id: 'auto-7', name: 'Invoice Generator', status: 'paused', type: 'billing', schedule: 'On order', generated: 34, pending: 2, lastRun: '3d ago', icon: '🧾' },
   { id: 'auto-8', name: 'Ad Campaign Manager', status: 'running', type: 'ads', schedule: 'Continuous', spend: '₹12,400', leads: 38, cpl: '₹326', lastRun: '15m ago', icon: '📢' },
+];
+
+// Hotel-specific automation tasks (all paused / zero metrics — brand new hotel)
+export const hotelAutomationTasks = [
+  { id: 'hauto-1', name: 'OTA Listing Sync', status: 'paused', type: 'social', schedule: 'Not configured', reach: '0', lastRun: 'Never', icon: '🏨' },
+  { id: 'hauto-2', name: 'Guest Review Collector', status: 'paused', type: 'reviews', schedule: 'After checkout', sent: 0, responded: 0, lastRun: 'Never', icon: '⭐' },
+  { id: 'hauto-3', name: 'Booking Confirmation Emails', status: 'paused', type: 'email', schedule: 'On booking', sent: 0, opened: 0, clicked: 0, lastRun: 'Never', icon: '📧' },
+  { id: 'hauto-4', name: 'Room Rate Optimizer', status: 'paused', type: 'seo', schedule: 'Daily', score: 0, issues: 0, lastRun: 'Never', icon: '💰' },
+  { id: 'hauto-5', name: 'Competitor Rate Tracker', status: 'paused', type: 'competitor', schedule: 'Not configured', tracked: 22, alerts: 0, lastRun: 'Never', icon: '📊' },
+  { id: 'hauto-6', name: 'WhatsApp Booking Bot', status: 'paused', type: 'chat', schedule: 'Not configured', replied: 0, avgResponse: 'N/A', lastRun: 'Never', icon: '💬' },
+  { id: 'hauto-7', name: 'Invoice & Folio Generator', status: 'paused', type: 'billing', schedule: 'On checkout', generated: 0, pending: 0, lastRun: 'Never', icon: '🧾' },
+  { id: 'hauto-8', name: 'Google Hotel Ads Manager', status: 'paused', type: 'ads', schedule: 'Not configured', spend: '₹0', leads: 0, cpl: '₹0', lastRun: 'Never', icon: '📢' },
+  { id: 'hauto-9', name: 'Social Media Auto-Post', status: 'paused', type: 'social', schedule: 'Not configured', reach: '0', lastRun: 'Never', icon: '📱' },
+  { id: 'hauto-10', name: 'Seasonal Campaign Scheduler', status: 'paused', type: 'ads', schedule: 'Not configured', spend: '₹0', leads: 0, cpl: '₹0', lastRun: 'Never', icon: '🎯' },
 ];
