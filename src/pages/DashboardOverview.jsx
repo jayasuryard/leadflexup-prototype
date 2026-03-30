@@ -535,14 +535,27 @@ export const DashboardOverview = () => {
 
       {isAuthenticated && chatHistory.length > 0 && (
         <motion.div {...fade(5)}>
-          <div className="flex items-center gap-2 mb-4"><Clock className="w-4 h-4 text-navy-400" /><h3 className="text-[13px] font-bold text-navy-700">Recent Conversations</h3></div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {chatHistory.slice(0, 3).map(chat => (
-              <button key={chat.id} className="flex items-center gap-3 bg-white rounded-xl border border-navy-100 p-3 hover:border-navy-200 hover:shadow-sm text-left">
-                <div className="w-8 h-8 bg-navy-50 rounded-lg flex items-center justify-center flex-shrink-0"><MessageCircle className="w-4 h-4 text-navy-400" /></div>
-                <div className="flex-1 min-w-0"><p className="text-[12px] font-medium text-navy-700 truncate">{chat.title}</p><p className="text-[10px] text-navy-300">{new Date(chat.updatedAt).toLocaleDateString()}</p></div>
-                <ChevronRight className="w-3.5 h-3.5 text-navy-300 flex-shrink-0" />
-              </button>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <Clock className="w-4 h-4 text-navy-400" />
+              <h3 className="text-[13px] font-bold text-navy-700">Chat History</h3>
+              <span className="text-[9px] bg-navy-100 text-navy-500 px-2 py-0.5 rounded-full font-medium">{chatHistory.length} conversations</span>
+            </div>
+          </div>
+          <div className="space-y-2">
+            {chatHistory.map((chat, i) => (
+              <motion.button key={chat.id} {...fade(i % 6)}
+                onClick={() => handleTemplateClick({ prompt: chat.messages?.[chat.messages.length - 2]?.text || chat.title })}
+                className="w-full flex items-center gap-3 bg-white rounded-xl border border-navy-100 p-3.5 hover:border-teal-300 hover:shadow-sm text-left transition-all group">
+                <div className="w-9 h-9 bg-navy-50 rounded-xl flex items-center justify-center flex-shrink-0 group-hover:bg-teal-50 transition-colors">
+                  <MessageCircle className="w-4 h-4 text-navy-400 group-hover:text-teal-600 transition-colors" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <p className="text-[12px] font-semibold text-navy-700 truncate group-hover:text-teal-700 transition-colors">{chat.title}</p>
+                  <p className="text-[10px] text-navy-300 mt-0.5">{chat.messages?.length || 0} messages • {new Date(chat.updatedAt).toLocaleDateString()}</p>
+                </div>
+                <ChevronRight className="w-3.5 h-3.5 text-navy-200 group-hover:text-teal-500 flex-shrink-0 transition-colors" />
+              </motion.button>
             ))}
           </div>
         </motion.div>
