@@ -761,4 +761,68 @@ export default {
   // ══════════════════════════════════════
   visualPreview: 'Visual Preview',
   visualPreviewDesc: 'Chat results will appear here visually as you interact with the Copilot.',
+
+  // ══════════════════════════════════════
+  // LANDING PAGE — Extended Sections
+  // ══════════════════════════════════════
+  // Dashboard Preview
+  lpPreviewBadge: 'See It In Action',
+  lpPreviewTitle: 'Your Complete Growth Command Center',
+  lpPreviewDesc: 'One AI-powered dashboard to track, automate, and scale your entire digital presence.',
+  lpDashScore: 'Digital Score',
+  lpDashAutomations: 'Active Automations',
+  lpDashLeads: 'Leads This Month',
+  lpDashContent: 'Posts Scheduled',
+
+  // Testimonials
+  lpTestimonialBadge: 'Success Stories',
+  lpTestimonialTitle: 'Loved by Business Owners Across India',
+  lpTestimonial1Name: 'Priya Sharma',
+  lpTestimonial1Role: 'Owner, Sharma Sweets',
+  lpTestimonial1City: 'Jaipur',
+  lpTestimonial1Quote: 'LeadFlexUp took my sweet shop from zero online presence to 200+ Google reviews in 3 months. Revenue is up 3.5x!',
+  lpTestimonial1Metric: '3.5x revenue growth',
+  lpTestimonial2Name: 'Rajesh Kumar',
+  lpTestimonial2Role: 'Founder, TechNova Solutions',
+  lpTestimonial2City: 'Bangalore',
+  lpTestimonial2Quote: 'The AI automation hub runs my entire marketing. Social posts, email campaigns, ad optimization — all on autopilot.',
+  lpTestimonial2Metric: '200+ leads/month',
+  lpTestimonial3Name: 'Anita Desai',
+  lpTestimonial3Role: 'Director, Desai Clinics',
+  lpTestimonial3City: 'Mumbai',
+  lpTestimonial3Quote: 'Competitor intelligence showed us exactly where we were losing patients. We fixed the gaps and grew 4x in 6 months.',
+  lpTestimonial3Metric: '4x patient growth',
+
+  // Pricing section
+  lpPricingBadge: 'Simple Pricing',
+  lpPricingTitle: 'Plans That Grow With Your Business',
+  lpPricingDesc: 'Start free, upgrade when ready. No hidden fees, cancel anytime.',
+
+  // FAQ
+  lpFaqBadge: 'Common Questions',
+  lpFaqTitle: 'Frequently Asked Questions',
+  lpFaq1Q: 'Do I need technical knowledge to use LeadFlexUp?',
+  lpFaq1A: 'Not at all! LeadFlexUp is designed for non-tech business owners. Our AI handles everything — website building, ad campaigns, content creation. Just tell us about your business.',
+  lpFaq2Q: 'How does the AI automation work?',
+  lpFaq2A: 'Our AI creates and runs marketing workflows automatically — social media posts, email campaigns, ad optimization, review collection — all working 24/7 without your intervention.',
+  lpFaq3Q: 'What languages does it support?',
+  lpFaq3A: 'We support 6 languages: English, Hindi, Tamil, Kannada, Telugu, and Malayalam. The entire platform including AI responses adapts to your preferred language.',
+  lpFaq4Q: 'Can I see my competitors\' performance?',
+  lpFaq4A: 'Yes! Our competitor intelligence maps your local market, shows leaderboard rankings, and identifies gaps you can exploit to gain market share.',
+  lpFaq5Q: 'Is there a free plan?',
+  lpFaq5A: 'You can explore the full platform as a guest with limited AI credits. Sign up for a Starter plan to unlock automation, lead management, and website builder.',
+  lpFaq6Q: 'How quickly will I see results?',
+  lpFaq6A: 'Most businesses see measurable improvement within 2-4 weeks. Our Growth Journey roadmap and AI automations start working immediately.',
+
+  // Footer expanded
+  lpFooterTagline: 'AI-powered growth platform for Indian businesses',
+  lpFooterProduct: 'Product',
+  lpFooterCompany: 'Company',
+  lpFooterLegal: 'Legal',
+  lpFooterAbout: 'About Us',
+  lpFooterBlog: 'Blog',
+  lpFooterCareers: 'Careers',
+  lpFooterContact: 'Contact',
+  lpFooterPrivacy: 'Privacy Policy',
+  lpFooterTermsLink: 'Terms of Service',
 };
