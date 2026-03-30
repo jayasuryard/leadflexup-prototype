@@ -1,147 +1,170 @@
 import { useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { 
-  LayoutDashboard, TrendingUp, Target, Lightbulb, CreditCard, 
-  Rocket, Settings, LogOut, Menu, X, Globe
+import {
+  LayoutDashboard, TrendingUp, Target, Lightbulb, CreditCard,
+  Rocket, Settings, LogOut, Menu, X, Bell, Search, ChevronDown,
+  BarChart3, Users
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { t } from '../utils/i18n';
 
+const navItems = [
+  { key: 'overview', icon: LayoutDashboard, path: '/dashboard' },
+  { key: 'analytics', icon: BarChart3, path: '/dashboard/analytics' },
+  { key: 'competitors', icon: Target, path: '/dashboard/competitors' },
+  { key: 'recommendations', icon: Lightbulb, path: '/dashboard/recommendations' },
+  { key: 'subscription', icon: CreditCard, path: '/dashboard/subscription' },
+  { key: 'growthJourney', icon: Rocket, path: '/dashboard/journey' },
+  { key: 'settings', icon: Settings, path: '/dashboard/settings' }
+];
+
 export const DashboardLayout = () => {
   const navigate = useNavigate();
-  const { language, changeLanguage, businessData, resetApp, analyticsData } = useApp();
+  const { language, changeLanguage, businessData, logout, currentUser, analyticsData } = useApp();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const navigation = [
-    { name: 'dashboard', icon: LayoutDashboard, path: '/dashboard' },
-    { name: 'analytics', icon: TrendingUp, path: '/dashboard/analytics' },
-    { name: 'competitors', icon: Target, path: '/dashboard/competitors' },
-    { name: 'recommendations', icon: Lightbulb, path: '/dashboard/recommendations' },
-    { name: 'subscription', icon: CreditCard, path: '/dashboard/subscription' },
-    { name: 'growthJourney', icon: Rocket, path: '/dashboard/journey' },
-    { name: 'settings', icon: Settings, path: '/dashboard/settings' }
-  ];
-
   const handleLogout = () => {
-    resetApp();
+    logout();
     navigate('/');
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Mobile Menu Button */}
-      <div className="lg:hidden fixed top-4 left-4 z-50">
+    <div className="min-h-screen bg-navy-50">
+      {/* Mobile hamburger */}
+      <div className="lg:hidden fixed top-3 left-3 z-50">
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-2 bg-white rounded-lg shadow-lg"
+          className="p-2 bg-white rounded-lg shadow-md border border-navy-100"
         >
-          {sidebarOpen ? (
-            <X className="w-6 h-6 text-gray-900" />
-          ) : (
-            <Menu className="w-6 h-6 text-gray-900" />
-          )}
+          {sidebarOpen ? <X className="w-5 h-5 text-navy-700" /> : <Menu className="w-5 h-5 text-navy-700" />}
         </button>
       </div>
 
-      {/* Sidebar */}
+      {/* ─── Sidebar ─── */}
       <aside className={`
-        fixed top-0 left-0 h-full w-72 bg-white border-r border-gray-200 z-40
-        transform transition-transform duration-300 ease-in-out
+        fixed top-0 left-0 h-full w-[220px] bg-white border-r border-navy-100 z-40
+        transform transition-transform duration-200
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
         lg:translate-x-0
       `}>
         <div className="flex flex-col h-full">
           {/* Logo */}
-          <div className="p-6 border-b border-gray-200">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <TrendingUp className="w-6 h-6 text-white" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                  LeadFlexUp
-                </h1>
-                {businessData && (
-                  <p className="text-xs text-gray-600 truncate max-w-[180px]">
-                    {businessData.businessName}
-                  </p>
-                )}
-              </div>
+          <div className="px-5 py-5 flex items-center gap-2.5">
+            <div className="w-8 h-8 bg-navy-700 rounded-lg flex items-center justify-center">
+              <TrendingUp className="w-4.5 h-4.5 text-white" />
             </div>
+            <span className="text-lg font-bold text-navy-800">LeadFlexUp</span>
           </div>
 
-          {/* Score Card */}
-          {analyticsData && (
-            <div className="p-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white m-4 rounded-xl">
-              <p className="text-indigo-100 text-sm mb-1">Digital Presence</p>
-              <p className="text-3xl font-bold mb-2">{analyticsData.digitalPresence.overall}</p>
-              <div className="w-full bg-white/20 rounded-full h-2">
-                <div 
-                  className="bg-white rounded-full h-2"
-                  style={{ width: `${analyticsData.digitalPresence.overall}%` }}
-                />
-              </div>
-            </div>
-          )}
-
-          {/* Navigation */}
-          <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
-            {navigation.map((item) => (
+          {/* Nav */}
+          <nav className="flex-1 px-3 py-2 space-y-0.5 overflow-y-auto">
+            {navItems.map((item) => (
               <NavLink
-                key={item.name}
+                key={item.key}
                 to={item.path}
+                end={item.path === '/dashboard'}
                 onClick={() => setSidebarOpen(false)}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-all ${
+                  `flex items-center gap-3 px-3 py-2.5 rounded-lg text-[13px] font-medium transition-colors ${
                     isActive
-                      ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg'
-                      : 'text-gray-700 hover:bg-gray-100'
+                      ? 'bg-navy-700 text-white'
+                      : 'text-navy-500 hover:bg-navy-50 hover:text-navy-700'
                   }`
                 }
               >
-                <item.icon className="w-5 h-5" />
-                <span>{t(item.name, language)}</span>
+                <item.icon className="w-[18px] h-[18px]" />
+                <span>{t(item.key === 'overview' ? 'dashboard' : item.key, language)}</span>
               </NavLink>
             ))}
           </nav>
 
-          {/* Language Selector & Logout */}
-          <div className="p-4 border-t border-gray-200 space-y-2">
+          {/* Score card */}
+          {analyticsData && (
+            <div className="mx-3 mb-3 p-4 bg-navy-700 rounded-xl text-white">
+              <p className="text-[11px] font-medium text-navy-200 mb-1">Digital Score</p>
+              <div className="flex items-end gap-2">
+                <span className="text-2xl font-bold">{analyticsData.digitalPresence.overall}</span>
+                <span className="text-[11px] text-teal-300 mb-1">/ 100</span>
+              </div>
+              <div className="w-full bg-white/20 rounded-full h-1.5 mt-2">
+                <div className="bg-teal-400 rounded-full h-1.5" style={{ width: `${analyticsData.digitalPresence.overall}%` }} />
+              </div>
+            </div>
+          )}
+
+          {/* Language + Logout */}
+          <div className="p-3 border-t border-navy-100 space-y-2">
             <select
               value={language}
               onChange={(e) => changeLanguage(e.target.value)}
-              className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium"
+              className="w-full px-3 py-2 bg-navy-50 border border-navy-100 rounded-lg text-xs font-medium text-navy-600"
             >
               <option value="en">🇬🇧 English</option>
               <option value="hi">🇮🇳 हिंदी</option>
               <option value="ta">🇮🇳 தமிழ்</option>
             </select>
-            
             <button
               onClick={handleLogout}
-              className="w-full flex items-center gap-3 px-4 py-2 text-red-600 hover:bg-red-50 rounded-lg font-medium transition-colors"
+              className="w-full flex items-center gap-2 px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg text-xs font-medium"
             >
-              <LogOut className="w-5 h-5" />
+              <LogOut className="w-4 h-4" />
               <span>{t('logout', language)}</span>
             </button>
           </div>
         </div>
       </aside>
 
-      {/* Main Content */}
-      <main className="lg:ml-72 min-h-screen">
-        <div className="p-8 pt-20 lg:pt-8">
-          <Outlet />
-        </div>
-      </main>
+      {/* ─── Top bar ─── */}
+      <div className="lg:ml-[220px]">
+        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-navy-100">
+          <div className="flex items-center justify-between h-14 px-6">
+            <div className="flex items-center gap-3 pl-10 lg:pl-0">
+              <h1 className="text-sm font-bold text-navy-800">
+                {t('dashboard', language)}
+              </h1>
+              <ChevronDown className="w-4 h-4 text-navy-400" />
+            </div>
 
-      {/* Mobile Overlay */}
+            <div className="flex items-center gap-3">
+              {/* Search */}
+              <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-navy-50 rounded-lg border border-navy-100 w-56">
+                <Search className="w-4 h-4 text-navy-400" />
+                <input placeholder="Search..." className="bg-transparent text-xs outline-none w-full text-navy-700 placeholder:text-navy-300" />
+              </div>
+
+              {/* Notifications */}
+              <button className="relative p-2 rounded-lg hover:bg-navy-50">
+                <Bell className="w-4.5 h-4.5 text-navy-500" />
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-teal-500 rounded-full" />
+              </button>
+
+              {/* User */}
+              <div className="flex items-center gap-2 pl-2 border-l border-navy-100">
+                <div className="w-8 h-8 bg-navy-700 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                  {(currentUser?.email || businessData?.businessName || 'U').charAt(0).toUpperCase()}
+                </div>
+                <div className="hidden sm:block">
+                  <p className="text-xs font-semibold text-navy-800 leading-none">
+                    {businessData?.businessName || 'User'}
+                  </p>
+                  <p className="text-[11px] text-navy-400 mt-0.5">
+                    {currentUser?.email || 'owner'}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        {/* Main content */}
+        <main className="p-6">
+          <Outlet />
+        </main>
+      </div>
+
+      {/* Mobile overlay */}
       {sidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/50 z-30 lg:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
+        <div className="fixed inset-0 bg-navy-950/40 z-30 lg:hidden" onClick={() => setSidebarOpen(false)} />
       )}
     </div>
   );

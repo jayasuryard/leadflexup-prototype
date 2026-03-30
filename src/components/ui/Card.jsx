@@ -9,7 +9,7 @@ export const Card = ({ children, className = '', hover = true, ...props }) => {
 
   return (
     <Component
-      className={`bg-white rounded-2xl shadow-md border border-gray-100 ${className}`}
+      className={`bg-white rounded-xl shadow-sm border border-navy-100 ${className}`}
       {...hoverProps}
       {...props}
     >
@@ -19,7 +19,7 @@ export const Card = ({ children, className = '', hover = true, ...props }) => {
 };
 
 export const CardHeader = ({ children, className = '' }) => (
-  <div className={`p-6 border-b border-gray-100 ${className}`}>
+  <div className={`p-6 border-b border-navy-100 ${className}`}>
     {children}
   </div>
 );
@@ -31,7 +31,7 @@ export const CardBody = ({ children, className = '' }) => (
 );
 
 export const CardFooter = ({ children, className = '' }) => (
-  <div className={`p-6 border-t border-gray-100 ${className}`}>
+  <div className={`p-6 border-t border-navy-100 ${className}`}>
     {children}
   </div>
 );

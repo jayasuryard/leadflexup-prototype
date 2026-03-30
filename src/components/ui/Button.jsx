@@ -13,10 +13,11 @@ export const Button = ({
   const baseStyles = 'inline-flex items-center justify-center gap-2 font-semibold rounded-xl transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed';
   
   const variants = {
-    primary: 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:from-indigo-700 hover:to-purple-700 shadow-lg shadow-indigo-500/30 hover:shadow-xl hover:shadow-indigo-500/40',
-    secondary: 'bg-white text-gray-900 border-2 border-gray-200 hover:border-gray-300 hover:bg-gray-50',
-    outline: 'bg-transparent text-indigo-600 border-2 border-indigo-600 hover:bg-indigo-50',
-    ghost: 'bg-transparent text-gray-700 hover:bg-gray-100'
+    primary: 'bg-navy-700 text-white hover:bg-navy-800 shadow-lg shadow-navy-700/20',
+    secondary: 'bg-white text-navy-800 border-2 border-navy-200 hover:border-navy-300 hover:bg-navy-50',
+    outline: 'bg-transparent text-navy-700 border-2 border-navy-300 hover:bg-navy-50',
+    ghost: 'bg-transparent text-navy-600 hover:bg-navy-50',
+    teal: 'bg-teal-600 text-white hover:bg-teal-700 shadow-lg shadow-teal-600/20'
   };
   
   const sizes = {

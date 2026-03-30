@@ -13,8 +13,8 @@ import { GrowthJourney } from './pages/GrowthJourney';
 
 // Protected Route Component
 const ProtectedRoute = ({ children }) => {
-  const { isOnboarded } = useApp();
-  return isOnboarded ? children : <Navigate to="/" replace />;
+  const { isAuthenticated, isOnboarded } = useApp();
+  return (isAuthenticated && isOnboarded) ? children : <Navigate to="/" replace />;
 };
 
 function AppRoutes() {

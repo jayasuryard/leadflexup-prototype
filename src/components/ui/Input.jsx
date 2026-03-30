@@ -73,9 +73,9 @@ export const Select = ({
             w-full px-4 py-3 ${Icon ? 'pl-12' : ''} 
             bg-white border-2 rounded-xl appearance-none
             transition-all duration-200
-            ${focused ? 'border-indigo-500 ring-4 ring-indigo-500/10' : 'border-gray-200'}
+            ${focused ? 'border-teal-500 ring-4 ring-teal-500/10' : 'border-navy-200'}
             ${error ? 'border-red-500' : ''}
-            focus:outline-none focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/10
+            focus:outline-none focus:border-teal-500 focus:ring-4 focus:ring-teal-500/10
             cursor-pointer
             ${className}
           `}

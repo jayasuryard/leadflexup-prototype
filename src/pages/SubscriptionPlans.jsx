@@ -3,178 +3,114 @@ import { Check, Sparkles, Crown, Rocket } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { t, getLocalizedText } from '../utils/i18n';
 import { subscriptionPlans } from '../data/mockDatabase';
-import { Card, CardBody } from '../components/ui/Card';
-import { Button } from '../components/ui/Button';
-import { Badge } from '../components/ui/Badge';
+
+const fade = (i = 0) => ({
+  initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 },
+  transition: { delay: i * 0.1, duration: 0.35 }
+});
 
 export const SubscriptionPlans = () => {
   const { language, subscription, selectSubscription } = useApp();
-
-  const planIcons = {
-    starter: Sparkles,
-    professional: Crown,
-    enterprise: Rocket
-  };
+  const planIcons = { starter: Sparkles, professional: Crown, enterprise: Rocket };
 
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="text-center mb-12">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            {t('choosePlan', language)}
-          </h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Select the perfect plan to accelerate your business growth. 
-            All plans include our AI-powered intelligence platform.
-          </p>
-        </motion.div>
-      </div>
+      <motion.div {...fade()} className="text-center">
+        <h1 className="text-2xl font-bold text-navy-900 mb-2">{t('choosePlan', language)}</h1>
+        <p className="text-sm text-navy-400 max-w-lg mx-auto">
+          Select the perfect plan to accelerate your business growth. All plans include our AI-powered intelligence platform.
+        </p>
+      </motion.div>
 
       {/* Pricing Cards */}
-      <div className="grid md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-        {subscriptionPlans.map((plan, index) => {
+      <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto">
+        {subscriptionPlans.map((plan, i) => {
           const Icon = planIcons[plan.id];
-          const isCurrentPlan = subscription?.id === plan.id;
+          const isCurrent = subscription?.id === plan.id;
 
           return (
-            <motion.div
-              key={plan.id}
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="relative"
-            >
+            <motion.div key={plan.id} {...fade(i)} className="relative">
               {plan.recommended && (
-                <div className="absolute -top-4 left-0 right-0 flex justify-center">
-                  <Badge variant="primary" className="text-sm px-4 py-1.5">
+                <div className="absolute -top-3 left-0 right-0 flex justify-center z-10">
+                  <span className="text-[10px] font-bold bg-teal-600 text-white px-3 py-1 rounded-full">
                     {t('mostPopular', language)}
-                  </Badge>
+                  </span>
                 </div>
               )}
 
-              <Card 
-                className={`h-full ${
-                  plan.recommended 
-                    ? 'border-2 border-indigo-600 shadow-xl' 
-                    : 'border-2 border-transparent'
-                }`}
-                hover={!isCurrentPlan}
-              >
-                <CardBody className="p-8">
-                  {/* Icon */}
-                  <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-6 ${
-                    plan.recommended 
-                      ? 'bg-gradient-to-r from-indigo-600 to-purple-600' 
-                      : 'bg-gradient-to-r from-gray-600 to-gray-700'
-                  }`}>
-                    <Icon className="w-7 h-7 text-white" />
+              <div className={`h-full bg-white rounded-xl border-2 p-6 ${
+                plan.recommended ? 'border-teal-500 shadow-lg shadow-teal-500/10' : 'border-navy-100'
+              }`}>
+                <div className={`w-11 h-11 rounded-lg flex items-center justify-center mb-5 ${
+                  plan.recommended ? 'bg-teal-600' : 'bg-navy-700'
+                }`}>
+                  <Icon className="w-5 h-5 text-white" />
+                </div>
+
+                <h3 className="text-lg font-bold text-navy-900 mb-1">{getLocalizedText(plan.name, language)}</h3>
+
+                <div className="mb-5">
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-3xl font-bold text-navy-900">{plan.currency}{(plan.price / 100000).toFixed(2)}L</span>
+                    <span className="text-xs text-navy-400">{t('perMonth', language)}</span>
                   </div>
+                  <p className="text-[11px] text-navy-400 mt-0.5">Billed monthly • Cancel anytime</p>
+                </div>
 
-                  {/* Plan Name */}
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                    {getLocalizedText(plan.name, language)}
-                  </h3>
-
-                  {/* Price */}
-                  <div className="mb-6">
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-4xl font-bold text-gray-900">
-                        {plan.currency}{(plan.price / 100000).toFixed(2)}L
-                      </span>
-                      <span className="text-gray-600">
-                        {t('perMonth', language)}
-                      </span>
+                <div className="space-y-2.5 mb-6">
+                  {plan.features.map((f, j) => (
+                    <div key={j} className="flex items-start gap-2">
+                      <Check className="w-4 h-4 text-teal-600 flex-shrink-0 mt-0.5" />
+                      <span className="text-xs text-navy-600">{getLocalizedText(f, language)}</span>
                     </div>
-                    <p className="text-sm text-gray-500 mt-1">
-                      Billed monthly • Cancel anytime
-                    </p>
-                  </div>
+                  ))}
+                </div>
 
-                  {/* Features */}
-                  <div className="space-y-3 mb-8">
-                    {plan.features.map((feature, fIndex) => (
-                      <div key={fIndex} className="flex items-start gap-3">
-                        <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
-                        <span className="text-gray-700 text-sm">
-                          {getLocalizedText(feature, language)}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* CTA Button */}
-                  {isCurrentPlan ? (
-                    <Button variant="outline" size="lg" className="w-full" disabled>
-                      {t('currentPlan', language)}
-                    </Button>
-                  ) : (
-                    <Button 
-                      variant={plan.recommended ? 'primary' : 'outline'}
-                      size="lg" 
-                      className="w-full"
-                      onClick={() => selectSubscription(plan)}
-                    >
-                      {t('subscribe', language)}
-                    </Button>
-                  )}
-                </CardBody>
-              </Card>
+                {isCurrent ? (
+                  <button disabled className="w-full py-2.5 text-xs font-semibold rounded-lg border-2 border-navy-200 text-navy-400 cursor-not-allowed">
+                    {t('currentPlan', language)}
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => selectSubscription(plan)}
+                    className={`w-full py-2.5 text-xs font-semibold rounded-lg ${
+                      plan.recommended
+                        ? 'bg-teal-600 text-white hover:bg-teal-700'
+                        : 'bg-navy-700 text-white hover:bg-navy-800'
+                    }`}
+                  >
+                    {t('subscribe', language)}
+                  </button>
+                )}
+              </div>
             </motion.div>
           );
         })}
       </div>
 
-      {/* Value Propositions */}
-      <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto mt-16">
-        <Card>
-          <CardBody className="text-center p-6">
-            <div className="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <Check className="w-6 h-6 text-indigo-600" />
+      {/* Value props */}
+      <div className="grid sm:grid-cols-3 gap-4 max-w-4xl mx-auto">
+        {[
+          { icon: Check, title: 'No Commitment', desc: 'Cancel or change anytime.' },
+          { icon: Sparkles, title: '4x Growth Guarantee', desc: 'Enterprise plan revenue guarantee.' },
+          { icon: Crown, title: 'Premium Support', desc: 'Dedicated growth experts.' }
+        ].map((v, i) => (
+          <motion.div key={i} {...fade(i)} className="bg-white rounded-xl border border-navy-100 p-5 text-center">
+            <div className="w-9 h-9 bg-navy-50 rounded-lg flex items-center justify-center mx-auto mb-3">
+              <v.icon className="w-4 h-4 text-navy-600" />
             </div>
-            <h4 className="font-bold text-gray-900 mb- 2">No Long-term Commitment</h4>
-            <p className="text-sm text-gray-600">
-              Cancel or change your plan anytime. No hidden fees or contracts.
-            </p>
-          </CardBody>
-        </Card>
-
-        <Card>
-          <CardBody className="text-center p-6">
-            <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <Sparkles className="w-6 h-6 text-purple-600" />
-            </div>
-            <h4 className="font-bold text-gray-900 mb-2">4x Revenue Growth Guarantee</h4>
-            <p className="text-sm text-gray-600">
-              Our Enterprise plan comes with a revenue growth guarantee.
-            </p>
-          </CardBody>
-        </Card>
-
-        <Card>
-          <CardBody className="text-center p-6">
-            <div className="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <Crown className="w-6 h-6 text-pink-600" />
-            </div>
-            <h4 className="font-bold text-gray-900 mb-2">Premium Support</h4>
-            <p className="text-sm text-gray-600">
-              Get dedicated support from our team of growth experts.
-            </p>
-          </CardBody>
-        </Card>
+            <h4 className="text-xs font-bold text-navy-800 mb-1">{v.title}</h4>
+            <p className="text-[11px] text-navy-400">{v.desc}</p>
+          </motion.div>
+        ))}
       </div>
 
-      {/* FAQ or Additional Info */}
-      <div className="text-center mt-12">
-        <p className="text-gray-600 mb-4">
-          Need a custom plan for multiple locations or special requirements?
-        </p>
-        <Button variant="outline">
+      <div className="text-center">
+        <p className="text-xs text-navy-400 mb-2">Custom plan for multiple locations?</p>
+        <button className="text-xs font-semibold text-navy-600 border border-navy-200 px-4 py-2 rounded-lg hover:bg-navy-50">
           Contact Sales
-        </Button>
+        </button>
       </div>
     </div>
   );
