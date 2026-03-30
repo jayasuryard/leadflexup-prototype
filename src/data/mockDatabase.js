@@ -320,7 +320,160 @@ export const growthJourneySteps = [
     tasks: [
       { id: 'ab-testing', label: { en: 'Run A/B Testing', hi: 'A/B टेस्टिंग चलाएं', ta: 'A/B சோதனையை இயக்குங்கள்', kn: 'A/B ಪರೀಕ್ಷೆ ನಡೆಸಿ', te: 'A/B టెస్టింగ్ రన్', ml: 'A/B ടെസ്റ്റിംഗ് നടത്തുക' } },
       { id: 'expansion', label: { en: 'Expand to New Markets', hi: 'नए बाजारों में विस्तार करें', ta: 'புதிய சந்தைகளுக்கு விரிவாக்குங்கள்', kn: 'ಹೊಸ ಮಾರುಕಟ್ಟೆಗಳಿಗೆ ವಿಸ್ತರಿಸಿ', te: 'కొత్త మార్కెట్లకు విస్తరించండి', ml: 'പുതിയ മാർക്കറ്റുകളിലേക്ക് വിസ്തരിക്കുക' } },
-      { id: 'revenue', label: { en: 'Achieve 4x Revenue Growth', hi: '4x राजस्व वृद्धि प्राप्त करें', ta: '4x வருவாய் வளர்ச்சியை அடையுங்கள்', kn: '4x ಆದಾಯ ಬೆಳವಣಿಗೆ ಸಾಧಿಸಿ', te: '4x రెవెన్యూ గ్రోత్ సాధించండి', ml: '4x റവന്യൂ ഗ്രോത്ത് നേടുക' } }
+      { id: 'revenue', label: { en: 'Achieve 4x Revenue Growth', hi: '4x राजस्व वृद्धि प्राप्त करें', ta: '4x வருவாய் வளர்ச்சியை அடையுங்கள்', kn: '4x ಆದಾಯ ಬೆಳವಣಿಗೆ ಸಾಧಿಸಿ', te: '4x రెవెన్యూ గ్రోత్ సాధించండి', ml: '4x റவന്യൂ ഗ്രോത്ത് നേടുക' } }
     ]
   }
+];
+
+/* ══════════════════════════════════════════
+   WEBSITE TEMPLATES (per business category)
+   ══════════════════════════════════════════ */
+export const websiteTemplates = {
+  restaurant: [
+    { id: 'rest-1', name: 'Spice & Dine', preview: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&h=400&fit=crop', colors: ['#8B4513','#FFD700','#1a1a1a'], sections: ['hero','menu','gallery','reviews','contact','reservation'] },
+    { id: 'rest-2', name: 'Cloud Kitchen', preview: 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&h=400&fit=crop', colors: ['#e63946','#f1faee','#457b9d'], sections: ['hero','specials','delivery','about','contact'] },
+    { id: 'rest-3', name: 'Fine Dining', preview: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&h=400&fit=crop', colors: ['#2d2d2d','#c9a96e','#ffffff'], sections: ['hero','chef','menu','ambience','reservation','events'] },
+  ],
+  retail: [
+    { id: 'ret-1', name: 'ShopFront', preview: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=600&h=400&fit=crop', colors: ['#1d3557','#e63946','#f1faee'], sections: ['hero','products','categories','offers','reviews','contact'] },
+    { id: 'ret-2', name: 'Boutique', preview: 'https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=600&h=400&fit=crop', colors: ['#6b4c3b','#f5e6d3','#2c2c2c'], sections: ['hero','collection','lookbook','testimonials','contact'] },
+    { id: 'ret-3', name: 'Mart Express', preview: 'https://images.unsplash.com/photo-1604719312566-8912e9227c6a?w=600&h=400&fit=crop', colors: ['#00b894','#fdcb6e','#2d3436'], sections: ['hero','deals','categories','delivery','contact'] },
+  ],
+  salon: [
+    { id: 'sal-1', name: 'Glow Studio', preview: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&h=400&fit=crop', colors: ['#d4a5a5','#392929','#ffffff'], sections: ['hero','services','pricing','gallery','booking','contact'] },
+    { id: 'sal-2', name: 'Urban Cuts', preview: 'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?w=600&h=400&fit=crop', colors: ['#1a1a2e','#e94560','#f5f5f5'], sections: ['hero','services','team','portfolio','reviews','booking'] },
+  ],
+  gym: [
+    { id: 'gym-1', name: 'FitForce', preview: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&h=400&fit=crop', colors: ['#ff4757','#2f3542','#ffffff'], sections: ['hero','programs','trainers','pricing','gallery','contact'] },
+  ],
+  medical: [
+    { id: 'med-1', name: 'HealthFirst', preview: 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=600&h=400&fit=crop', colors: ['#00b4d8','#0077b6','#ffffff'], sections: ['hero','services','doctors','hours','insurance','contact'] },
+  ],
+  education: [
+    { id: 'edu-1', name: 'LearnHub', preview: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&h=400&fit=crop', colors: ['#6c5ce7','#fdcb6e','#ffffff'], sections: ['hero','courses','faculty','testimonials','enrollment','contact'] },
+  ],
+  professional: [
+    { id: 'pro-1', name: 'ConsultPro', preview: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=400&fit=crop', colors: ['#2d3436','#0984e3','#dfe6e9'], sections: ['hero','services','portfolio','team','testimonials','contact'] },
+  ],
+  automotive: [
+    { id: 'auto-1', name: 'AutoZone', preview: 'https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&h=400&fit=crop', colors: ['#e17055','#2d3436','#dfe6e9'], sections: ['hero','services','inventory','reviews','booking','contact'] },
+  ],
+};
+
+/* ══════════════════════════════════════════
+   CONTENT TEMPLATES (Canva-style)
+   ══════════════════════════════════════════ */
+export const contentTemplates = [
+  { id: 'ct-1', type: 'poster', name: 'Grand Opening', category: 'promotion', aspect: '1:1', thumb: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?w=300&h=300&fit=crop', colors: ['#e63946','#f1faee'], tags: ['launch','opening','celebration'] },
+  { id: 'ct-2', type: 'poster', name: 'Festival Sale', category: 'promotion', aspect: '1:1', thumb: 'https://images.unsplash.com/photo-1607083206968-13611e3d76db?w=300&h=300&fit=crop', colors: ['#ff6b6b','#feca57'], tags: ['sale','diwali','festive'] },
+  { id: 'ct-3', type: 'story', name: 'Daily Special', category: 'restaurant', aspect: '9:16', thumb: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300&h=533&fit=crop', colors: ['#1a1a1a','#ff6348'], tags: ['food','daily','special'] },
+  { id: 'ct-4', type: 'banner', name: 'Discount Banner', category: 'promotion', aspect: '16:9', thumb: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=338&fit=crop', colors: ['#6c5ce7','#00cec9'], tags: ['discount','offer','banner'] },
+  { id: 'ct-5', type: 'poster', name: 'Customer Review', category: 'social', aspect: '1:1', thumb: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=300&h=300&fit=crop', colors: ['#0984e3','#ffffff'], tags: ['review','testimonial','trust'] },
+  { id: 'ct-6', type: 'video', name: 'Product Showcase', category: 'product', aspect: '16:9', thumb: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=338&fit=crop', colors: ['#2d3436','#e17055'], tags: ['product','video','showcase'] },
+  { id: 'ct-7', type: 'story', name: 'Behind The Scenes', category: 'social', aspect: '9:16', thumb: 'https://images.unsplash.com/photo-1556761175-4b46a572b786?w=300&h=533&fit=crop', colors: ['#636e72','#b2bec3'], tags: ['bts','culture','team'] },
+  { id: 'ct-8', type: 'poster', name: 'New Arrival', category: 'product', aspect: '4:5', thumb: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&h=375&fit=crop', colors: ['#fd79a8','#e84393'], tags: ['new','arrival','launch'] },
+  { id: 'ct-9', type: 'carousel', name: 'Tips & Tricks', category: 'education', aspect: '1:1', thumb: 'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=300&h=300&fit=crop', colors: ['#00b894','#55efc4'], tags: ['tips','education','how-to'] },
+  { id: 'ct-10', type: 'poster', name: 'Happy Customer', category: 'social', aspect: '1:1', thumb: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=300&h=300&fit=crop', colors: ['#fdcb6e','#e17055'], tags: ['happy','customer','ugc'] },
+  { id: 'ct-11', type: 'video', name: 'Reel Template', category: 'social', aspect: '9:16', thumb: 'https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=300&h=533&fit=crop', colors: ['#a29bfe','#6c5ce7'], tags: ['reel','trending','viral'] },
+  { id: 'ct-12', type: 'banner', name: 'Hiring Post', category: 'business', aspect: '16:9', thumb: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=600&h=338&fit=crop', colors: ['#0984e3','#74b9ff'], tags: ['hiring','job','team'] },
+];
+
+/* ══════════════════════════════════════════
+   LEAD DATABASE (ZoomInfo + 6Sense style)
+   ══════════════════════════════════════════ */
+const leadStages = ['new','contacted','qualified','proposal','negotiation','won','lost'];
+const intentLevels = ['low','medium','high','surging'];
+const buyerJourneyStages = ['awareness','consideration','decision','purchase'];
+const channels = ['Website','Google Ads','Facebook','Instagram','Referral','Walk-in','WhatsApp','Email Campaign','LinkedIn','Cold Outreach'];
+
+export const generateLeadData = () => {
+  const companies = [
+    { name: 'Apex Industries Pvt Ltd', domain: 'apexindustries.in', employees: 120, revenue: '₹8.5Cr', industry: 'Manufacturing', city: 'Pune', tech: ['SAP','Tally','WordPress'] },
+    { name: 'Green Valley Organics', domain: 'greenvalleyorg.com', employees: 35, revenue: '₹2.1Cr', industry: 'Agriculture', city: 'Bangalore', tech: ['Shopify','Google Workspace'] },
+    { name: 'Metro Healthcare', domain: 'metrohealthcare.in', employees: 250, revenue: '₹22Cr', industry: 'Healthcare', city: 'Mumbai', tech: ['Salesforce','AWS','HIS System'] },
+    { name: 'Digital Dreams Studio', domain: 'digitaldreams.co.in', employees: 18, revenue: '₹95L', industry: 'Media', city: 'Hyderabad', tech: ['Adobe CC','Figma','Notion'] },
+    { name: 'Bharat Textiles', domain: 'bharattextiles.com', employees: 450, revenue: '₹45Cr', industry: 'Textile', city: 'Surat', tech: ['Oracle ERP','Zoho'] },
+    { name: 'QuickBite Foods', domain: 'quickbitefoods.in', employees: 80, revenue: '₹5.2Cr', industry: 'F&B', city: 'Delhi', tech: ['Zomato','Swiggy POS','Razorpay'] },
+    { name: 'CloudNet Solutions', domain: 'cloudnetsol.com', employees: 65, revenue: '₹4.8Cr', industry: 'IT Services', city: 'Chennai', tech: ['AWS','GCP','Jira'] },
+    { name: 'Royal Jewellers', domain: 'royaljewellers.in', employees: 25, revenue: '₹12Cr', industry: 'Retail', city: 'Jaipur', tech: ['Custom ERP','WhatsApp Business'] },
+    { name: 'EduSpark Academy', domain: 'eduspark.edu.in', employees: 40, revenue: '₹1.8Cr', industry: 'Education', city: 'Kochi', tech: ['Moodle','Zoom','Google Classroom'] },
+    { name: 'AutoServe Motors', domain: 'autoservemotors.com', employees: 55, revenue: '₹3.5Cr', industry: 'Automotive', city: 'Ahmedabad', tech: ['DMS System','Tally'] },
+    { name: 'Sunrise Realty', domain: 'sunriserealty.in', employees: 30, revenue: '₹18Cr', industry: 'Real Estate', city: 'Gurgaon', tech: ['Salesforce','MagicBricks'] },
+    { name: 'FreshMart Groceries', domain: 'freshmartgroceries.in', employees: 200, revenue: '₹15Cr', industry: 'Retail', city: 'Bangalore', tech: ['BigBasket API','SAP','Android POS'] },
+    { name: 'Priya Constructions', domain: 'priyaconstructions.com', employees: 180, revenue: '₹35Cr', industry: 'Construction', city: 'Hyderabad', tech: ['Primavera','AutoCAD','Tally'] },
+    { name: 'TechVista Labs', domain: 'techvistalabs.in', employees: 90, revenue: '₹7.2Cr', industry: 'IT Services', city: 'Pune', tech: ['Azure','Docker','React'] },
+    { name: 'Nimbus Logistics', domain: 'nimbuslogistics.co.in', employees: 150, revenue: '₹12.5Cr', industry: 'Logistics', city: 'Mumbai', tech: ['Fleet Management','SAP TM'] },
+    { name: 'Kaveri Pharma', domain: 'kaveripharma.in', employees: 320, revenue: '₹28Cr', industry: 'Pharma', city: 'Chennai', tech: ['Oracle ERP','LIMS'] },
+  ];
+
+  const contacts = [
+    'Rajesh Kumar','Priya Sharma','Arun Patel','Deepika Nair','Vikram Singh','Ananya Rao',
+    'Mohammed Irfan','Sneha Menon','Karthik Reddy','Lakshmi Iyer','Arjun Desai','Meera Joshi',
+    'Rahul Gupta','Divya Krishnan','Suresh Babu','Pooja Agarwal',
+  ];
+  const titles = ['CEO','CTO','Marketing Head','Operations Manager','Founder','CFO','VP Sales','Product Manager','Growth Lead','Digital Head'];
+
+  return companies.map((co, i) => {
+    const stageIdx = Math.floor(Math.random() * leadStages.length);
+    const intentIdx = Math.floor(Math.random() * intentLevels.length);
+    const bjIdx = Math.floor(Math.random() * buyerJourneyStages.length);
+    const channelIdx = Math.floor(Math.random() * channels.length);
+    const intentScore = [22, 48, 72, 93][intentIdx];
+    const fitScore = 40 + Math.floor(Math.random() * 55);
+    const dealValue = Math.floor(Math.random() * 500000) + 50000;
+    const daysAgo = Math.floor(Math.random() * 90);
+    const lastActivity = Math.floor(Math.random() * 14);
+    const touchpoints = Math.floor(Math.random() * 15) + 1;
+
+    return {
+      id: `lead-${i + 1}`,
+      company: co,
+      contact: { name: contacts[i], title: titles[i % titles.length], email: `${contacts[i].split(' ')[0].toLowerCase()}@${co.domain}`, phone: `+91 ${9800000000 + Math.floor(Math.random() * 199999999)}` },
+      stage: leadStages[stageIdx],
+      intent: intentLevels[intentIdx],
+      intentScore,
+      fitScore,
+      combinedScore: Math.round((intentScore * 0.6) + (fitScore * 0.4)),
+      buyerJourney: buyerJourneyStages[bjIdx],
+      channel: channels[channelIdx],
+      dealValue,
+      probability: stageIdx <= 1 ? 15 : stageIdx <= 3 ? 45 : stageIdx <= 4 ? 70 : stageIdx === 5 ? 100 : 0,
+      weightedValue: Math.round(dealValue * (stageIdx <= 1 ? 0.15 : stageIdx <= 3 ? 0.45 : stageIdx <= 4 ? 0.7 : stageIdx === 5 ? 1 : 0)),
+      createdDaysAgo: daysAgo,
+      lastActivityDaysAgo: lastActivity,
+      touchpoints,
+      activities: [
+        { type: 'page_view', label: 'Viewed pricing page', time: `${lastActivity}d ago` },
+        { type: 'email', label: 'Opened campaign email', time: `${lastActivity + 1}d ago` },
+        { type: 'download', label: 'Downloaded brochure', time: `${lastActivity + 3}d ago` },
+      ],
+      signals: intentIdx >= 2 ? ['Researching competitors', 'Budget allocated', 'Decision timeline Q1'] : ['Early research phase'],
+    };
+  });
+};
+
+/* pipeline summary helper */
+export const getPipelineSummary = (leads) => {
+  const stages = {};
+  leadStages.forEach(s => { stages[s] = { count: 0, value: 0, weighted: 0 }; });
+  leads.forEach(l => {
+    stages[l.stage].count++;
+    stages[l.stage].value += l.dealValue;
+    stages[l.stage].weighted += l.weightedValue;
+  });
+  return { stages, stageOrder: leadStages };
+};
+
+/* ══════════════════════════════════════════
+   AUTOMATION TASKS (background processes)
+   ══════════════════════════════════════════ */
+export const automationTasks = [
+  { id: 'auto-1', name: 'Social Media Auto-Post', status: 'running', type: 'social', schedule: 'Daily 10 AM', reach: '2.4K', lastRun: '2h ago', icon: '📱' },
+  { id: 'auto-2', name: 'Google Reviews Request', status: 'running', type: 'reviews', schedule: 'After each visit', sent: 45, responded: 18, lastRun: '30m ago', icon: '⭐' },
+  { id: 'auto-3', name: 'Lead Nurture Emails', status: 'running', type: 'email', schedule: 'Every 3 days', sent: 128, opened: 67, clicked: 23, lastRun: '1d ago', icon: '📧' },
+  { id: 'auto-4', name: 'Website SEO Monitor', status: 'running', type: 'seo', schedule: 'Every 6h', score: 72, issues: 3, lastRun: '4h ago', icon: '🔍' },
+  { id: 'auto-5', name: 'Competitor Price Tracker', status: 'running', type: 'competitor', schedule: 'Daily', tracked: 5, alerts: 2, lastRun: '6h ago', icon: '📊' },
+  { id: 'auto-6', name: 'WhatsApp Auto-Reply', status: 'running', type: 'chat', schedule: 'Always on', replied: 84, avgResponse: '< 1m', lastRun: 'Now', icon: '💬' },
+  { id: 'auto-7', name: 'Invoice Generator', status: 'paused', type: 'billing', schedule: 'On order', generated: 34, pending: 2, lastRun: '3d ago', icon: '🧾' },
+  { id: 'auto-8', name: 'Ad Campaign Manager', status: 'running', type: 'ads', schedule: 'Continuous', spend: '₹12,400', leads: 38, cpl: '₹326', lastRun: '15m ago', icon: '📢' },
 ];

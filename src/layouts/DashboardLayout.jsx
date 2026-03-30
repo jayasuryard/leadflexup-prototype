@@ -3,7 +3,7 @@ import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import {
   LayoutDashboard, TrendingUp,
   Rocket, Settings, LogOut, Menu, X, Bell, Search, ChevronDown,
-  BarChart3, CreditCard
+  BarChart3, CreditCard, Globe, Palette, Zap, Users, UserPlus, Terminal
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { t } from '../utils/i18n';
@@ -11,9 +11,10 @@ import { t } from '../utils/i18n';
 export const DashboardLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { language, changeLanguage, businessData, logout, currentUser, analyticsData, isAuthenticated } = useApp();
+  const { language, changeLanguage, businessData, logout, currentUser, analyticsData, isAuthenticated, signup } = useApp();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
 
   const handleLogout = () => { logout(); navigate('/'); };
 
@@ -22,6 +23,10 @@ export const DashboardLayout = () => {
     { key: 'overview', icon: LayoutDashboard, path: '/dashboard', label: t('dashboard', language) },
     { key: 'analytics', icon: BarChart3, path: '/dashboard/analytics', label: t('analytics', language) },
     ...(isAuthenticated ? [
+      { key: 'website', icon: Globe, path: '/dashboard/website', label: t('websiteBuilder', language) },
+      { key: 'content', icon: Palette, path: '/dashboard/content', label: t('contentStudio', language) },
+      { key: 'automation', icon: Zap, path: '/dashboard/automation', label: t('automationHub', language) },
+      { key: 'leads', icon: Users, path: '/dashboard/leads', label: t('leadManager', language) },
       { key: 'subscription', icon: CreditCard, path: '/dashboard/subscription', label: t('subscription', language) },
       { key: 'growthJourney', icon: Rocket, path: '/dashboard/journey', label: t('growthJourney', language) },
       { key: 'settings', icon: Settings, path: '/dashboard/settings', label: t('settings', language) },
@@ -81,6 +86,24 @@ export const DashboardLayout = () => {
                 {(sidebarExpanded || sidebarOpen) && <span className="whitespace-nowrap">{item.label}</span>}
               </NavLink>
             ))}
+
+            {/* Signup button for guests */}
+            {!isAuthenticated && (sidebarExpanded || sidebarOpen) && (
+              <button onClick={() => {
+                const email = prompt('Enter email to sign up:');
+                if (email) signup({ email, password: 'demo' });
+              }}
+                className="mx-1 mt-2 flex items-center gap-2 px-3 py-2.5 bg-teal-600 text-white rounded-lg text-[12px] font-semibold hover:bg-teal-700 transition-colors">
+                <UserPlus className="w-[18px] h-[18px] flex-shrink-0" />
+                <span className="whitespace-nowrap">{t('signUpFree', language)}</span>
+              </button>
+            )}
+            {!isAuthenticated && !(sidebarExpanded || sidebarOpen) && (
+              <button onClick={() => setSidebarExpanded(true)}
+                className="mx-auto mt-2 w-9 h-9 flex items-center justify-center bg-teal-600 text-white rounded-lg hover:bg-teal-700">
+                <UserPlus className="w-4 h-4" />
+              </button>
+            )}
           </nav>
 
           {/* Score card — only when expanded */}

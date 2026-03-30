@@ -94,6 +94,19 @@ const base = {
   summary: 'Summary',
   totalFollowers: 'Total Followers',
   avgEngagement: 'Avg. Engagement',
+  // New feature keys
+  websiteBuilder: 'Website Builder',
+  websiteBuilderDesc: 'Auto-build a professional website for your business',
+  contentStudio: 'Content Studio',
+  contentStudioDesc: 'Create stunning posters, stories & videos from templates',
+  automationHub: 'Automation',
+  automationHubDesc: 'All your automations running in the background',
+  leadManager: 'Lead Manager',
+  leadManagerDesc: 'Complete pipeline with predictive sales intelligence',
+  signUpFree: 'Sign Up Free',
+  signupCopilotDesc: 'Sign up to unlock Agent Mode, Website Builder, Lead Manager and more premium features.',
+  visualPreview: 'Visual Preview',
+  visualPreviewDesc: 'Chat results will appear here visually as you interact with the Copilot.',
 };
 
 export const translations = {

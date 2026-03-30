@@ -8,6 +8,10 @@ import { DashboardOverview } from './pages/DashboardOverview';
 import { AnalyticsDashboard } from './pages/AnalyticsDashboard';
 import { SubscriptionPlans } from './pages/SubscriptionPlans';
 import { GrowthJourney } from './pages/GrowthJourney';
+import { WebsiteBuilder } from './pages/WebsiteBuilder';
+import { ContentStudio } from './pages/ContentStudio';
+import { AutomationHub } from './pages/AutomationHub';
+import { LeadManager } from './pages/LeadManager';
 
 // Only require onboarded (analysis done), NOT authenticated
 const OnboardedRoute = ({ children }) => {
@@ -35,6 +39,10 @@ function AppRoutes() {
       >
         <Route index element={<DashboardOverview />} />
         <Route path="analytics" element={<AnalyticsDashboard />} />
+        <Route path="website" element={<AuthRoute><WebsiteBuilder /></AuthRoute>} />
+        <Route path="content" element={<AuthRoute><ContentStudio /></AuthRoute>} />
+        <Route path="automation" element={<AuthRoute><AutomationHub /></AuthRoute>} />
+        <Route path="leads" element={<AuthRoute><LeadManager /></AuthRoute>} />
         <Route path="subscription" element={<SubscriptionPlans />} />
         <Route path="journey" element={<AuthRoute><GrowthJourney /></AuthRoute>} />
         <Route path="settings" element={<AuthRoute><div className="text-center py-20 text-navy-400">Settings coming soon...</div></AuthRoute>} />
