@@ -809,4 +809,15 @@ export default {
   lpFooterContact: 'Contact',
   lpFooterPrivacy: 'Privacy Policy',
   lpFooterTermsLink: 'Terms of Service',
+
+  adMktOppLeadsTitle: 'Ningalk Capture Cheyavunna Leads',
+  adMktOppLeadName: 'Lead',
+  adMktOppLeadSource: 'Source',
+  adMktOppLeadIntent: 'Intent',
+  adMktOppLeadValue: 'Mathippulla Value',
+  adMktOppLeadStatus: 'Status',
+  adMktOppAvailable: 'Labhyam',
+  adMktOppHot: 'Hot',
+  adMktOppWarm: 'Warm',
+  adMktOppMedium: 'Medium',
 };

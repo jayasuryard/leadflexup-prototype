@@ -817,4 +817,15 @@ export default {
   lpFooterContact: 'Contact',
   lpFooterPrivacy: 'Privacy Policy',
   lpFooterTermsLink: 'Terms of Service',
+
+  adMktOppLeadsTitle: 'Neenga Capture Panna Mudiyura Leads',
+  adMktOppLeadName: 'Lead',
+  adMktOppLeadSource: 'Source',
+  adMktOppLeadIntent: 'Intent',
+  adMktOppLeadValue: 'Mathippu Value',
+  adMktOppLeadStatus: 'Status',
+  adMktOppAvailable: 'Kidaikum',
+  adMktOppHot: 'Hot',
+  adMktOppWarm: 'Warm',
+  adMktOppMedium: 'Medium',
 };

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 40" fill="none">
+  <circle cx="16" cy="20" r="10" fill="#14a88a" opacity=".15"/>
+  <path d="M12 20 L16 16 L20 20 L16 24Z" fill="#14a88a"/>
+  <text x="30" y="25" font-family="system-ui, sans-serif" font-size="15" font-weight="700" fill="#1e2f52">QuickServe</text>
+</svg>

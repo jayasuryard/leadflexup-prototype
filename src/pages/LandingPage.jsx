@@ -119,6 +119,45 @@ const SignUpModal = ({ open, onClose, onSignUp, language }) => {
 };
 
 /* ─── Landing Page ─── */
+
+/* Business illustration imports */
+import imgTravel from '../assets/businesses/travel-agency.png';
+import imgHotel from '../assets/businesses/hotel-business.png';
+import imgToy from '../assets/businesses/toy-shop.png';
+import imgIron from '../assets/businesses/iron-fabricator.png';
+import imgRestaurant from '../assets/businesses/restaurant-cafe.png';
+import imgSalon from '../assets/businesses/beauty-salon.png';
+
+/* Trust logo imports */
+import logoQuickserve from '../assets/logos/logo-quickserve.svg';
+import logoPaylocal from '../assets/logos/logo-paylocal.svg';
+import logoRideease from '../assets/logos/logo-rideease.svg';
+import logoShopnear from '../assets/logos/logo-shopnear.svg';
+import logoCraftmart from '../assets/logos/logo-craftmart.svg';
+import logoGrowbiz from '../assets/logos/logo-growbiz.svg';
+
+/* Animated counter hook */
+const useCounter = (end, duration = 2000) => {
+  const [count, setCount] = useState(0);
+  const [started, setStarted] = useState(false);
+  const ref = { current: null };
+  const start = () => { if (!started) setStarted(true); };
+
+  useState(() => {
+    if (!started) return;
+    let startTime = null;
+    const step = (ts) => {
+      if (!startTime) startTime = ts;
+      const progress = Math.min((ts - startTime) / duration, 1);
+      setCount(Math.floor(progress * end));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [started]);
+
+  return [count, start];
+};
+
 export const LandingPage = () => {
   const navigate = useNavigate();
   const { language, changeLanguage, signup, onboardBusiness, isAuthenticated } = useApp();

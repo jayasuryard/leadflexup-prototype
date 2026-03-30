@@ -829,4 +829,15 @@ export default {
   lpFooterContact: 'కాంటాక్ట్',
   lpFooterPrivacy: 'Privacy Policy',
   lpFooterTermsLink: 'Terms of Service',
+
+  adMktOppLeadsTitle: 'Meeru Capture Cheyagalaru Leads',
+  adMktOppLeadName: 'Lead',
+  adMktOppLeadSource: 'Source',
+  adMktOppLeadIntent: 'Intent',
+  adMktOppLeadValue: 'Andaajina Value',
+  adMktOppLeadStatus: 'Status',
+  adMktOppAvailable: 'Andubatulo',
+  adMktOppHot: 'Hot',
+  adMktOppWarm: 'Warm',
+  adMktOppMedium: 'Medium',
 };

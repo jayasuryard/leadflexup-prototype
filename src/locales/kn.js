@@ -817,4 +817,15 @@ export default {
   lpFooterContact: 'Contact',
   lpFooterPrivacy: 'Privacy Policy',
   lpFooterTermsLink: 'Terms of Service',
+
+  adMktOppLeadsTitle: 'Neenu Capture Maadbahudu Ada Leads',
+  adMktOppLeadName: 'Lead',
+  adMktOppLeadSource: 'Source',
+  adMktOppLeadIntent: 'Intent',
+  adMktOppLeadValue: 'Andaajina Value',
+  adMktOppLeadStatus: 'Status',
+  adMktOppAvailable: 'Sigutide',
+  adMktOppHot: 'Hot',
+  adMktOppWarm: 'Warm',
+  adMktOppMedium: 'Medium',
 };

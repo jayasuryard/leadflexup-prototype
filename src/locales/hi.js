@@ -825,4 +825,15 @@ export default {
   lpFooterContact: 'संपर्क',
   lpFooterPrivacy: 'प्राइवेसी पॉलिसी',
   lpFooterTermsLink: 'टर्म्स ऑफ़ सर्विस',
+
+  adMktOppLeadsTitle: 'Leads Jo Aap Capture Kar Sakte Hain',
+  adMktOppLeadName: 'Lead',
+  adMktOppLeadSource: 'Source',
+  adMktOppLeadIntent: 'Intent',
+  adMktOppLeadValue: 'Anumaan Value',
+  adMktOppLeadStatus: 'Status',
+  adMktOppAvailable: 'Milne Wala',
+  adMktOppHot: 'Garam',
+  adMktOppWarm: 'Halka Garam',
+  adMktOppMedium: 'Madhyam',
 };

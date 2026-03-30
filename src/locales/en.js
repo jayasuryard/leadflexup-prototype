@@ -43,9 +43,9 @@ export default {
   // ══════════════════════════════════════
   // LANDING PAGE
   // ══════════════════════════════════════
-  heroTitle: 'Transform Your Business with',
-  heroSubtitle: 'Data-Powered Intelligence',
-  heroDescription: 'Go from zero digital presence to 4x revenue growth. AI-powered insights, automated marketing, and qualified leads—all in one platform.',
+  heroTitle: 'Stay ahead of competition',
+  heroSubtitle: 'with smart growth intelligence',
+  heroDescription: 'AI-powered platform that transforms local Indian businesses from zero online presence to 4x revenue — automated SEO, marketing, and qualified leads on autopilot.',
   getStarted: 'Get Started Free',
   watchDemo: 'Watch Demo',
   trustedBy: 'Trusted by 10,000+ Indian businesses',
@@ -845,6 +845,63 @@ export default {
   lpFaq5A: 'You can explore the full platform as a guest with limited AI credits. Sign up for a Starter plan to unlock automation, lead management, and website builder.',
   lpFaq6Q: 'How quickly will I see results?',
   lpFaq6A: 'Most businesses see measurable improvement within 2-4 weeks. Our Growth Journey roadmap and AI automations start working immediately.',
+
+  // Hero — redesigned
+  lpHeroTagline: '10+ years empowering local Indian businesses',
+  lpPill1: 'SEO Boost',
+  lpPill2: 'Lead Capture',
+  lpPill3: 'Google Reviews',
+  lpPill4: 'Social Media',
+  lpPill5: 'Ad Campaigns',
+  lpPill6: 'Analytics',
+  lpHappyBiz: 'happy businesses',
+  lpBizGrowing: 'Businesses growing superbly',
+  lpSuccessLabel: 'success',
+
+  // Trust logos strip
+  lpTrustCount: 'Trusted By 10,000+ Local Businesses Across India',
+
+  // Nav additions
+  lpNavHome: 'Home',
+  lpNavStories: 'Stories',
+  lpNavContact: 'Contact',
+
+  // Bento Stories
+  lpBentoBadge: 'Real Impact • Real Stories',
+  lpBentoHeading: 'Real stories from businesses just like yours',
+  lpBentoDesc: 'See how local Indian businesses transformed their growth with LeadFlexUp.',
+  lpStory1Biz: 'Sharma Travels, Jaipur',
+  lpStory1Quote: 'From 5 bookings/month to 85+ thanks to AI-powered local SEO and Google optimization.',
+  lpStory1Stat: '+1,600%',
+  lpStory1Label: 'Booking Growth',
+  lpStory2Biz: 'Hotel Sunrise, Goa',
+  lpStory2Quote: 'Occupancy jumped from 40% to 92% in just 4 months with competitor insights.',
+  lpStory2Stat: '92%',
+  lpStory2Label: 'Occupancy Rate',
+  lpStory3Biz: 'Guddu Toy World, Lucknow',
+  lpStory3Quote: 'Revenue went from ₹1.2L to ₹8.5L with our AI-built website and social campaigns.',
+  lpStory3Stat: '₹8.5L',
+  lpStory3Label: 'Monthly Revenue',
+  lpStory4Biz: 'Singh Iron Works, Ludhiana',
+  lpStory4Quote: 'Now getting 240+ leads monthly from builders and contractors on Google.',
+  lpStory4Stat: '240+',
+  lpStory4Label: 'Monthly Leads',
+  lpStory5Biz: 'Annapurna Restaurant, Chennai',
+  lpStory5Quote: '200+ Google reviews and 4.8★ rating in 3 months flat.',
+  lpStory5Stat: '4.8★',
+  lpStory5Label: 'Google Rating',
+  lpStory6Biz: 'Glamour Touch Salon, Pune',
+  lpStory6Quote: 'Instagram reels got us 3x more walk-ins. AI writes all our content!',
+  lpStory6Stat: '3x',
+  lpStory6Label: 'Walk-in Growth',
+
+  // Numbers Section
+  lpNumBadge: 'By The Numbers',
+  lpNumHeading: 'The numbers speak for themselves',
+
+  // Onboarding section
+  lpOnboardBadge: 'Start Growing Today',
+  lpOnboardHeading: 'Get your free market analysis in 30 seconds',
 
   // Footer expanded
   lpFooterTagline: 'AI-powered growth platform for Indian businesses',
