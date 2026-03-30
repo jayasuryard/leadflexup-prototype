@@ -19,7 +19,7 @@ export const SubscriptionPlans = () => {
       <motion.div {...fade()} className="text-center">
         <h1 className="text-2xl font-bold text-navy-900 mb-2">{t('choosePlan', language)}</h1>
         <p className="text-sm text-navy-400 max-w-lg mx-auto">
-          Select the perfect plan to accelerate your business growth. All plans include our AI-powered intelligence platform.
+          {t('subDesc', language)}
         </p>
       </motion.div>
 
@@ -55,7 +55,7 @@ export const SubscriptionPlans = () => {
                     <span className="text-3xl font-bold text-navy-900">{plan.currency}{(plan.price / 100000).toFixed(2)}L</span>
                     <span className="text-xs text-navy-400">{t('perMonth', language)}</span>
                   </div>
-                  <p className="text-[11px] text-navy-400 mt-0.5">Billed monthly • Cancel anytime</p>
+                  <p className="text-[11px] text-navy-400 mt-0.5">{t('subBilling', language)}</p>
                 </div>
 
                 <div className="space-y-2.5 mb-6">
@@ -92,9 +92,9 @@ export const SubscriptionPlans = () => {
       {/* Value props */}
       <div className="grid sm:grid-cols-3 gap-4 max-w-4xl mx-auto">
         {[
-          { icon: Check, title: 'No Commitment', desc: 'Cancel or change anytime.' },
-          { icon: Sparkles, title: '4x Growth Guarantee', desc: 'Enterprise plan revenue guarantee.' },
-          { icon: Crown, title: 'Premium Support', desc: 'Dedicated growth experts.' }
+          { icon: Check, title: t('subNoCommitment', language), desc: t('subNoCommitmentDesc', language) },
+          { icon: Sparkles, title: t('subGrowthGuarantee', language), desc: t('subGrowthGuaranteeDesc', language) },
+          { icon: Crown, title: t('subPremiumSupport', language), desc: t('subPremiumSupportDesc', language) }
         ].map((v, i) => (
           <motion.div key={i} {...fade(i)} className="bg-white rounded-xl border border-navy-100 p-5 text-center">
             <div className="w-9 h-9 bg-navy-50 rounded-lg flex items-center justify-center mx-auto mb-3">
@@ -107,9 +107,9 @@ export const SubscriptionPlans = () => {
       </div>
 
       <div className="text-center">
-        <p className="text-xs text-navy-400 mb-2">Custom plan for multiple locations?</p>
+        <p className="text-xs text-navy-400 mb-2">{t('subCustomPlan', language)}</p>
         <button className="text-xs font-semibold text-navy-600 border border-navy-200 px-4 py-2 rounded-lg hover:bg-navy-50">
-          Contact Sales
+          {t('subContactSales', language)}
         </button>
       </div>
     </div>

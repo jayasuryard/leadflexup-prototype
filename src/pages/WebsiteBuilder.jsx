@@ -12,7 +12,7 @@ import { sendGroqMessage } from '../config/groq';
 const fade = (i = 0) => ({ initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, transition: { delay: i * 0.06, duration: 0.35 } });
 
 /* ─── Live preview of website being built ─── */
-const WebsitePreview = ({ template, businessData, sections, viewMode }) => {
+const WebsitePreview = ({ template, businessData, sections, viewMode, language }) => {
   if (!template) return null;
   const [pri, sec, bg] = template.colors;
   const name = businessData?.businessName || 'Your Business';
@@ -31,8 +31,8 @@ const WebsitePreview = ({ template, businessData, sections, viewMode }) => {
       <div className="relative" style={{ background: `linear-gradient(135deg, ${pri}, ${sec || pri}dd)` }}>
         <div className="px-6 py-10 text-white text-center">
           <h1 className="text-xl font-bold mb-2">{name}</h1>
-          <p className="text-[11px] opacity-80 mb-4">Welcome to the best experience in town</p>
-          <button className="px-4 py-1.5 bg-white text-[10px] font-bold rounded-lg" style={{ color: pri }}>Get Started</button>
+          <p className="text-[11px] opacity-80 mb-4">{t('wbWelcomeMsg', language)}</p>
+          <button className="px-4 py-1.5 bg-white text-[10px] font-bold rounded-lg" style={{ color: pri }}>{t('wbGetStarted', language)}</button>
         </div>
         <img src={template.preview} alt="" className="w-full h-32 object-cover opacity-30 absolute inset-0" />
       </div>
@@ -74,15 +74,15 @@ export const WebsiteBuilder = () => {
   useEffect(() => {
     if (step !== 3) return;
     const logs = [
-      '🔧 Initializing project scaffold...',
-      '📦 Installing dependencies...',
-      '🎨 Applying ' + (selectedTemplate?.name || '') + ' template...',
-      '📝 Generating content with GROQ AI...',
-      '🖼️ Optimizing images and assets...',
-      '🔍 Running SEO optimization...',
-      '📱 Making responsive for mobile...',
-      '🚀 Deploying to ' + (domain || suggestedDomain) + domainSuffix + '...',
-      '✅ Website is LIVE!',
+      t('wbBuildLog1', language),
+      t('wbBuildLog2', language),
+      t('wbBuildLog3', language).replace('{name}', selectedTemplate?.name || ''),
+      t('wbBuildLog4', language),
+      t('wbBuildLog5', language),
+      t('wbBuildLog6', language),
+      t('wbBuildLog7', language),
+      t('wbBuildLog8', language).replace('{domain}', (domain || suggestedDomain) + domainSuffix),
+      t('wbBuildLog9', language),
     ];
     let idx = 0;
     const interval = setInterval(() => {
@@ -108,7 +108,7 @@ export const WebsiteBuilder = () => {
         </div>
         {/* Step indicator */}
         <div className="flex items-center gap-2">
-          {['Template', 'Customize', 'Domain', 'Build', 'Live'].map((s, i) => (
+          {[t('wbStepTemplate', language), t('wbStepCustomize', language), t('wbStepDomain', language), t('wbStepBuild', language), t('wbStepLive', language)].map((s, i) => (
             <div key={i} className="flex items-center gap-1">
               <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-bold transition-colors ${
                 i < step ? 'bg-teal-600 text-white' : i === step ? 'bg-navy-700 text-white' : 'bg-navy-100 text-navy-400'
@@ -122,7 +122,7 @@ export const WebsiteBuilder = () => {
       {/* STEP 0: Select Template */}
       {step === 0 && (
         <motion.div {...fade(0)} className="space-y-4">
-          <h2 className="text-sm font-bold text-navy-800">Choose a template for your {category} business</h2>
+          <h2 className="text-sm font-bold text-navy-800">{t('wbChooseTemplate', language).replace('{category}', category)}</h2>
           <div className="grid md:grid-cols-3 gap-4">
             {templates.map((tmpl) => (
               <motion.div key={tmpl.id} whileHover={{ y: -4 }}
@@ -148,7 +148,7 @@ export const WebsiteBuilder = () => {
           </div>
           {selectedTemplate && (
             <button onClick={() => setStep(1)} className="px-6 py-2.5 bg-navy-700 text-white text-xs font-semibold rounded-lg hover:bg-navy-800 flex items-center gap-2">
-              Continue with {selectedTemplate.name} <ArrowRight className="w-3.5 h-3.5" />
+              {t('wbContinueWith', language).replace('{name}', selectedTemplate.name)} <ArrowRight className="w-3.5 h-3.5" />
             </button>
           )}
         </motion.div>
@@ -159,7 +159,7 @@ export const WebsiteBuilder = () => {
         <motion.div {...fade(0)} className="grid lg:grid-cols-[1fr_400px] gap-5">
           <div className="space-y-4">
             <div className="bg-white rounded-xl border border-navy-100 p-5">
-              <h3 className="text-sm font-bold text-navy-800 mb-3">Sections</h3>
+              <h3 className="text-sm font-bold text-navy-800 mb-3">{t('wbSections', language)}</h3>
               <div className="grid grid-cols-2 gap-2">
                 {selectedTemplate.sections.map((sec, i) => (
                   <div key={i} className="flex items-center gap-2 p-2.5 bg-navy-50 rounded-lg">
@@ -170,7 +170,7 @@ export const WebsiteBuilder = () => {
               </div>
             </div>
             <div className="bg-white rounded-xl border border-navy-100 p-5">
-              <h3 className="text-sm font-bold text-navy-800 mb-3">Color Scheme</h3>
+              <h3 className="text-sm font-bold text-navy-800 mb-3">{t('wbColorScheme', language)}</h3>
               <div className="flex items-center gap-2">
                 {selectedTemplate.colors.map((c, i) => (
                   <div key={i} className="flex items-center gap-2">
@@ -183,14 +183,14 @@ export const WebsiteBuilder = () => {
             <div className="bg-white rounded-xl border border-navy-100 p-5">
               <div className="flex items-center gap-2 mb-2">
                 <Sparkles className="w-4 h-4 text-teal-600" />
-                <h3 className="text-sm font-bold text-navy-800">AI-Generated Content</h3>
+                <h3 className="text-sm font-bold text-navy-800">{t('wbAiContent', language)}</h3>
               </div>
-              <p className="text-[11px] text-navy-400">GROQ AI will generate SEO-optimized content for your {category} business including headlines, descriptions, meta tags, and CTAs tailored to your audience.</p>
+              <p className="text-[11px] text-navy-400">{t('wbAiContentDesc', language).replace('{category}', category)}</p>
             </div>
             <div className="flex gap-3">
-              <button onClick={() => setStep(0)} className="px-4 py-2 text-xs font-semibold text-navy-600 bg-navy-50 rounded-lg hover:bg-navy-100">Back</button>
+              <button onClick={() => setStep(0)} className="px-4 py-2 text-xs font-semibold text-navy-600 bg-navy-50 rounded-lg hover:bg-navy-100">{t('back', language)}</button>
               <button onClick={() => setStep(2)} className="px-6 py-2.5 bg-navy-700 text-white text-xs font-semibold rounded-lg hover:bg-navy-800 flex items-center gap-2">
-                Choose Domain <ArrowRight className="w-3.5 h-3.5" />
+                {t('wbChooseDomain', language)} <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
           </div>
@@ -203,9 +203,9 @@ export const WebsiteBuilder = () => {
               <button onClick={() => setViewMode('mobile')} className={`p-1.5 rounded-lg ${viewMode === 'mobile' ? 'bg-navy-700 text-white' : 'bg-navy-50 text-navy-400'}`}>
                 <Smartphone className="w-3.5 h-3.5" />
               </button>
-              <span className="text-[10px] text-navy-400 ml-auto">Preview</span>
+              <span className="text-[10px] text-navy-400 ml-auto">{t('preview', language)}</span>
             </div>
-            <WebsitePreview template={selectedTemplate} businessData={businessData} sections={selectedTemplate.sections} viewMode={viewMode} />
+            <WebsitePreview template={selectedTemplate} businessData={businessData} sections={selectedTemplate.sections} viewMode={viewMode} language={language} />
           </div>
         </motion.div>
       )}
@@ -216,11 +216,11 @@ export const WebsiteBuilder = () => {
           <div className="bg-white rounded-xl border border-navy-100 p-6">
             <div className="flex items-center gap-2 mb-4">
               <Globe className="w-5 h-5 text-navy-700" />
-              <h3 className="text-sm font-bold text-navy-800">Choose Your Domain</h3>
+              <h3 className="text-sm font-bold text-navy-800">{t('wbChooseDomainTitle', language)}</h3>
             </div>
             <div className="space-y-3">
               <div>
-                <label className="text-[10px] font-semibold text-navy-600 mb-1 block">Free Subdomain</label>
+                <label className="text-[10px] font-semibold text-navy-600 mb-1 block">{t('wbFreeSubdomain', language)}</label>
                 <div className="flex items-center gap-0">
                   <input value={domain || suggestedDomain} onChange={e => setDomain(e.target.value)}
                     className="flex-1 px-3 py-2.5 bg-navy-50 border border-navy-100 rounded-l-lg text-[12px] text-navy-700 focus:outline-none focus:ring-1 focus:ring-teal-500" />
@@ -228,11 +228,11 @@ export const WebsiteBuilder = () => {
                 </div>
                 <div className="flex items-center gap-1 mt-1.5">
                   <Check className="w-3 h-3 text-teal-600" />
-                  <span className="text-[10px] text-teal-600 font-medium">Available! Free with your plan</span>
+                  <span className="text-[10px] text-teal-600 font-medium">{t('wbFreeAvailable', language)}</span>
                 </div>
               </div>
               <div className="border-t border-navy-100 pt-3">
-                <label className="text-[10px] font-semibold text-navy-600 mb-1 block">Custom Domain (Optional)</label>
+                <label className="text-[10px] font-semibold text-navy-600 mb-1 block">{t('wbCustomDomain', language)}</label>
                 <div className="grid grid-cols-3 gap-2">
                   {['.com', '.in', '.co.in'].map(ext => (
                     <button key={ext} onClick={() => setDomainSuffix(ext)}
@@ -242,16 +242,16 @@ export const WebsiteBuilder = () => {
                   ))}
                 </div>
                 <p className="text-[9px] text-navy-400 mt-2 flex items-center gap-1">
-                  <ShoppingCart className="w-3 h-3" /> Custom domains start at ₹799/year. You can purchase after build.
+                  <ShoppingCart className="w-3 h-3" /> {t('wbCustomDomainDesc', language)}
                 </p>
               </div>
             </div>
           </div>
           <div className="flex gap-3">
-            <button onClick={() => setStep(1)} className="px-4 py-2 text-xs font-semibold text-navy-600 bg-navy-50 rounded-lg hover:bg-navy-100">Back</button>
+            <button onClick={() => setStep(1)} className="px-4 py-2 text-xs font-semibold text-navy-600 bg-navy-50 rounded-lg hover:bg-navy-100">{t('back', language)}</button>
             <button onClick={() => { setBuildLogs([]); setBuildProgress(0); setStep(3); }}
               className="px-6 py-2.5 bg-teal-600 text-white text-xs font-semibold rounded-lg hover:bg-teal-700 flex items-center gap-2">
-              <Rocket className="w-3.5 h-3.5" /> Build My Website
+              <Rocket className="w-3.5 h-3.5" /> {t('wbBuildWebsite', language)}
             </button>
           </div>
         </motion.div>
@@ -263,7 +263,7 @@ export const WebsiteBuilder = () => {
           <div className="bg-navy-800 rounded-xl p-6 text-white">
             <div className="flex items-center gap-2 mb-4">
               <Loader2 className="w-5 h-5 text-teal-400 animate-spin" />
-              <h3 className="text-sm font-bold">Building your website...</h3>
+              <h3 className="text-sm font-bold">{t('wbBuilding', language)}</h3>
               <span className="ml-auto text-[11px] text-teal-300 font-bold">{buildProgress}%</span>
             </div>
             <div className="w-full bg-white/10 rounded-full h-2 mb-4">
@@ -286,20 +286,20 @@ export const WebsiteBuilder = () => {
             <div className="w-14 h-14 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-3">
               <Check className="w-7 h-7 text-white" />
             </div>
-            <h2 className="text-lg font-bold mb-1">Your Website is Live! 🎉</h2>
+            <h2 className="text-lg font-bold mb-1">{t('wbLiveTitle', language)}</h2>
             <p className="text-[11px] text-teal-100 mb-3">
               {(domain || suggestedDomain)}{domainSuffix}
             </p>
             <div className="flex items-center justify-center gap-3">
               <button className="px-4 py-2 bg-white text-teal-700 text-xs font-semibold rounded-lg hover:bg-teal-50 flex items-center gap-1.5">
-                <ExternalLink className="w-3.5 h-3.5" /> Visit Website
+                <ExternalLink className="w-3.5 h-3.5" /> {t('wbVisitWebsite', language)}
               </button>
               <button className="px-4 py-2 bg-white/20 text-white text-xs font-semibold rounded-lg hover:bg-white/30 flex items-center gap-1.5">
-                <Eye className="w-3.5 h-3.5" /> Preview
+                <Eye className="w-3.5 h-3.5" /> {t('preview', language)}
               </button>
             </div>
           </div>
-          <WebsitePreview template={selectedTemplate} businessData={businessData} sections={selectedTemplate?.sections || []} viewMode="desktop" />
+          <WebsitePreview template={selectedTemplate} businessData={businessData} sections={selectedTemplate?.sections || []} viewMode="desktop" language={language} />
         </motion.div>
       )}
     </div>

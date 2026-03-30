@@ -18,17 +18,18 @@ const GUEST_CREDITS = 5;
 
 /* ─── Template Cards ─── */
 const templateCards = [
-  { id: 1, title: 'Optimize Website SEO', desc: 'Get personalized SEO audit & actionable recommendations', category: 'SEO', icons: ['🔍', '📊'], prompt: 'Analyze my website SEO and give me top recommendations to improve search rankings' },
-  { id: 2, title: 'Social Media Strategy', desc: 'Build a 30-day content calendar across social platforms', category: 'Social Media', icons: ['📱', '📅'], prompt: 'Create a 30-day social media content calendar for my business' },
-  { id: 3, title: 'Generate More Leads', desc: 'Discover lead magnets & capture strategies for your industry', category: 'Lead Generation', icons: ['🎯', '💡'], prompt: 'Suggest lead generation strategies and lead magnets for my business category' },
-  { id: 4, title: 'Competitor Deep Dive', desc: 'Analyze competitor strategies and gaps you can exploit', category: 'Analytics', icons: ['🔎', '⚔️'], prompt: 'Do a competitor analysis and identify gaps I can exploit in my market' },
-  { id: 5, title: 'Boost Online Reviews', desc: 'Strategy to improve Google ratings and reputation', category: 'Digital Presence', icons: ['⭐', '💬'], prompt: 'Create a plan to get more positive Google reviews and improve my online reputation' },
-  { id: 6, title: 'Launch Ad Campaign', desc: 'Design targeted ad campaigns with ROI projections', category: 'Content', icons: ['📢', '💰'], prompt: 'Help me design an effective advertising campaign for my business with budget recommendations' },
-  { id: 7, title: 'Content Strategy', desc: 'Plan high-impact content that drives traffic', category: 'Content', icons: ['✍️', '🚀'], prompt: 'Create a content strategy plan that will drive traffic and engagement to my business' },
-  { id: 8, title: 'Growth Roadmap', desc: 'Complete step-by-step action plan for online growth', category: 'Lead Generation', icons: ['🗺️', '📈'], prompt: 'Create a complete growth roadmap with milestones for my business for the next 3 months' },
+  { id: 1, category: 'SEO', icons: ['🔍', '📊'], prompt: 'Analyze my website SEO and give me top recommendations to improve search rankings' },
+  { id: 2, category: 'Social Media', icons: ['📱', '📅'], prompt: 'Create a 30-day social media content calendar for my business' },
+  { id: 3, category: 'Lead Generation', icons: ['🎯', '💡'], prompt: 'Suggest lead generation strategies and lead magnets for my business category' },
+  { id: 4, category: 'Analytics', icons: ['🔎', '⚔️'], prompt: 'Do a competitor analysis and identify gaps I can exploit in my market' },
+  { id: 5, category: 'Digital Presence', icons: ['⭐', '💬'], prompt: 'Create a plan to get more positive Google reviews and improve my online reputation' },
+  { id: 6, category: 'Content', icons: ['📢', '💰'], prompt: 'Help me design an effective advertising campaign for my business with budget recommendations' },
+  { id: 7, category: 'Content', icons: ['✍️', '🚀'], prompt: 'Create a content strategy plan that will drive traffic and engagement to my business' },
+  { id: 8, category: 'Lead Generation', icons: ['🗺️', '📈'], prompt: 'Create a complete growth roadmap with milestones for my business for the next 3 months' },
 ];
 
 const categories = ['All', 'Lead Generation', 'Digital Presence', 'Social Media', 'SEO', 'Content', 'Analytics'];
+const catKeyMap = { 'All': 'catAll', 'Lead Generation': 'catLeadGen', 'Digital Presence': 'catDigitalPresence', 'Social Media': 'catSocialMedia', 'SEO': 'catSEO', 'Content': 'catContent', 'Analytics': 'catAnalytics' };
 
 /* ─── Detect actionable intents → auto-create workflows ─── */
 const detectWorkflowIntent = (text) => {
@@ -118,16 +119,16 @@ const SignupPrompt = ({ open, onClose, language, onSignup }) => {
           </div>
           <p className="text-[11px] text-navy-400 mb-4">{t('signupCopilotDesc', language)}</p>
           <form onSubmit={handleSubmit} className="space-y-3">
-            <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="Email"
+            <input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder={t('lpEmailField', language)}
               className="w-full px-3 py-2 bg-navy-50 border border-navy-100 rounded-lg text-[11px] text-navy-700 focus:outline-none focus:ring-1 focus:ring-teal-500" />
-            <input type="password" required value={password} onChange={e => setPassword(e.target.value)} placeholder="Password"
+            <input type="password" required value={password} onChange={e => setPassword(e.target.value)} placeholder={t('lpPasswordField', language)}
               className="w-full px-3 py-2 bg-navy-50 border border-navy-100 rounded-lg text-[11px] text-navy-700 focus:outline-none focus:ring-1 focus:ring-teal-500" />
             <button type="submit" className="w-full py-2.5 bg-teal-600 text-white text-xs font-semibold rounded-lg hover:bg-teal-700 flex items-center justify-center gap-1.5">
               <UserPlus className="w-3.5 h-3.5" /> {t('signUpFree', language)}
             </button>
           </form>
           <div className="mt-3 grid grid-cols-3 gap-1.5">
-            {['🚀 Agent Mode', '🎤 Voice Chat', '📊 Lead Manager'].map((f, i) => (
+            {[t('doSignupFeature1', language), t('doSignupFeature2', language), t('doSignupFeature3', language)].map((f, i) => (
               <div key={i} className="text-center p-1.5 bg-navy-50 rounded-lg"><span className="text-[8px] text-navy-600 font-medium">{f}</span></div>
             ))}
           </div>
@@ -138,7 +139,7 @@ const SignupPrompt = ({ open, onClose, language, onSignup }) => {
 };
 
 /* ─── Activity Preview Panel (Right Side — Lovable-style) ─── */
-const ActivityPreviewPanel = ({ activities, workflows }) => {
+const ActivityPreviewPanel = ({ activities, workflows, language }) => {
   const [expandedAct, setExpandedAct] = useState(null);
 
   if (activities.length === 0 && workflows.length === 0) {
@@ -147,8 +148,8 @@ const ActivityPreviewPanel = ({ activities, workflows }) => {
         <div className="w-14 h-14 bg-navy-50 rounded-2xl flex items-center justify-center mb-3">
           <Activity className="w-6 h-6 text-navy-300" />
         </div>
-        <h4 className="text-[12px] font-bold text-navy-600 mb-1">Live Activity Preview</h4>
-        <p className="text-[10px] text-navy-400 max-w-[200px]">Start a conversation and watch your marketing activities come alive here</p>
+        <h4 className="text-[12px] font-bold text-navy-600 mb-1">{t('doActivityTitle', language)}</h4>
+        <p className="text-[10px] text-navy-400 max-w-[200px]">{t('doActivityDesc', language)}</p>
       </div>
     );
   }
@@ -157,7 +158,7 @@ const ActivityPreviewPanel = ({ activities, workflows }) => {
     <div className="p-3 space-y-3 overflow-y-auto h-full">
       {workflows.length > 0 && (
         <div>
-          <p className="text-[9px] font-bold text-navy-400 uppercase tracking-wider mb-2 px-1">Auto-Created Workflows</p>
+          <p className="text-[9px] font-bold text-navy-400 uppercase tracking-wider mb-2 px-1">{t('doAutoWorkflows', language)}</p>
           {workflows.slice(0, 4).map((wf, i) => (
             <motion.div key={i} {...fade(i)} className="mb-2 bg-white rounded-xl border border-teal-200 p-3 relative overflow-hidden">
               <div className="absolute inset-0 overflow-hidden"><div className="absolute inset-0 bg-gradient-to-r from-transparent via-teal-100/30 to-transparent" style={{ animation: 'shimmer 2s infinite' }} /></div>
@@ -167,7 +168,7 @@ const ActivityPreviewPanel = ({ activities, workflows }) => {
                   <div className="flex-1">
                     <p className="text-[11px] font-bold text-navy-800">{wf.name}</p>
                     <p className="text-[9px] text-teal-600 font-medium flex items-center gap-1">
-                      <span className="w-1.5 h-1.5 bg-teal-500 rounded-full animate-pulse" /> Running
+                      <span className="w-1.5 h-1.5 bg-teal-500 rounded-full animate-pulse" /> {t('running', language)}
                     </p>
                   </div>
                 </div>
@@ -189,7 +190,7 @@ const ActivityPreviewPanel = ({ activities, workflows }) => {
       )}
       {activities.length > 0 && (
         <div>
-          <p className="text-[9px] font-bold text-navy-400 uppercase tracking-wider mb-2 px-1">Live Activities</p>
+          <p className="text-[9px] font-bold text-navy-400 uppercase tracking-wider mb-2 px-1">{t('doLiveActivities', language)}</p>
           {activities.map((act, i) => (
             <motion.div key={i} {...fade(i)}
               className="mb-2 bg-white rounded-xl border border-navy-100 overflow-hidden cursor-pointer hover:border-navy-200"
@@ -255,16 +256,16 @@ const ChatView = ({ messages, loading, input, setInput, handleSend, mode, setMod
           <button onClick={onBack} className="p-1.5 rounded-lg hover:bg-navy-50"><ArrowLeft className="w-4 h-4 text-navy-500" /></button>
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-gradient-to-br from-teal-500 to-teal-600 rounded-lg flex items-center justify-center"><Sparkles className="w-4 h-4 text-white" /></div>
-            <div><h3 className="text-sm font-bold text-navy-800">{t('copilot', language)}</h3><p className="text-[10px] text-navy-400">Powered by GROQ AI</p></div>
+            <div><h3 className="text-sm font-bold text-navy-800">{t('copilot', language)}</h3><p className="text-[10px] text-navy-400">{t('doPoweredBy', language)}</p></div>
           </div>
           <div className="ml-auto flex items-center gap-2">
-            {!isAuthenticated && <span className="text-[10px] font-medium text-navy-400 bg-navy-50 px-2 py-1 rounded-full">{guestCreditsLeft} left</span>}
+            {!isAuthenticated && <span className="text-[10px] font-medium text-navy-400 bg-navy-50 px-2 py-1 rounded-full">{guestCreditsLeft} {t('doLeft', language)}</span>}
             <button onClick={() => setMode('chat')} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold ${mode === 'chat' ? 'bg-navy-700 text-white' : 'bg-navy-50 text-navy-500 hover:bg-navy-100'}`}>
-              <MessageCircle className="w-3 h-3" /> Chat
+              <MessageCircle className="w-3 h-3" /> {t('doChat', language)}
             </button>
             <button onClick={handleAgentClick} className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold ${!isAuthenticated ? 'bg-navy-50 text-navy-300 cursor-not-allowed' : mode === 'agent' ? 'bg-teal-600 text-white' : 'bg-navy-50 text-navy-500 hover:bg-navy-100'}`}>
-              {!isAuthenticated ? <Lock className="w-3 h-3" /> : <Zap className="w-3 h-3" />} Agent
-              {!isAuthenticated && <span className="text-[8px] bg-yellow-100 text-yellow-700 px-1 rounded ml-1">PRO</span>}
+              {!isAuthenticated ? <Lock className="w-3 h-3" /> : <Zap className="w-3 h-3" />} {t('doAgent', language)}
+              {!isAuthenticated && <span className="text-[8px] bg-yellow-100 text-yellow-700 px-1 rounded ml-1">{t('pro', language)}</span>}
             </button>
           </div>
         </div>
@@ -306,7 +307,7 @@ const ChatView = ({ messages, loading, input, setInput, handleSend, mode, setMod
             )}
             <input value={input} onChange={e => setInput(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) handleSend(); }} disabled={loading}
-              placeholder={listening ? '🎤 Listening...' : t('copilotPlaceholder', language)}
+              placeholder={listening ? t('doListening', language) : t('copilotPlaceholder', language)}
               className="flex-1 bg-transparent text-[13px] text-navy-700 placeholder:text-navy-300 focus:outline-none disabled:opacity-50" />
             <button onClick={() => handleSend()} disabled={loading || !input.trim()}
               className={`w-9 h-9 rounded-lg flex items-center justify-center disabled:opacity-40 ${mode === 'agent' ? 'bg-teal-600 hover:bg-teal-700' : 'bg-navy-700 hover:bg-navy-800'}`}>
@@ -318,7 +319,7 @@ const ChatView = ({ messages, loading, input, setInput, handleSend, mode, setMod
               <div className="flex items-center gap-0.5">{[1,2,3,4,5].map(i => (
                 <motion.div key={i} className="w-0.5 bg-red-400 rounded-full" animate={{ height: [4, 12, 4] }} transition={{ repeat: Infinity, duration: 0.6, delay: i * 0.1 }} />
               ))}</div>
-              <span className="text-[11px] text-red-600 font-medium">Listening... speak now</span>
+              <span className="text-[11px] text-red-600 font-medium">{t('doListening', language)}</span>
             </motion.div>
           )}
         </div>
@@ -327,14 +328,14 @@ const ChatView = ({ messages, loading, input, setInput, handleSend, mode, setMod
       {/* Right: Activity Preview */}
       <div className="hidden lg:flex flex-col w-[300px] border-l border-navy-100 bg-navy-50/30">
         <div className="px-3 py-2.5 border-b border-navy-100 flex items-center gap-1.5">
-          <Eye className="w-3.5 h-3.5 text-navy-400" /><span className="text-[10px] font-bold text-navy-600">Live Preview</span>
+          <Eye className="w-3.5 h-3.5 text-navy-400" /><span className="text-[10px] font-bold text-navy-600">{t('doLivePreview', language)}</span>
           {(activities.length > 0 || workflows.length > 0) && (
             <span className="ml-auto flex items-center gap-1 text-[8px] font-bold text-teal-600">
-              <span className="w-1.5 h-1.5 bg-teal-500 rounded-full animate-pulse" /> Active
+              <span className="w-1.5 h-1.5 bg-teal-500 rounded-full animate-pulse" /> {t('active', language)}
             </span>
           )}
         </div>
-        <div className="flex-1 overflow-hidden"><ActivityPreviewPanel activities={activities} workflows={workflows} /></div>
+        <div className="flex-1 overflow-hidden"><ActivityPreviewPanel activities={activities} workflows={workflows} language={language} /></div>
       </div>
     </div>
   );
@@ -353,7 +354,7 @@ const HeroInput = ({ input, setInput, handleSend, mode, handleAgentToggle, isAut
       <div className="p-4">
         <textarea value={input} onChange={e => setInput(e.target.value)}
           onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
-          placeholder={listening ? '🎤 Listening... speak naturally' : (language === 'en' ? 'Ask me anything about growing your business...' : t('copilotPlaceholder', language))}
+          placeholder={listening ? t('doListening', language) : t('doAskAnything', language)}
           rows={3} className="w-full bg-transparent text-[14px] text-navy-700 placeholder:text-navy-300 focus:outline-none resize-none leading-relaxed" />
       </div>
       {listening && (
@@ -362,7 +363,7 @@ const HeroInput = ({ input, setInput, handleSend, mode, handleAgentToggle, isAut
             <div className="flex items-center gap-0.5">{[1,2,3,4,5].map(i => (
               <motion.div key={i} className="w-0.5 bg-red-400 rounded-full" animate={{ height: [4, 14, 4] }} transition={{ repeat: Infinity, duration: 0.5, delay: i * 0.08 }} />
             ))}</div>
-            <span className="text-[11px] text-red-600 font-medium">Listening... speak now</span>
+            <span className="text-[11px] text-red-600 font-medium">{t('doListening', language)}</span>
           </div>
         </div>
       )}
@@ -379,13 +380,13 @@ const HeroInput = ({ input, setInput, handleSend, mode, handleAgentToggle, isAut
           <button onClick={handleAgentToggle}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold ${
               !isAuthenticated ? 'bg-navy-50 text-navy-300' : mode === 'agent' ? 'bg-teal-600 text-white shadow-sm' : 'bg-navy-50 text-navy-500 hover:bg-navy-100'}`}>
-            {!isAuthenticated ? <Lock className="w-3 h-3" /> : <Zap className="w-3 h-3" />} AI Agent
-            {!isAuthenticated && <span className="text-[8px] bg-yellow-100 text-yellow-700 px-1 rounded ml-0.5">PRO</span>}
+            {!isAuthenticated ? <Lock className="w-3 h-3" /> : <Zap className="w-3 h-3" />} {t('doAiAgent', language)}
+            {!isAuthenticated && <span className="text-[8px] bg-yellow-100 text-yellow-700 px-1 rounded ml-0.5">{t('pro', language)}</span>}
           </button>
         </div>
         <button onClick={() => handleSend()} disabled={loading || !input.trim()}
           className="flex items-center gap-2 px-5 py-2 bg-navy-700 text-white text-[12px] font-semibold rounded-xl hover:bg-navy-800 disabled:opacity-40 disabled:cursor-not-allowed">
-          <Send className="w-3.5 h-3.5" /> Send
+          <Send className="w-3.5 h-3.5" /> {t('send', language)}
         </button>
       </div>
     </div>
@@ -481,17 +482,17 @@ export const DashboardOverview = () => {
       {!isAuthenticated && (
         <motion.div {...fade(0)} className="mb-4 flex items-center gap-3 px-4 py-2.5 bg-navy-700 rounded-xl">
           <Sparkles className="w-4 h-4 text-teal-400" />
-          <p className="text-[11px] text-navy-100 flex-1">You have <span className="font-bold text-teal-300">{guestCreditsLeft} free questions</span> remaining. Sign up for unlimited access + voice mode!</p>
-          <button onClick={() => setShowSignup(true)} className="px-3 py-1.5 bg-teal-600 text-white text-[10px] font-semibold rounded-lg hover:bg-teal-700">Sign Up Free</button>
+          <p className="text-[11px] text-navy-100 flex-1">{t('doGuestBanner', language).replace('{n}', guestCreditsLeft)}</p>
+          <button onClick={() => setShowSignup(true)} className="px-3 py-1.5 bg-teal-600 text-white text-[10px] font-semibold rounded-lg hover:bg-teal-700">{t('signUpFree', language)}</button>
         </motion.div>
       )}
 
       <motion.div {...fade(0)} className="text-center mb-8">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-teal-50 border border-teal-200 rounded-full mb-5">
-          <Sparkles className="w-3.5 h-3.5 text-teal-600" /><span className="text-[11px] font-semibold text-teal-700">AI-Powered Business Growth</span>
+          <Sparkles className="w-3.5 h-3.5 text-teal-600" /><span className="text-[11px] font-semibold text-teal-700">{t('doHeroBadge', language)}</span>
         </div>
-        <h1 className="text-2xl md:text-3xl font-bold text-navy-800 leading-tight mb-3">Your AI Growth Assistant is ready.<br /><span className="text-teal-600">What's your next move?</span></h1>
-        <p className="text-sm text-navy-400 max-w-lg mx-auto">🚀 Ask anything about leads, SEO, social media, or get a complete growth plan for <span className="font-semibold text-navy-600">{businessData?.businessName || 'your business'}</span></p>
+        <h1 className="text-2xl md:text-3xl font-bold text-navy-800 leading-tight mb-3">{t('doHeroTitle', language)}<br /><span className="text-teal-600">{t('doHeroSubtitle', language)}</span></h1>
+        <p className="text-sm text-navy-400 max-w-lg mx-auto">{t('doHeroDesc', language).replace('{name}', businessData?.businessName || '')}</p>
       </motion.div>
 
       <motion.div {...fade(1)} className="mb-8">
@@ -507,7 +508,7 @@ export const DashboardOverview = () => {
         {categories.map(cat => (
           <button key={cat} onClick={() => setActiveCategory(cat)}
             className={`px-4 py-2 rounded-full text-[12px] font-medium transition-all ${activeCategory === cat ? 'bg-navy-700 text-white shadow-sm' : 'bg-white text-navy-500 border border-navy-100 hover:border-navy-200 hover:text-navy-700'}`}>
-            {cat}
+            {t(catKeyMap[cat], language)}
           </button>
         ))}
       </motion.div>
@@ -521,8 +522,8 @@ export const DashboardOverview = () => {
                 <span key={j} className="w-7 h-7 rounded-full bg-navy-50 flex items-center justify-center text-sm group-hover:scale-110 transition-transform">{icon}</span>
               ))}
             </div>
-            <h4 className="text-[13px] font-bold text-navy-800 mb-1 group-hover:text-teal-700">{tmpl.title}</h4>
-            <p className="text-[11px] text-navy-400 leading-relaxed line-clamp-2">{tmpl.desc}</p>
+            <h4 className="text-[13px] font-bold text-navy-800 mb-1 group-hover:text-teal-700">{t(`doTmpl${tmpl.id}Title`, language)}</h4>
+            <p className="text-[11px] text-navy-400 leading-relaxed line-clamp-2">{t(`doTmpl${tmpl.id}Desc`, language)}</p>
           </motion.button>
         ))}
       </motion.div>
@@ -538,8 +539,8 @@ export const DashboardOverview = () => {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4 text-navy-400" />
-              <h3 className="text-[13px] font-bold text-navy-700">Chat History</h3>
-              <span className="text-[9px] bg-navy-100 text-navy-500 px-2 py-0.5 rounded-full font-medium">{chatHistory.length} conversations</span>
+              <h3 className="text-[13px] font-bold text-navy-700">{t('doChatHistory', language)}</h3>
+              <span className="text-[9px] bg-navy-100 text-navy-500 px-2 py-0.5 rounded-full font-medium">{chatHistory.length} {t('doChatConversations', language)}</span>
             </div>
           </div>
           <div className="space-y-2">
@@ -552,7 +553,7 @@ export const DashboardOverview = () => {
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="text-[12px] font-semibold text-navy-700 truncate group-hover:text-teal-700 transition-colors">{chat.title}</p>
-                  <p className="text-[10px] text-navy-300 mt-0.5">{chat.messages?.length || 0} messages • {new Date(chat.updatedAt).toLocaleDateString()}</p>
+                  <p className="text-[10px] text-navy-300 mt-0.5">{chat.messages?.length || 0} {t('doChatMessages', language)} • {new Date(chat.updatedAt).toLocaleDateString()}</p>
                 </div>
                 <ChevronRight className="w-3.5 h-3.5 text-navy-200 group-hover:text-teal-500 flex-shrink-0 transition-colors" />
               </motion.button>

@@ -177,7 +177,7 @@ export const AnalyticsDashboard = () => {
                 </svg>
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
                   <span className="text-3xl font-bold">{digitalPresence.overall}</span>
-                  <span className="text-[9px] text-navy-200">/ 100</span>
+                  <span className="text-[9px] text-navy-200">{t('dlScoreOf', language)}</span>
                 </div>
               </div>
               {/* Breakdown gauges */}
@@ -194,7 +194,7 @@ export const AnalyticsDashboard = () => {
             {/* You vs Competitors bar */}
             <div className="mt-4 pt-3 border-t border-white/10">
               <div className="flex items-center justify-between text-[10px] mb-1.5">
-                <span className="text-navy-200">#{userPosition} of {leaderboard.length} — {t('yourBusiness', language)} vs {t('competitors', language)} avg</span>
+                <span className="text-navy-200">#{userPosition} {t('of', language)} {leaderboard.length} — {t('yourBusiness', language)} vs {t('competitors', language)} avg</span>
                 <span className="font-bold">{userScore} <span className="text-navy-300 font-normal">vs</span> {avgCompScore}</span>
               </div>
               <div className="flex gap-1 h-2 rounded-full overflow-hidden bg-white/10">
@@ -202,8 +202,8 @@ export const AnalyticsDashboard = () => {
                 <div className="bg-white/30 rounded-full" style={{ width: `${avgCompScore}%` }} />
               </div>
               <div className="flex justify-between text-[9px] text-navy-300 mt-1">
-                <span>You: {userScore}</span>
-                <span>Avg: {avgCompScore}</span>
+                <span>{t('adYouLabel', language)} {userScore}</span>
+                <span>{t('adAvgLabel', language)} {avgCompScore}</span>
               </div>
             </div>
           </motion.div>
@@ -213,7 +213,7 @@ export const AnalyticsDashboard = () => {
             {[
               { icon: Eye, label: t('monthlyVisits', language), value: last?.visits?.toLocaleString(), delta: `${visitDelta > 0 ? '+' : ''}${visitDelta}%`, up: visitDelta >= 0 },
               { icon: MousePointer, label: t('leadsGenerated', language), value: last?.leads, delta: `${leadDelta > 0 ? '+' : ''}${leadDelta}%`, up: leadDelta >= 0 },
-              { icon: Activity, label: 'Conversion Rate', value: `${convRate}%`, delta: '', up: true },
+              { icon: Activity, label: t('adConversionRate', language), value: `${convRate}%`, delta: '', up: true },
               { icon: Users, label: t('totalFollowers', language), value: socialMedia.platforms.reduce((a, p) => a + p.followers, 0).toLocaleString(), delta: '+16%', up: true },
             ].map((s, i) => (
               <motion.div key={i} {...fade(i)} className="bg-white rounded-xl border border-navy-100 p-4">
@@ -242,11 +242,11 @@ export const AnalyticsDashboard = () => {
               <MapContainer center={[bizLat, bizLng]} zoom={14} style={{ height: '100%', width: '100%' }} scrollWheelZoom={false}>
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; OpenStreetMap' />
                 <Marker position={[bizLat, bizLng]} icon={redIcon}>
-                  <Popup><strong>{businessData?.businessName || 'Your Business'}</strong><br />Score: {userScore}</Popup>
+                  <Popup><strong>{businessData?.businessName || t('yourBusiness', language)}</strong><br />{t('adScore', language)} {userScore}</Popup>
                 </Marker>
                 {competitorPositions.map((c, i) => (
                   <Marker key={i} position={[c.lat, c.lng]} icon={blueIcon}>
-                    <Popup><strong>{c.name}</strong><br />Score: {c.score}<br />Reviews: {c.reviews}</Popup>
+                    <Popup><strong>{c.name}</strong><br />{t('adScore', language)} {c.score}<br />{t('adReviews', language)} {c.reviews}</Popup>
                   </Marker>
                 ))}
               </MapContainer>
@@ -262,7 +262,7 @@ export const AnalyticsDashboard = () => {
               <table className="w-full">
                 <thead className="bg-navy-50">
                   <tr>
-                    {['#', t('competitors', language), 'Score', 'Web', 'Social', t('reviewCount', language)].map(h => (
+                    {['#', t('competitors', language), t('adScore', language), t('adWeb', language), t('adSocial', language), t('reviewCount', language)].map(h => (
                       <th key={h} className="px-4 py-2.5 text-left text-[10px] font-semibold text-navy-500 uppercase">{h}</th>
                     ))}
                   </tr>
@@ -279,7 +279,7 @@ export const AnalyticsDashboard = () => {
                       <td className="px-4 py-2.5">
                         <div className="flex items-center gap-1.5">
                           <span className={`text-[11px] font-semibold ${it.isUser ? 'text-teal-700' : 'text-navy-800'}`}>{it.name}</span>
-                          {it.isUser && <span className="text-[9px] font-bold bg-teal-100 text-teal-700 px-1 py-0.5 rounded">You</span>}
+                          {it.isUser && <span className="text-[9px] font-bold bg-teal-100 text-teal-700 px-1 py-0.5 rounded">{t('adYouBadge', language)}</span>}
                         </div>
                       </td>
                       <td className="px-4 py-2.5">
@@ -310,10 +310,10 @@ export const AnalyticsDashboard = () => {
           <div className="grid lg:grid-cols-3 gap-4">
             <motion.div {...fade()} className="lg:col-span-2 bg-white rounded-xl border border-navy-100 p-5">
               <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-bold text-navy-800">Traffic & Leads</h3>
+                <h3 className="text-sm font-bold text-navy-800">{t('adTrafficLeads', language)}</h3>
                 <div className="flex items-center gap-3 text-[10px]">
-                  <span className="flex items-center gap-1"><span className="w-2 h-2 bg-navy-700 rounded-full" /> Visits</span>
-                  <span className="flex items-center gap-1"><span className="w-2 h-2 bg-teal-500 rounded-full" /> Leads</span>
+                  <span className="flex items-center gap-1"><span className="w-2 h-2 bg-navy-700 rounded-full" /> {t('adVisits', language)}</span>
+                  <span className="flex items-center gap-1"><span className="w-2 h-2 bg-teal-500 rounded-full" /> {t('adLeads', language)}</span>
                 </div>
               </div>
               <ResponsiveContainer width="100%" height={220}>
@@ -326,8 +326,8 @@ export const AnalyticsDashboard = () => {
                   <XAxis dataKey="month" tick={{ fontSize: 10, fill: '#8da5cd' }} axisLine={false} tickLine={false} />
                   <YAxis tick={{ fontSize: 10, fill: '#8da5cd' }} axisLine={false} tickLine={false} />
                   <Tooltip contentStyle={{ borderRadius: 8, border: '1px solid #e8ecf3', fontSize: 11 }} />
-                  <Area type="monotone" dataKey="visits" stroke="#1e2f52" strokeWidth={2} fill="url(#aV)" name="Visits" />
-                  <Area type="monotone" dataKey="leads" stroke="#14a88a" strokeWidth={2} fill="url(#aL)" name="Leads" />
+                  <Area type="monotone" dataKey="visits" stroke="#1e2f52" strokeWidth={2} fill="url(#aV)" name={t('adVisits', language)} />
+                  <Area type="monotone" dataKey="leads" stroke="#14a88a" strokeWidth={2} fill="url(#aL)" name={t('adLeads', language)} />
                 </AreaChart>
               </ResponsiveContainer>
             </motion.div>
@@ -352,7 +352,7 @@ export const AnalyticsDashboard = () => {
           {/* ── Social + Geo ── */}
           <div className="grid lg:grid-cols-2 gap-4">
             <motion.div {...fade()} className="bg-white rounded-xl border border-navy-100 p-5">
-              <h3 className="text-sm font-bold text-navy-800 mb-3">Social Media</h3>
+              <h3 className="text-sm font-bold text-navy-800 mb-3">{t('adSocialMedia', language)}</h3>
               <div className="space-y-2">
                 {socialMedia.platforms.map((p, i) => {
                   const maxFollowers = Math.max(...socialMedia.platforms.map(pl => pl.followers));
@@ -414,7 +414,7 @@ export const AnalyticsDashboard = () => {
               )) : (
                 <div className="p-3 bg-teal-50 rounded-lg border border-teal-100 text-center">
                   <Check className="w-5 h-5 text-teal-600 mx-auto mb-1" />
-                  <p className="text-[11px] font-semibold text-teal-700">Looking good!</p>
+                  <p className="text-[11px] font-semibold text-teal-700">{t('adLookingGood', language)}</p>
                 </div>
               )}
             </div>

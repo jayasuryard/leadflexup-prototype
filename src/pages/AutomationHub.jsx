@@ -13,70 +13,36 @@ const fade = (i = 0) => ({ initial: { opacity: 0, y: 12 }, animate: { opacity: 1
 
 const statusColors = { running: 'border-teal-300', paused: 'border-yellow-300', error: 'border-red-300' };
 const statusBg = { running: 'bg-teal-500', paused: 'bg-yellow-500', error: 'bg-red-500' };
-const statusLabels = { running: 'Running', paused: 'Paused', error: 'Error' };
+const statusLabels = (language) => ({ running: t('running', language), paused: t('paused', language), error: t('error', language) });
 
 /* ─── Workflow Visual Preview Modal ─── */
-const WorkflowPreview = ({ workflow, onClose }) => {
+const WorkflowPreview = ({ workflow, onClose, language }) => {
   if (!workflow) return null;
 
-  const steps = {
-    social: [
-      { label: 'Content Calendar AI', status: 'done', detail: 'Generated 30 posts across Instagram, Facebook, LinkedIn', metric: '30 posts scheduled' },
-      { label: 'Design Generator', status: 'done', detail: 'Created visual templates matching brand guidelines', metric: '15 designs created' },
-      { label: 'Scheduling Engine', status: 'active', detail: 'Publishing at optimal engagement times using AI', metric: 'Next post in 2h' },
-      { label: 'Engagement Monitor', status: 'pending', detail: 'Track likes, comments, shares in real-time', metric: 'Waiting...' },
-      { label: 'Performance Optimizer', status: 'pending', detail: 'A/B test content and adjust strategy', metric: 'Waiting...' },
-    ],
-    reviews: [
-      { label: 'Customer Identifier', status: 'done', detail: 'Found 45 recent customers who had positive interactions', metric: '45 customers found' },
-      { label: 'Review Request Sender', status: 'done', detail: 'Sent personalized review requests via SMS + Email', metric: '45 sent' },
-      { label: 'Response Monitor', status: 'active', detail: 'Tracking incoming reviews across Google, FB, Yelp', metric: '18 received' },
-      { label: 'Sentiment Analyzer', status: 'pending', detail: 'Classify reviews and flag negative ones for response', metric: 'Waiting...' },
-      { label: 'Auto-Responder', status: 'pending', detail: 'Generate personalized responses to each review', metric: 'Waiting...' },
-    ],
-    email: [
-      { label: 'Audience Segmenter', status: 'done', detail: 'Segmented 500 contacts into 4 nurture tracks', metric: '4 segments' },
-      { label: 'Email Composer', status: 'done', detail: 'AI-written email sequences for each segment', metric: '12 emails ready' },
-      { label: 'A/B Tester', status: 'active', detail: 'Testing 3 subject line variations per segment', metric: '67% open rate leader' },
-      { label: 'Delivery Engine', status: 'active', detail: 'Sending drip emails at optimal times', metric: '128 sent today' },
-      { label: 'Conversion Tracker', status: 'pending', detail: 'Track clicks, sign-ups, and purchases', metric: '23 conversions' },
-    ],
-    seo: [
-      { label: 'Site Crawler', status: 'done', detail: 'Crawled 148 pages, analyzed structure and meta data', metric: '148 pages scanned' },
-      { label: 'Keyword Analyzer', status: 'done', detail: 'Identified 25 high-value keyword opportunities', metric: '25 opportunities' },
-      { label: 'Issue Fixer', status: 'active', detail: 'Auto-fixing meta tags, alt text, broken links', metric: '3 issues left' },
-      { label: 'Backlink Builder', status: 'pending', detail: 'Reaching out to relevant sites for link building', metric: 'Queued' },
-      { label: 'Rank Tracker', status: 'pending', detail: 'Monitor weekly ranking changes for target keywords', metric: 'Score: 72' },
-    ],
-    competitor: [
-      { label: 'Web Scanner', status: 'done', detail: 'Monitoring 5 competitors across web and social', metric: '5 competitors' },
-      { label: 'Price Monitor', status: 'active', detail: 'Tracking pricing changes and promotional activity', metric: '2 alerts today' },
-      { label: 'Content Analyzer', status: 'active', detail: 'Analyzing competitor content strategy and gaps', metric: 'Running...' },
-      { label: 'Opportunity Finder', status: 'pending', detail: 'Identifying market gaps you can exploit', metric: 'Analyzing...' },
-      { label: 'Report Generator', status: 'pending', detail: 'Weekly competitive intelligence PDF report', metric: 'Next: Monday' },
-    ],
-    chat: [
-      { label: 'Message Receiver', status: 'done', detail: 'Connected to WhatsApp Business API', metric: 'Always on' },
-      { label: 'Intent Classifier', status: 'active', detail: 'Understanding customer questions using NLP', metric: '84 handled' },
-      { label: 'Response Generator', status: 'active', detail: 'AI-crafted responses based on your FAQ and products', metric: '< 1m avg' },
-      { label: 'Handoff Manager', status: 'pending', detail: 'Escalate complex queries to human agents', metric: '3 escalated' },
-      { label: 'Analytics Reporter', status: 'pending', detail: 'Track conversation quality and customer satisfaction', metric: '4.7/5 avg' },
-    ],
-    billing: [
-      { label: 'Order Detector', status: 'done', detail: 'Listening for new orders from all channels', metric: '34 orders' },
-      { label: 'Invoice Creator', status: 'done', detail: 'Auto-generating GST-compliant invoices', metric: '34 created' },
-      { label: 'Payment Tracker', status: 'active', detail: 'Tracking payment status and sending reminders', metric: '2 pending' },
-      { label: 'Reconciler', status: 'pending', detail: 'Auto-reconcile payments with bank statements', metric: 'Daily sync' },
-      { label: 'Report Builder', status: 'pending', detail: 'Generate monthly revenue and tax reports', metric: 'Next: Apr 1' },
-    ],
-    ads: [
-      { label: 'Audience Builder', status: 'done', detail: 'Created lookalike audiences from existing customers', metric: '3 audiences' },
-      { label: 'Creative Generator', status: 'done', detail: 'AI-designed ad variations for each platform', metric: '12 creatives' },
-      { label: 'Campaign Launcher', status: 'active', detail: 'Running across Google Ads and Facebook Ads', metric: '₹12,400 spent' },
-      { label: 'Bid Optimizer', status: 'active', detail: 'Real-time bid adjustments for best CPA', metric: 'CPA: ₹326' },
-      { label: 'ROI Reporter', status: 'pending', detail: 'Track conversions and calculate true ROAS', metric: '38 leads' },
-    ],
+  const awfTypes = ['Social', 'Reviews', 'Email', 'Seo', 'Competitor', 'Chat', 'Billing', 'Ads'];
+  const awfTypeMap = { social: 'Social', reviews: 'Reviews', email: 'Email', seo: 'Seo', competitor: 'Competitor', chat: 'Chat', billing: 'Billing', ads: 'Ads' };
+  const buildSteps = (type) => {
+    const key = awfTypeMap[type] || 'Social';
+    const statuses = {
+      Social: ['done','done','active','pending','pending'],
+      Reviews: ['done','done','active','pending','pending'],
+      Email: ['done','done','active','active','pending'],
+      Seo: ['done','done','active','pending','pending'],
+      Competitor: ['done','active','active','pending','pending'],
+      Chat: ['done','active','active','pending','pending'],
+      Billing: ['done','done','active','pending','pending'],
+      Ads: ['done','done','active','active','pending'],
+    };
+    const s = statuses[key] || statuses.Social;
+    return [1,2,3,4,5].map((n, i) => ({
+      label: t(`awf${key}${n}Label`, language),
+      status: s[i],
+      detail: t(`awf${key}${n}Detail`, language),
+      metric: t(`awf${key}${n}Metric`, language),
+    }));
   };
+  const steps = {};
+  Object.keys(awfTypeMap).forEach(k => { steps[k] = buildSteps(k); });
 
   const workflowSteps = steps[workflow.type] || steps.social;
 
@@ -90,18 +56,18 @@ const WorkflowPreview = ({ workflow, onClose }) => {
           <span className="text-2xl">{workflow.icon}</span>
           <div className="flex-1">
             <h3 className="text-base font-bold text-navy-800">{workflow.name}</h3>
-            <p className="text-[11px] text-navy-400">{workflow.schedule} • Last run: {workflow.lastRun}</p>
+            <p className="text-[11px] text-navy-400">{workflow.schedule} • {t('last', language)} {workflow.lastRun}</p>
           </div>
           <span className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold text-white ${statusBg[workflow.status]}`}>
             {workflow.status === 'running' && <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" />}
-            {statusLabels[workflow.status]}
+            {statusLabels(language)[workflow.status]}
           </span>
           <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-navy-50"><X className="w-4 h-4 text-navy-400" /></button>
         </div>
 
         {/* Visual Pipeline */}
         <div className="p-6 overflow-y-auto" style={{ maxHeight: 'calc(85vh - 80px)' }}>
-          <p className="text-[10px] font-bold text-navy-400 uppercase tracking-wider mb-4">Internal Pipeline</p>
+          <p className="text-[10px] font-bold text-navy-400 uppercase tracking-wider mb-4">{t('autoPipeline', language)}</p>
           <div className="space-y-3">
             {workflowSteps.map((step, i) => (
               <motion.div key={i} initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}
@@ -130,7 +96,7 @@ const WorkflowPreview = ({ workflow, onClose }) => {
                       <h4 className={`text-[12px] font-bold ${step.status === 'done' ? 'text-teal-700' : step.status === 'active' ? 'text-navy-800' : 'text-navy-400'}`}>{step.label}</h4>
                       {step.status === 'active' && (
                         <span className="relative flex items-center gap-1 text-[8px] font-bold text-teal-600 bg-teal-50 px-1.5 py-0.5 rounded-full">
-                          <span className="w-1 h-1 bg-teal-500 rounded-full animate-pulse" /> In Progress
+                          <span className="w-1 h-1 bg-teal-500 rounded-full animate-pulse" /> {t('autoInProgress', language)}
                         </span>
                       )}
                     </div>
@@ -173,7 +139,7 @@ export const AutomationHub = () => {
     ...tasks,
     ...workflows.map(wf => ({
       id: wf.id, name: wf.name, status: wf.status || 'running', type: wf.type,
-      schedule: 'AI-Created', lastRun: 'Just now', icon: wf.icon,
+      schedule: t('autoAiCreated', language), lastRun: 'Just now', icon: wf.icon,
       isWorkflow: true, steps: wf.steps,
     }))
   ];
@@ -184,7 +150,7 @@ export const AutomationHub = () => {
   return (
     <div className="space-y-5">
       <AnimatePresence>
-        {previewTask && <WorkflowPreview workflow={previewTask} onClose={() => setPreviewTask(null)} />}
+        {previewTask && <WorkflowPreview workflow={previewTask} onClose={() => setPreviewTask(null)} language={language} />}
       </AnimatePresence>
 
       {/* Header */}
@@ -196,13 +162,12 @@ export const AutomationHub = () => {
           <div className="flex-1">
             <h1 className="text-lg font-bold mb-1">{t('automationHub', language)}</h1>
             <p className="text-[12px] text-navy-200 leading-relaxed max-w-xl">
-              Hey {businessData?.businessName || 'there'}! 👋 Your autonomous marketing engine is running.
-              Click any workflow to see what's happening inside — in real-time! 🚀
+              {t('autoHeroMsg', language).replace('{name}', businessData?.businessName || '')}
             </p>
           </div>
           <div className="text-right flex-shrink-0">
             <div className="text-3xl font-bold text-teal-400">{running}/{total}</div>
-            <p className="text-[10px] text-navy-300">Active Automations</p>
+            <p className="text-[10px] text-navy-300">{t('autoActiveCount', language)}</p>
           </div>
         </div>
         <div className="mt-4 w-full bg-white/10 rounded-full h-2">
@@ -213,10 +178,10 @@ export const AutomationHub = () => {
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
         {[
-          { icon: '📧', label: 'Emails Sent', value: '128', delta: '+23 this week' },
-          { icon: '⭐', label: 'Reviews Collected', value: '18', delta: '+5 this week' },
-          { icon: '📱', label: 'Posts Published', value: '32', delta: 'Auto-scheduled' },
-          { icon: '📢', label: 'Ad Spend', value: '₹12.4K', delta: '38 leads captured' },
+          { icon: '📧', label: t('autoStatEmails', language), value: '128', delta: t('autoStatEmailsDelta', language) },
+          { icon: '⭐', label: t('autoStatReviews', language), value: '18', delta: t('autoStatReviewsDelta', language) },
+          { icon: '📱', label: t('autoStatPosts', language), value: '32', delta: t('autoStatPostsDelta', language) },
+          { icon: '📢', label: t('autoStatAds', language), value: '₹12.4K', delta: t('autoStatAdsDelta', language) },
         ].map((stat, i) => (
           <motion.div key={i} {...fade(i)} className="bg-white rounded-xl border border-navy-100 p-4">
             <span className="text-lg">{stat.icon}</span>
@@ -232,13 +197,13 @@ export const AutomationHub = () => {
         <div>
           <div className="flex items-center gap-2 mb-3">
             <Sparkles className="w-4 h-4 text-teal-600" />
-            <h2 className="text-sm font-bold text-navy-800">AI-Created Workflows</h2>
-            <span className="text-[9px] bg-teal-50 text-teal-600 px-2 py-0.5 rounded-full font-semibold">Auto-generated from your conversations</span>
+            <h2 className="text-sm font-bold text-navy-800">{t('autoAiCreated', language)}</h2>
+            <span className="text-[9px] bg-teal-50 text-teal-600 px-2 py-0.5 rounded-full font-semibold">{t('autoAiCreatedBadge', language)}</span>
           </div>
           <div className="grid md:grid-cols-2 gap-3 mb-5">
             {workflows.map((wf, i) => (
               <motion.div key={wf.id} {...fade(i)}
-                onClick={() => setPreviewTask({ ...wf, schedule: 'AI-Created', lastRun: 'Just now' })}
+                onClick={() => setPreviewTask({ ...wf, schedule: t('autoAiCreated', language), lastRun: 'Just now' })}
                 className="bg-white rounded-xl border border-teal-200 p-4 cursor-pointer hover:shadow-lg transition-all relative overflow-hidden workflow-glow group">
                 {/* Shimmer overlay */}
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -250,17 +215,17 @@ export const AutomationHub = () => {
                     <div className="flex items-center gap-2">
                       <h3 className="text-[13px] font-bold text-navy-800">{wf.name}</h3>
                       <span className="flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[8px] font-bold text-white bg-teal-500">
-                        <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" /> Running
+                        <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" /> {t('running', language)}
                       </span>
                     </div>
-                    <p className="text-[10px] text-navy-400 mt-0.5">{wf.description || 'Autonomous workflow'}</p>
+                    <p className="text-[10px] text-navy-400 mt-0.5">{wf.description || t('autoAutonomousWf', language)}</p>
                     <div className="flex items-center gap-1 mt-2 flex-wrap">
                       {(wf.steps || []).slice(0, 3).map((step, j) => (
                         <span key={j} className={`text-[8px] px-1.5 py-0.5 rounded-full font-medium ${
                           j === 0 ? 'bg-teal-100 text-teal-700' : 'bg-navy-50 text-navy-400'
                         }`}>{step}</span>
                       ))}
-                      {(wf.steps || []).length > 3 && <span className="text-[8px] text-navy-300">+{wf.steps.length - 3} more</span>}
+                      {(wf.steps || []).length > 3 && <span className="text-[8px] text-navy-300">+{wf.steps.length - 3} {t('more', language)}</span>}
                     </div>
                   </div>
                   <Eye className="w-4 h-4 text-navy-300 group-hover:text-teal-600 transition-colors" />
@@ -287,14 +252,14 @@ export const AutomationHub = () => {
                     <h3 className="text-[13px] font-bold text-navy-800">{task.name}</h3>
                     <span className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[8px] font-bold text-white ${statusBg[task.status]}`}>
                       {task.status === 'running' ? <span className="w-1.5 h-1.5 bg-white rounded-full animate-pulse" /> : null}
-                      {statusLabels[task.status]}
+                      {statusLabels(language)[task.status]}
                     </span>
                   </div>
                   <div className="flex items-center gap-2 mt-1">
                     <Clock className="w-3 h-3 text-navy-300" />
                     <span className="text-[10px] text-navy-400">{task.schedule}</span>
                     <span className="text-[10px] text-navy-300">•</span>
-                    <span className="text-[10px] text-navy-400">Last: {task.lastRun}</span>
+                    <span className="text-[10px] text-navy-400">{t('last', language)} {task.lastRun}</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-1.5">
@@ -313,7 +278,7 @@ export const AutomationHub = () => {
               {/* Metrics */}
               <div className="mt-3 grid grid-cols-3 gap-2">
                 {task.type === 'social' && (
-                  <>{['Reach', task.reach, 'Daily', 'Frequency', 'Active', 'Status'].reduce((acc, v, j) => {
+                  <>{[t('metricReach', language), task.reach, t('metricDaily', language), t('metricFrequency', language), t('metricActive', language), t('metricStatus', language)].reduce((acc, v, j) => {
                     if (j % 2 === 0) acc.push([v]); else acc[acc.length-1].push(v);
                     return acc;
                   }, []).map(([l, v], j) => (
@@ -321,39 +286,39 @@ export const AutomationHub = () => {
                   ))}</>
                 )}
                 {task.type === 'reviews' && (
-                  <><div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-navy-800">{task.sent}</p><p className="text-[8px] text-navy-400">Sent</p></div>
-                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-teal-600">{task.responded}</p><p className="text-[8px] text-navy-400">Responded</p></div>
-                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-navy-800">{Math.round((task.responded/task.sent)*100)}%</p><p className="text-[8px] text-navy-400">Rate</p></div></>
+                  <><div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-navy-800">{task.sent}</p><p className="text-[8px] text-navy-400">{t('metricSent', language)}</p></div>
+                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-teal-600">{task.responded}</p><p className="text-[8px] text-navy-400">{t('metricResponded', language)}</p></div>
+                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-navy-800">{Math.round((task.responded/task.sent)*100)}%</p><p className="text-[8px] text-navy-400">{t('metricRate', language)}</p></div></>
                 )}
                 {task.type === 'email' && (
-                  <><div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-navy-800">{task.sent}</p><p className="text-[8px] text-navy-400">Sent</p></div>
-                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-teal-600">{task.opened}</p><p className="text-[8px] text-navy-400">Opened</p></div>
-                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-navy-800">{task.clicked}</p><p className="text-[8px] text-navy-400">Clicked</p></div></>
+                  <><div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-navy-800">{task.sent}</p><p className="text-[8px] text-navy-400">{t('metricSent', language)}</p></div>
+                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-teal-600">{task.opened}</p><p className="text-[8px] text-navy-400">{t('metricOpened', language)}</p></div>
+                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-navy-800">{task.clicked}</p><p className="text-[8px] text-navy-400">{t('metricClicked', language)}</p></div></>
                 )}
                 {task.type === 'seo' && (
-                  <><div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-navy-800">{task.score}</p><p className="text-[8px] text-navy-400">Score</p></div>
-                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-yellow-600">{task.issues}</p><p className="text-[8px] text-navy-400">Issues</p></div>
-                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-teal-600">6h</p><p className="text-[8px] text-navy-400">Interval</p></div></>
+                  <><div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-navy-800">{task.score}</p><p className="text-[8px] text-navy-400">{t('metricScore', language)}</p></div>
+                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-yellow-600">{task.issues}</p><p className="text-[8px] text-navy-400">{t('metricIssues', language)}</p></div>
+                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-teal-600">6h</p><p className="text-[8px] text-navy-400">{t('metricInterval', language)}</p></div></>
                 )}
                 {task.type === 'competitor' && (
-                  <><div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-navy-800">{task.tracked}</p><p className="text-[8px] text-navy-400">Tracked</p></div>
-                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-yellow-600">{task.alerts}</p><p className="text-[8px] text-navy-400">Alerts</p></div>
-                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-teal-600">Daily</p><p className="text-[8px] text-navy-400">Check</p></div></>
+                  <><div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-navy-800">{task.tracked}</p><p className="text-[8px] text-navy-400">{t('metricTracked', language)}</p></div>
+                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-yellow-600">{task.alerts}</p><p className="text-[8px] text-navy-400">{t('metricAlerts', language)}</p></div>
+                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-teal-600">{t('metricDaily', language)}</p><p className="text-[8px] text-navy-400">{t('metricCheck', language)}</p></div></>
                 )}
                 {task.type === 'chat' && (
-                  <><div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-navy-800">{task.replied}</p><p className="text-[8px] text-navy-400">Replied</p></div>
-                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-teal-600">{task.avgResponse}</p><p className="text-[8px] text-navy-400">Avg Time</p></div>
-                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-teal-600">24/7</p><p className="text-[8px] text-navy-400">Uptime</p></div></>
+                  <><div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-navy-800">{task.replied}</p><p className="text-[8px] text-navy-400">{t('metricReplied', language)}</p></div>
+                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-teal-600">{task.avgResponse}</p><p className="text-[8px] text-navy-400">{t('metricAvgTime', language)}</p></div>
+                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-teal-600">24/7</p><p className="text-[8px] text-navy-400">{t('metricUptime', language)}</p></div></>
                 )}
                 {task.type === 'billing' && (
-                  <><div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-navy-800">{task.generated}</p><p className="text-[8px] text-navy-400">Generated</p></div>
-                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-yellow-600">{task.pending}</p><p className="text-[8px] text-navy-400">Pending</p></div>
-                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-teal-600">Auto</p><p className="text-[8px] text-navy-400">Mode</p></div></>
+                  <><div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-navy-800">{task.generated}</p><p className="text-[8px] text-navy-400">{t('metricGenerated', language)}</p></div>
+                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-yellow-600">{task.pending}</p><p className="text-[8px] text-navy-400">{t('metricPending', language)}</p></div>
+                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-teal-600">{t('metricAuto', language)}</p><p className="text-[8px] text-navy-400">{t('metricMode', language)}</p></div></>
                 )}
                 {task.type === 'ads' && (
-                  <><div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-navy-800">{task.spend}</p><p className="text-[8px] text-navy-400">Spend</p></div>
-                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-teal-600">{task.leads}</p><p className="text-[8px] text-navy-400">Leads</p></div>
-                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-navy-800">{task.cpl}</p><p className="text-[8px] text-navy-400">CPL</p></div></>
+                  <><div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-navy-800">{task.spend}</p><p className="text-[8px] text-navy-400">{t('metricSpend', language)}</p></div>
+                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-teal-600">{task.leads}</p><p className="text-[8px] text-navy-400">{t('metricLeads', language)}</p></div>
+                  <div className="bg-navy-50 rounded-lg p-2 text-center"><p className="text-sm font-bold text-navy-800">{task.cpl}</p><p className="text-[8px] text-navy-400">{t('metricCPL', language)}</p></div></>
                 )}
               </div>
             </div>
@@ -374,11 +339,11 @@ export const AutomationHub = () => {
           <Sparkles className="w-6 h-6 text-teal-400" />
         </div>
         <div className="flex-1">
-          <p className="text-[12px] font-bold text-navy-800">Your marketing runs on autopilot! 🎉</p>
-          <p className="text-[10px] text-navy-400 mt-0.5">All automations work 24/7 — predict traffic, decide content, and go live autonomously. You're the CEO, they're the marketing team.</p>
+          <p className="text-[12px] font-bold text-navy-800">{t('autoCta', language)}</p>
+          <p className="text-[10px] text-navy-400 mt-0.5">{t('autoCtaDesc', language)}</p>
         </div>
         <button className="px-4 py-2 bg-navy-700 text-white text-[10px] font-semibold rounded-lg hover:bg-navy-800 flex items-center gap-1.5 flex-shrink-0">
-          <Settings className="w-3 h-3" /> Manage
+          <Settings className="w-3 h-3" /> {t('manage', language)}
         </button>
       </motion.div>
     </div>

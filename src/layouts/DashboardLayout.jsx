@@ -93,7 +93,7 @@ export const DashboardLayout = () => {
               <NavLink to="/dashboard/automation"
                 className="mx-1 flex items-center gap-2 px-3 py-2 text-navy-500 hover:bg-navy-50 rounded-lg text-[12px] font-medium transition-colors">
                 <Workflow className="w-[18px] h-[18px] flex-shrink-0" />
-                <span className="whitespace-nowrap flex-1">Workflows</span>
+                <span className="whitespace-nowrap flex-1">{t('dlWorkflows', language)}</span>
                 <span className="flex items-center gap-1 text-[9px] bg-teal-50 text-teal-600 px-1.5 py-0.5 rounded-full">
                   <span className="w-1 h-1 bg-teal-500 rounded-full animate-pulse" />
                   {workflows.filter(w => w.status === 'running').length}
@@ -123,10 +123,10 @@ export const DashboardLayout = () => {
           {/* Score card */}
           {(sidebarExpanded || sidebarOpen) && analyticsData && (
             <div className="mx-2 mb-2 p-3 bg-navy-700 rounded-xl text-white">
-              <p className="text-[10px] font-medium text-navy-200 mb-0.5">Digital Score</p>
+              <p className="text-[10px] font-medium text-navy-200 mb-0.5">{t('dlDigitalScore', language)}</p>
               <div className="flex items-end gap-1.5">
                 <span className="text-xl font-bold">{analyticsData.digitalPresence.overall}</span>
-                <span className="text-[10px] text-teal-300 mb-0.5">/ 100</span>
+                <span className="text-[10px] text-teal-300 mb-0.5">{t('dlScoreOf', language)}</span>
               </div>
               <div className="w-full bg-white/20 rounded-full h-1 mt-1.5">
                 <div className="bg-teal-400 rounded-full h-1" style={{ width: `${analyticsData.digitalPresence.overall}%` }} />
@@ -160,7 +160,7 @@ export const DashboardLayout = () => {
                 <button
                   onClick={() => setSidebarExpanded(true)}
                   className="p-1.5 rounded-lg hover:bg-navy-50 text-navy-400 text-[10px] font-bold"
-                  title="Language"
+                  title={t('dlLanguage', language)}
                 >
                   {language.toUpperCase()}
                 </button>
@@ -186,7 +186,7 @@ export const DashboardLayout = () => {
             <div className="flex items-center gap-3">
               <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-navy-50 rounded-lg border border-navy-100 w-56">
                 <Search className="w-4 h-4 text-navy-400" />
-                <input placeholder="Search..." className="bg-transparent text-xs outline-none w-full text-navy-700 placeholder:text-navy-300" />
+                <input placeholder={t('search', language)} className="bg-transparent text-xs outline-none w-full text-navy-700 placeholder:text-navy-300" />
               </div>
               <button className="relative p-2 rounded-lg hover:bg-navy-50">
                 <Bell className="w-4 h-4 text-navy-500" />
@@ -197,8 +197,8 @@ export const DashboardLayout = () => {
                   {(currentUser?.email || businessData?.businessName || 'U').charAt(0).toUpperCase()}
                 </div>
                 <div className="hidden sm:block">
-                  <p className="text-xs font-semibold text-navy-800 leading-none">{businessData?.businessName || 'User'}</p>
-                  <p className="text-[11px] text-navy-400 mt-0.5">{currentUser?.email || (isAuthenticated ? 'owner' : 'Guest')}</p>
+                  <p className="text-xs font-semibold text-navy-800 leading-none">{businessData?.businessName || t('dlUser', language)}</p>
+                  <p className="text-[11px] text-navy-400 mt-0.5">{currentUser?.email || (isAuthenticated ? t('dlOwner', language) : t('dlGuest', language))}</p>
                 </div>
               </div>
             </div>

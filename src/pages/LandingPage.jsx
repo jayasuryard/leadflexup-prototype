@@ -12,7 +12,7 @@ import { businessCategories } from '../data/mockDatabase';
 import { LocationPicker } from '../components/LocationPicker';
 
 /* ─── Sign-up Modal ─── */
-const SignUpModal = ({ open, onClose, onSignUp }) => {
+const SignUpModal = ({ open, onClose, onSignUp, language }) => {
   const [form, setForm] = useState({ email: '', password: '', phone: '' });
   const [showPwd, setShowPwd] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -45,8 +45,8 @@ const SignUpModal = ({ open, onClose, onSignUp }) => {
         >
           <div className="flex items-center justify-between mb-6">
             <div>
-              <h3 className="text-xl font-bold text-navy-800">Create Account</h3>
-              <p className="text-sm text-navy-400 mt-1">Start your growth journey</p>
+              <h3 className="text-xl font-bold text-navy-800">{t('lpCreateAccount', language)}</h3>
+              <p className="text-sm text-navy-400 mt-1">{t('lpStartJourney', language)}</p>
             </div>
             <button onClick={onClose} className="p-2 rounded-lg hover:bg-navy-50 text-navy-400">
               <X className="w-5 h-5" />
@@ -55,42 +55,42 @@ const SignUpModal = ({ open, onClose, onSignUp }) => {
 
           <form onSubmit={handle} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-navy-700 mb-1.5">Email</label>
+              <label className="block text-sm font-medium text-navy-700 mb-1.5">{t('lpEmailLabel', language)}</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-navy-300" />
                 <input
                   type="email" required
                   value={form.email}
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
-                  placeholder="you@business.com"
+                  placeholder={t('lpEmailPlaceholder', language)}
                   className="matte-input w-full pl-10 pr-4 py-2.5 rounded-lg text-sm"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-navy-700 mb-1.5">Phone Number</label>
+              <label className="block text-sm font-medium text-navy-700 mb-1.5">{t('lpPhoneLabel', language)}</label>
               <div className="relative">
                 <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-navy-300" />
                 <input
                   type="tel" required
                   value={form.phone}
                   onChange={(e) => setForm({ ...form, phone: e.target.value })}
-                  placeholder="+91 98765 43210"
+                  placeholder={t('lpPhonePlaceholder', language)}
                   className="matte-input w-full pl-10 pr-4 py-2.5 rounded-lg text-sm"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-navy-700 mb-1.5">Password</label>
+              <label className="block text-sm font-medium text-navy-700 mb-1.5">{t('lpPasswordLabel', language)}</label>
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-navy-300" />
                 <input
                   type={showPwd ? 'text' : 'password'} required minLength={8}
                   value={form.password}
                   onChange={(e) => setForm({ ...form, password: e.target.value })}
-                  placeholder="Min 8 characters"
+                  placeholder={t('lpPasswordPlaceholder', language)}
                   className="matte-input w-full pl-10 pr-10 py-2.5 rounded-lg text-sm"
                 />
                 <button type="button" onClick={() => setShowPwd(!showPwd)}
@@ -104,11 +104,11 @@ const SignUpModal = ({ open, onClose, onSignUp }) => {
               type="submit" disabled={loading}
               className="w-full py-3 bg-navy-700 text-white font-semibold rounded-xl hover:bg-navy-800 disabled:opacity-60 text-sm"
             >
-              {loading ? 'Creating account...' : 'Sign Up & Get Started'}
+              {loading ? t('lpCreatingAccount', language) : t('lpSignUpBtn', language)}
             </button>
 
             <p className="text-xs text-navy-400 text-center leading-relaxed">
-              By signing up you agree to our Terms of Service and Privacy Policy
+              {t('lpTerms', language)}
             </p>
           </form>
         </motion.div>
@@ -153,26 +153,26 @@ export const LandingPage = () => {
   };
 
   const features = [
-    { icon: BarChart3, title: 'Real-time Analytics', desc: 'Complete digital presence scoring with website, social media, search visibility, and review analytics.' },
-    { icon: Target, title: 'Competitor Intelligence', desc: 'Dynamic leaderboard shows exactly where you stand against every competitor in your market segment.' },
-    { icon: Sparkles, title: 'AI Recommendations', desc: 'Smart, actionable insights with impact estimates and timelines tailored to your business category.' },
-    { icon: Zap, title: 'Marketing Automation', desc: 'From lead capture to email campaigns — automated workflows that run while you focus on business.' },
-    { icon: Globe, title: 'Geo-Based Insights', desc: 'OpenStreetMap-powered location intelligence showing customer density, reach radius, and local opportunities.' },
-    { icon: Rocket, title: '4x Revenue Growth', desc: 'A guided, step-by-step journey from zero digital presence to consistent qualified leads and revenue scale.' }
+    { icon: BarChart3, title: t('lpFeature1Title', language), desc: t('lpFeature1Desc', language) },
+    { icon: Target, title: t('lpFeature2Title', language), desc: t('lpFeature2Desc', language) },
+    { icon: Sparkles, title: t('lpFeature3Title', language), desc: t('lpFeature3Desc', language) },
+    { icon: Zap, title: t('lpFeature4Title', language), desc: t('lpFeature4Desc', language) },
+    { icon: Globe, title: t('lpFeature5Title', language), desc: t('lpFeature5Desc', language) },
+    { icon: Rocket, title: t('lpFeature6Title', language), desc: t('lpFeature6Desc', language) }
   ];
 
   const stats = [
-    { value: '10,000+', label: 'Businesses Powered' },
-    { value: '4x', label: 'Avg. Revenue Growth' },
-    { value: '₹500Cr+', label: 'Revenue Generated' },
-    { value: '98%', label: 'Client Retention' }
+    { value: t('lpStat1Value', language), label: t('lpStat1Label', language) },
+    { value: t('lpStat2Value', language), label: t('lpStat2Label', language) },
+    { value: t('lpStat3Value', language), label: t('lpStat3Label', language) },
+    { value: t('lpStat4Value', language), label: t('lpStat4Label', language) }
   ];
 
   const steps = [
-    { n: '01', title: 'Tell Us About Your Business', desc: 'Enter your business name, category, and pin your exact location on the map.' },
-    { n: '02', title: 'Get Your Market Analysis', desc: 'We analyze your digital presence, competitors, and local market in seconds.' },
-    { n: '03', title: 'Follow Guided Growth Steps', desc: 'Execute our proven step-by-step playbook from setup to automation.' },
-    { n: '04', title: 'Watch Revenue Multiply', desc: 'Receive qualified leads consistently and track your path to 4x growth.' }
+    { n: '01', title: t('lpStep1Title', language), desc: t('lpStep1Desc', language) },
+    { n: '02', title: t('lpStep2Title', language), desc: t('lpStep2Desc', language) },
+    { n: '03', title: t('lpStep3Title', language), desc: t('lpStep3Desc', language) },
+    { n: '04', title: t('lpStep4Title', language), desc: t('lpStep4Desc', language) }
   ];
 
   return (
@@ -189,9 +189,9 @@ export const LandingPage = () => {
             </div>
 
             <div className="hidden md:flex items-center gap-8 text-sm font-medium text-navy-500">
-              <a href="#features" className="hover:text-navy-800">Features</a>
-              <a href="#how-it-works" className="hover:text-navy-800">How It Works</a>
-              <a href="#pricing" className="hover:text-navy-800">Pricing</a>
+              <a href="#features" className="hover:text-navy-800">{t('lpNavFeatures', language)}</a>
+              <a href="#how-it-works" className="hover:text-navy-800">{t('lpNavHowItWorks', language)}</a>
+              <a href="#pricing" className="hover:text-navy-800">{t('lpNavPricing', language)}</a>
             </div>
 
             <div className="flex items-center gap-3">
@@ -211,7 +211,7 @@ export const LandingPage = () => {
                 onClick={() => setShowSignUp(true)}
                 className="px-4 py-2 bg-navy-700 text-white text-sm font-semibold rounded-lg hover:bg-navy-800"
               >
-                Sign Up
+                {t('lpSignUp', language)}
               </button>
             </div>
           </div>
@@ -250,9 +250,9 @@ export const LandingPage = () => {
             {/* Quick-trust badges */}
             <div className="flex flex-wrap gap-3">
               {[
-                { icon: Shield, label: 'Enterprise Security' },
-                { icon: Globe, label: 'Multilingual' },
-                { icon: Users, label: 'Non-tech Friendly' }
+                { icon: Shield, label: t('lpBadgeEnterprise', language) },
+                { icon: Globe, label: t('lpBadgeMultilingual', language) },
+                { icon: Users, label: t('lpBadgeNonTech', language) }
               ].map((b, i) => (
                 <div key={i} className="flex items-center gap-2 px-3 py-1.5 paper-card rounded-full">
                   <b.icon className="w-3.5 h-3.5 text-teal-600" />
@@ -275,7 +275,7 @@ export const LandingPage = () => {
                 </div>
                 <div>
                   <h2 className="text-lg font-bold text-navy-800">{t('onboardingTitle', language)}</h2>
-                  <p className="text-xs text-navy-400">Free analysis • No credit card</p>
+                  <p className="text-xs text-navy-400">{t('lpFormSubtitle', language)}</p>
                 </div>
               </div>
 
@@ -283,7 +283,7 @@ export const LandingPage = () => {
                 <div className="text-center py-16">
                   <div className="w-14 h-14 border-[3px] border-navy-200 border-t-teal-500 rounded-full mx-auto mb-4 animate-spin" />
                   <p className="text-base font-semibold text-navy-800">{t('analyzing', language)}</p>
-                  <p className="text-sm text-navy-400 mt-1">Scanning competitors, analyzing market...</p>
+                  <p className="text-sm text-navy-400 mt-1">{t('lpAnalyzingDesc', language)}</p>
                 </div>
               ) : (
                 <form onSubmit={handleOnboard} className="space-y-4">
@@ -306,14 +306,14 @@ export const LandingPage = () => {
 
                   {/* Phone */}
                   <div>
-                    <label className="block text-sm font-medium text-navy-700 mb-1.5">Phone Number</label>
+                    <label className="block text-sm font-medium text-navy-700 mb-1.5">{t('lpPhoneLabel', language)}</label>
                     <div className="relative">
                       <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-navy-300" />
                       <input
                         required type="tel"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                        placeholder="+91 98765 43210"
+                        placeholder={t('lpPhonePlaceholder', language)}
                         className="matte-input w-full pl-10 pr-4 py-2.5 rounded-lg text-sm"
                       />
                     </div>
@@ -349,7 +349,7 @@ export const LandingPage = () => {
                   <div>
                     <label className="block text-sm font-medium text-navy-700 mb-1.5">
                       <MapPin className="inline w-4 h-4 mr-1 -mt-0.5" />
-                      Business Location
+                      {t('lpBusinessLocation', language)}
                     </label>
                     <LocationPicker
                       value={formData.location}
@@ -367,7 +367,7 @@ export const LandingPage = () => {
                   </button>
 
                   <p className="text-xs text-navy-400 text-center">
-                    No sign-up required to view your analysis
+                    {t('lpNoSignup', language)}
                   </p>
                 </form>
               )}
@@ -380,9 +380,9 @@ export const LandingPage = () => {
       <section id="features" className="py-24 bg-white/40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-bold text-teal-600 uppercase tracking-widest">Platform Capabilities</span>
-            <h2 className="text-3xl font-extrabold text-navy-900 mt-3 mb-4">Everything you need to dominate your local market</h2>
-            <p className="text-navy-500">Built specifically for Indian small businesses — from those without a Google account to established players seeking growth.</p>
+            <span className="text-xs font-bold text-teal-600 uppercase tracking-widest">{t('lpPlatformCapabilities', language)}</span>
+            <h2 className="text-3xl font-extrabold text-navy-900 mt-3 mb-4">{t('lpFeaturesHeading', language)}</h2>
+            <p className="text-navy-500">{t('lpFeaturesDesc', language)}</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -410,8 +410,8 @@ export const LandingPage = () => {
       <section id="how-it-works" className="py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-bold text-teal-600 uppercase tracking-widest">How It Works</span>
-            <h2 className="text-3xl font-extrabold text-navy-900 mt-3 mb-4">From zero to 4x in four steps</h2>
+            <span className="text-xs font-bold text-teal-600 uppercase tracking-widest">{t('lpHowItWorks', language)}</span>
+            <h2 className="text-3xl font-extrabold text-navy-900 mt-3 mb-4">{t('lpHowItWorksHeading', language)}</h2>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -441,15 +441,15 @@ export const LandingPage = () => {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <div className="paper-card-raised rounded-2xl p-12">
             <Rocket className="w-12 h-12 text-teal-600 mx-auto mb-6" />
-            <h2 className="text-3xl font-extrabold text-navy-900 mb-4">Ready to grow your business?</h2>
+            <h2 className="text-3xl font-extrabold text-navy-900 mb-4">{t('lpCtaTitle', language)}</h2>
             <p className="text-navy-500 mb-8 max-w-lg mx-auto">
-              Join 10,000+ Indian businesses already using LeadFlexUp to generate qualified leads and scale revenue consistently.
+              {t('lpCtaDesc', language)}
             </p>
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
               className="px-8 py-3.5 bg-navy-700 text-white font-semibold rounded-xl hover:bg-navy-800 text-sm"
             >
-              Get Started — It's Free
+              {t('lpCtaBtn', language)}
             </button>
           </div>
         </div>
@@ -464,7 +464,7 @@ export const LandingPage = () => {
             </div>
             <span className="text-sm font-bold text-navy-700">LeadFlexUp</span>
           </div>
-          <p className="text-xs text-navy-400">© 2026 LeadFlexUp. All rights reserved. Made for Indian businesses.</p>
+          <p className="text-xs text-navy-400">{t('lpFooterText', language)}</p>
         </div>
       </footer>
 
@@ -473,6 +473,7 @@ export const LandingPage = () => {
         open={showSignUp}
         onClose={() => setShowSignUp(false)}
         onSignUp={handleSignUp}
+        language={language}
       />
     </div>
   );

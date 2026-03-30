@@ -97,6 +97,38 @@ export default {
   lpSignUpBtn: 'Sign Up & Get Started',
   lpTerms: 'By signing up you agree to our Terms of Service and Privacy Policy',
 
+  // Landing — Navigation
+  lpNavFeatures: 'Features',
+  lpNavHowItWorks: 'How It Works',
+  lpNavPricing: 'Pricing',
+  lpSignUp: 'Sign Up',
+
+  // Landing — Trust Badges
+  lpBadgeEnterprise: 'Enterprise Security',
+  lpBadgeMultilingual: 'Multilingual',
+  lpBadgeNonTech: 'Non-tech Friendly',
+
+  // Landing — Section Headings
+  lpPlatformCapabilities: 'Platform Capabilities',
+  lpFeaturesHeading: 'Everything you need to dominate your local market',
+  lpFeaturesDesc: 'Built specifically for Indian small businesses — from those without a Google account to established players seeking growth.',
+  lpHowItWorks: 'How It Works',
+  lpHowItWorksHeading: 'From zero to 4x in four steps',
+
+  // Landing — Onboarding Form
+  lpFormSubtitle: 'Free analysis • No credit card',
+  lpAnalyzingDesc: 'Scanning competitors, analyzing market...',
+  lpBusinessLocation: 'Business Location',
+  lpNoSignup: 'No sign-up required to view your analysis',
+
+  // Landing — CTA
+  lpCtaTitle: 'Ready to grow your business?',
+  lpCtaDesc: 'Join 10,000+ Indian businesses already using LeadFlexUp to generate qualified leads and scale revenue consistently.',
+  lpCtaBtn: "Get Started — It's Free",
+
+  // Landing — Footer
+  lpFooterText: '© 2026 LeadFlexUp. All rights reserved. Made for Indian businesses.',
+
   // ══════════════════════════════════════
   // ONBOARDING
   // ══════════════════════════════════════

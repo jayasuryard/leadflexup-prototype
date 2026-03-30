@@ -29,15 +29,15 @@ export const GrowthJourney = () => {
     <div className="space-y-6">
       <div>
         <h1 className="text-xl font-bold text-navy-900">{t('yourGrowthJourney', language)}</h1>
-        <p className="text-sm text-navy-400 mt-0.5">Step-by-step roadmap to 4x revenue growth</p>
+        <p className="text-sm text-navy-400 mt-0.5">{t('gjSubtitle', language)}</p>
       </div>
 
       {/* Overall Progress */}
       <motion.div {...fade()} className="bg-navy-700 text-white rounded-xl p-6">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <h2 className="text-base font-bold mb-1">Your Progress</h2>
-            <p className="text-sm text-navy-200">{completedTasks} of {totalTasks} tasks completed</p>
+            <h2 className="text-base font-bold mb-1">{t('gjYourProgress', language)}</h2>
+            <p className="text-sm text-navy-200">{completedTasks} {t('of', language)} {totalTasks} {t('gjTasksCompleted', language)}</p>
           </div>
           <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center">
             <Trophy className="w-8 h-8 text-teal-400" />
@@ -133,8 +133,8 @@ export const GrowthJourney = () => {
           className="bg-teal-600 text-white rounded-xl p-8 text-center"
         >
           <Rocket className="w-12 h-12 mx-auto mb-3" />
-          <h2 className="text-xl font-bold mb-1">Congratulations!</h2>
-          <p className="text-sm text-teal-100">You've completed your growth journey. Your business is fully optimized.</p>
+          <h2 className="text-xl font-bold mb-1">{t('gjCongrats', language)}</h2>
+          <p className="text-sm text-teal-100">{t('gjCongratsDesc', language)}</p>
         </motion.div>
       )}
     </div>

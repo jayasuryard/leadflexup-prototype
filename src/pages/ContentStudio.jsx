@@ -18,6 +18,7 @@ const typeColors = { poster: 'bg-blue-500', story: 'bg-purple-500', banner: 'bg-
 
 /* ─── Share Dialog ─── */
 const ShareDialog = ({ template, onClose }) => {
+  const { language } = useApp();
   const [copied, setCopied] = useState(false);
   const shareUrl = `https://leadflexup.app/content/${template.id}`;
 
@@ -29,12 +30,12 @@ const ShareDialog = ({ template, onClose }) => {
   };
 
   const channels = [
-    { name: 'WhatsApp', icon: '💬', color: 'bg-green-500', url: `https://wa.me/?text=${encodeURIComponent(`Check out this design: ${shareUrl}`)}` },
-    { name: 'Facebook', icon: '📘', color: 'bg-blue-600', url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}` },
-    { name: 'Twitter', icon: '🐦', color: 'bg-sky-500', url: `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(template.name)}` },
-    { name: 'LinkedIn', icon: '💼', color: 'bg-blue-700', url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}` },
-    { name: 'Email', icon: '📧', color: 'bg-navy-600', url: `mailto:?subject=${encodeURIComponent(template.name)}&body=${encodeURIComponent(shareUrl)}` },
-    { name: 'Instagram', icon: '📸', color: 'bg-pink-500', url: '#' },
+    { name: t('csWhatsApp', language), icon: '💬', color: 'bg-green-500', url: `https://wa.me/?text=${encodeURIComponent(`Check out this design: ${shareUrl}`)}` },
+    { name: t('csFacebook', language), icon: '📘', color: 'bg-blue-600', url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}` },
+    { name: t('csTwitter', language), icon: '🐦', color: 'bg-sky-500', url: `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(template.name)}` },
+    { name: t('csLinkedIn', language), icon: '💼', color: 'bg-blue-700', url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}` },
+    { name: t('csEmail', language), icon: '📧', color: 'bg-navy-600', url: `mailto:?subject=${encodeURIComponent(template.name)}&body=${encodeURIComponent(shareUrl)}` },
+    { name: t('csInstagram', language), icon: '📸', color: 'bg-pink-500', url: '#' },
   ];
 
   return (
@@ -43,17 +44,17 @@ const ShareDialog = ({ template, onClose }) => {
       <motion.div initial={{ scale: 0.95, y: 20 }} animate={{ scale: 1, y: 0 }}
         className="bg-white rounded-2xl w-full max-w-sm p-5" onClick={e => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-bold text-navy-800">Share Design</h3>
+          <h3 className="text-sm font-bold text-navy-800">{t('csShareDesign', language)}</h3>
           <button onClick={onClose} className="p-1 rounded-lg hover:bg-navy-50"><X className="w-4 h-4 text-navy-400" /></button>
         </div>
         <div className="flex items-center gap-2 p-2 bg-navy-50 rounded-lg mb-4">
           <Link className="w-3.5 h-3.5 text-navy-400 flex-shrink-0" />
           <span className="text-[10px] text-navy-500 flex-1 truncate">{shareUrl}</span>
           <button onClick={handleCopy} className={`px-2.5 py-1 rounded-md text-[10px] font-semibold flex items-center gap-1 transition-colors ${copied ? 'bg-teal-500 text-white' : 'bg-navy-700 text-white hover:bg-navy-800'}`}>
-            {copied ? <><Check className="w-3 h-3" /> Copied!</> : <><Copy className="w-3 h-3" /> Copy</>}
+            {copied ? <><Check className="w-3 h-3" /> {t('copied', language)}</> : <><Copy className="w-3 h-3" /> {t('copy', language)}</>}
           </button>
         </div>
-        <p className="text-[10px] text-navy-400 font-semibold mb-2">Share to</p>
+        <p className="text-[10px] text-navy-400 font-semibold mb-2">{t('csShareTo', language)}</p>
         <div className="grid grid-cols-3 gap-2">
           {channels.map(ch => (
             <a key={ch.name} href={ch.url} target="_blank" rel="noopener noreferrer"
@@ -70,15 +71,16 @@ const ShareDialog = ({ template, onClose }) => {
 
 /* ─── Canvas Editor ─── */
 const CanvasEditor = ({ template, onClose }) => {
+  const { language } = useApp();
   const canvasRef = useRef(null);
   const [zoom, setZoom] = useState(100);
   const [showShare, setShowShare] = useState(false);
   const [layers, setLayers] = useState([
-    { id: 1, type: 'image', name: 'Background', visible: true, locked: false },
-    { id: 2, type: 'text', name: 'Headline', visible: true, locked: false, content: template.name, x: 50, y: 40, fontSize: 28, fontWeight: 'bold', color: '#ffffff', align: 'center' },
-    { id: 3, type: 'text', name: 'Subtext', visible: true, locked: false, content: 'Your tagline here', x: 50, y: 55, fontSize: 14, fontWeight: 'normal', color: '#ffffff', align: 'center' },
-    { id: 4, type: 'shape', name: 'CTA Button', visible: true, locked: false, x: 50, y: 72, width: 160, height: 40, color: template.colors?.[0] || '#14b8a6', radius: 20 },
-    { id: 5, type: 'text', name: 'CTA Text', visible: true, locked: false, content: 'Learn More →', x: 50, y: 72, fontSize: 13, fontWeight: 'bold', color: '#ffffff', align: 'center' },
+    { id: 1, type: 'image', name: t('csBackground', language), visible: true, locked: false },
+    { id: 2, type: 'text', name: t('csHeadline', language), visible: true, locked: false, content: template.name, x: 50, y: 40, fontSize: 28, fontWeight: 'bold', color: '#ffffff', align: 'center' },
+    { id: 3, type: 'text', name: t('csSubtext', language), visible: true, locked: false, content: t('csYourTagline', language), x: 50, y: 55, fontSize: 14, fontWeight: 'normal', color: '#ffffff', align: 'center' },
+    { id: 4, type: 'shape', name: t('csCtaButton', language), visible: true, locked: false, x: 50, y: 72, width: 160, height: 40, color: template.colors?.[0] || '#14b8a6', radius: 20 },
+    { id: 5, type: 'text', name: t('csCtaText', language), visible: true, locked: false, content: t('csLearnMore', language), x: 50, y: 72, fontSize: 13, fontWeight: 'bold', color: '#ffffff', align: 'center' },
   ]);
   const [selectedLayer, setSelectedLayer] = useState(2);
   const [activePanel, setActivePanel] = useState('layers');
@@ -93,7 +95,7 @@ const CanvasEditor = ({ template, onClose }) => {
     const newId = Math.max(...layers.map(l => l.id)) + 1;
     setLayers(prev => [...prev, {
       id: newId, type: 'text', name: `Text ${newId}`, visible: true, locked: false,
-      content: 'New Text', x: 50, y: 50, fontSize: 18, fontWeight: 'normal', color: '#ffffff', align: 'center'
+      content: t('csNewText', language), x: 50, y: 50, fontSize: 18, fontWeight: 'normal', color: '#ffffff', align: 'center'
     }]);
     setSelectedLayer(newId);
   };
@@ -126,13 +128,13 @@ const CanvasEditor = ({ template, onClose }) => {
         </div>
         <div className="h-5 w-px bg-navy-700" />
         <button onClick={() => setShowShare(true)} className="px-3 py-1.5 bg-navy-700 text-white text-[10px] font-semibold rounded-lg hover:bg-navy-600 flex items-center gap-1.5">
-          <Share2 className="w-3 h-3" /> Share
+          <Share2 className="w-3 h-3" /> {t('share', language)}
         </button>
         <button className="px-3 py-1.5 bg-navy-700 text-white text-[10px] font-semibold rounded-lg hover:bg-navy-600 flex items-center gap-1.5">
-          <Download className="w-3 h-3" /> Export
+          <Download className="w-3 h-3" /> {t('csExport', language)}
         </button>
         <button className="px-3 py-1.5 bg-teal-600 text-white text-[10px] font-semibold rounded-lg hover:bg-teal-700 flex items-center gap-1.5">
-          <Check className="w-3 h-3" /> Save
+          <Check className="w-3 h-3" /> {t('save', language)}
         </button>
       </div>
 
@@ -144,7 +146,7 @@ const CanvasEditor = ({ template, onClose }) => {
               <button key={tab} onClick={() => setActivePanel(tab)}
                 className={`flex-1 py-2.5 text-[10px] font-semibold capitalize border-b-2 transition-colors ${
                   activePanel === tab ? 'text-teal-400 border-teal-400 bg-navy-800/50' : 'text-navy-400 border-transparent hover:text-navy-300'
-                }`}>{tab}</button>
+                }`}>{tab === 'layers' ? t('csLayers', language) : t('csProperties', language)}</button>
             ))}
           </div>
 
@@ -173,7 +175,7 @@ const CanvasEditor = ({ template, onClose }) => {
               ))}
               <button onClick={addTextLayer}
                 className="w-full mt-2 py-2 border border-dashed border-navy-600 rounded-lg text-[10px] text-navy-400 hover:text-teal-400 hover:border-teal-500 transition-colors flex items-center justify-center gap-1">
-                <Plus className="w-3 h-3" /> Add Text Layer
+                <Plus className="w-3 h-3" /> {t('csAddTextLayer', language)}
               </button>
             </div>
           ) : (
@@ -181,19 +183,19 @@ const CanvasEditor = ({ template, onClose }) => {
               {selectedObj && selectedObj.type === 'text' && (
                 <>
                   <div>
-                    <label className="text-[9px] text-navy-400 font-semibold mb-1 block">Text Content</label>
+                    <label className="text-[9px] text-navy-400 font-semibold mb-1 block">{t('csTextContent', language)}</label>
                     <textarea value={selectedObj.content} onChange={e => updateLayer(selectedObj.id, { content: e.target.value })}
                       className="w-full bg-navy-800 border border-navy-600 rounded-lg p-2 text-[11px] text-white resize-none h-16 focus:border-teal-500 outline-none" />
                   </div>
                   <div>
-                    <label className="text-[9px] text-navy-400 font-semibold mb-1 block">Font Size</label>
+                    <label className="text-[9px] text-navy-400 font-semibold mb-1 block">{t('csFontSize', language)}</label>
                     <input type="range" min="8" max="72" value={selectedObj.fontSize}
                       onChange={e => updateLayer(selectedObj.id, { fontSize: parseInt(e.target.value) })}
                       className="w-full accent-teal-500" />
                     <span className="text-[10px] text-navy-400">{selectedObj.fontSize}px</span>
                   </div>
                   <div>
-                    <label className="text-[9px] text-navy-400 font-semibold mb-1 block">Style</label>
+                    <label className="text-[9px] text-navy-400 font-semibold mb-1 block">{t('csStyle', language)}</label>
                     <div className="flex gap-1.5">
                       <button onClick={() => updateLayer(selectedObj.id, { fontWeight: selectedObj.fontWeight === 'bold' ? 'normal' : 'bold' })}
                         className={`p-1.5 rounded-lg ${selectedObj.fontWeight === 'bold' ? 'bg-teal-500 text-white' : 'bg-navy-800 text-navy-300'}`}>
@@ -208,7 +210,7 @@ const CanvasEditor = ({ template, onClose }) => {
                     </div>
                   </div>
                   <div>
-                    <label className="text-[9px] text-navy-400 font-semibold mb-1 block">Color</label>
+                    <label className="text-[9px] text-navy-400 font-semibold mb-1 block">{t('csColor', language)}</label>
                     <div className="flex items-center gap-2">
                       <input type="color" value={selectedObj.color} onChange={e => updateLayer(selectedObj.id, { color: e.target.value })}
                         className="w-8 h-8 rounded-lg border-2 border-navy-600 cursor-pointer" />
@@ -222,7 +224,7 @@ const CanvasEditor = ({ template, onClose }) => {
                     </div>
                   </div>
                   <div>
-                    <label className="text-[9px] text-navy-400 font-semibold mb-1 block">Position</label>
+                    <label className="text-[9px] text-navy-400 font-semibold mb-1 block">{t('csPosition', language)}</label>
                     <div className="grid grid-cols-2 gap-2">
                       <div className="bg-navy-800 rounded-lg p-2">
                         <span className="text-[8px] text-navy-500">X</span>
@@ -241,12 +243,12 @@ const CanvasEditor = ({ template, onClose }) => {
               {selectedObj && selectedObj.type === 'shape' && (
                 <>
                   <div>
-                    <label className="text-[9px] text-navy-400 font-semibold mb-1 block">Fill Color</label>
+                    <label className="text-[9px] text-navy-400 font-semibold mb-1 block">{t('csFillColor', language)}</label>
                     <input type="color" value={selectedObj.color} onChange={e => updateLayer(selectedObj.id, { color: e.target.value })}
                       className="w-8 h-8 rounded-lg border-2 border-navy-600 cursor-pointer" />
                   </div>
                   <div>
-                    <label className="text-[9px] text-navy-400 font-semibold mb-1 block">Corner Radius</label>
+                    <label className="text-[9px] text-navy-400 font-semibold mb-1 block">{t('csCornerRadius', language)}</label>
                     <input type="range" min="0" max="40" value={selectedObj.radius || 0}
                       onChange={e => updateLayer(selectedObj.id, { radius: parseInt(e.target.value) })}
                       className="w-full accent-teal-500" />
@@ -254,7 +256,7 @@ const CanvasEditor = ({ template, onClose }) => {
                 </>
               )}
               {selectedObj && selectedObj.type === 'image' && (
-                <p className="text-[10px] text-navy-400 italic">Background layer — drag to reposition</p>
+                <p className="text-[10px] text-navy-400 italic">{t('csBgDragHint', language)}</p>
               )}
             </div>
           )}
@@ -308,7 +310,7 @@ const CanvasEditor = ({ template, onClose }) => {
         {/* Right: Color Palette & Quick Actions */}
         <div className="w-48 bg-navy-900 border-l border-navy-700 flex flex-col flex-shrink-0 p-3 space-y-4">
           <div>
-            <p className="text-[9px] text-navy-400 font-semibold uppercase tracking-wider mb-2">Template Colors</p>
+            <p className="text-[9px] text-navy-400 font-semibold uppercase tracking-wider mb-2">{t('csTemplateColors', language)}</p>
             <div className="grid grid-cols-4 gap-1.5">
               {(template.colors || []).map((c, j) => (
                 <button key={j} className="w-full aspect-square rounded-lg border-2 border-navy-700 hover:border-teal-400 transition-colors" style={{ backgroundColor: c }} />
@@ -316,13 +318,13 @@ const CanvasEditor = ({ template, onClose }) => {
             </div>
           </div>
           <div>
-            <p className="text-[9px] text-navy-400 font-semibold uppercase tracking-wider mb-2">Quick Actions</p>
+            <p className="text-[9px] text-navy-400 font-semibold uppercase tracking-wider mb-2">{t('csQuickActions', language)}</p>
             <div className="space-y-1.5">
               {[
-                { icon: Sparkles, label: 'AI Generate Copy', color: 'text-purple-400' },
-                { icon: Image, label: 'Replace Image', color: 'text-blue-400' },
-                { icon: Layers, label: 'Duplicate Template', color: 'text-teal-400' },
-                { icon: Palette, label: 'Change Theme', color: 'text-orange-400' },
+                { icon: Sparkles, label: t('csAiGenerate', language), color: 'text-purple-400' },
+                { icon: Image, label: t('csReplaceImage', language), color: 'text-blue-400' },
+                { icon: Layers, label: t('csDuplicate', language), color: 'text-teal-400' },
+                { icon: Palette, label: t('csChangeTheme', language), color: 'text-orange-400' },
               ].map(({ icon: Ic, label, color }) => (
                 <button key={label} className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg hover:bg-navy-800 transition-colors">
                   <Ic className={`w-3.5 h-3.5 ${color}`} />
@@ -332,7 +334,7 @@ const CanvasEditor = ({ template, onClose }) => {
             </div>
           </div>
           <div>
-            <p className="text-[9px] text-navy-400 font-semibold uppercase tracking-wider mb-2">Tags</p>
+            <p className="text-[9px] text-navy-400 font-semibold uppercase tracking-wider mb-2">{t('csTags', language)}</p>
             <div className="flex flex-wrap gap-1">
               {(template.tags || []).map((tag, j) => (
                 <span key={j} className="text-[8px] bg-navy-800 text-navy-300 px-1.5 py-0.5 rounded-full">#{tag}</span>
@@ -383,7 +385,7 @@ export const ContentStudio = () => {
           <p className="text-sm text-navy-400 mt-0.5">{t('contentStudioDesc', language)}</p>
         </div>
         <button className="px-4 py-2 bg-teal-600 text-white text-xs font-semibold rounded-lg hover:bg-teal-700 flex items-center gap-1.5">
-          <Plus className="w-3.5 h-3.5" /> Create New
+          <Plus className="w-3.5 h-3.5" /> {t('csCreateNew', language)}
         </button>
       </div>
 
@@ -392,7 +394,7 @@ export const ContentStudio = () => {
         <div className="flex items-center gap-3 flex-wrap">
           <div className="flex items-center gap-2 px-3 py-1.5 bg-navy-50 rounded-lg border border-navy-100 w-48">
             <Search className="w-3.5 h-3.5 text-navy-400" />
-            <input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="Search templates..."
+            <input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder={t('csSearchPlaceholder', language)}
               className="bg-transparent text-[11px] outline-none w-full text-navy-700 placeholder:text-navy-300" />
           </div>
           <div className="flex gap-1.5 flex-1 flex-wrap">
@@ -450,7 +452,7 @@ export const ContentStudio = () => {
                       <div className="flex items-center gap-2">
                         <button onClick={e => { e.stopPropagation(); setEditingTemplate(tmpl); }}
                           className="px-2 py-1 bg-white text-navy-800 text-[9px] font-semibold rounded-md hover:bg-teal-50 flex items-center gap-1">
-                          <Palette className="w-2.5 h-2.5" /> Edit
+                          <Palette className="w-2.5 h-2.5" /> {t('edit', language)}
                         </button>
                         <button onClick={e => { e.stopPropagation(); setSharingTemplate(tmpl); }} className="p-1 bg-white/20 rounded-md hover:bg-white/30"><Share2 className="w-3 h-3 text-white" /></button>
                         <button className="p-1 bg-white/20 rounded-md hover:bg-white/30"><Download className="w-3 h-3 text-white" /></button>
@@ -507,7 +509,7 @@ export const ContentStudio = () => {
                   </button>
                   <button onClick={e => { e.stopPropagation(); setEditingTemplate(tmpl); }}
                     className="px-3 py-1.5 bg-navy-700 text-white text-[10px] font-semibold rounded-lg hover:bg-navy-800">
-                    Edit
+                    {t('edit', language)}
                   </button>
                 </div>
               </motion.div>
@@ -519,7 +521,7 @@ export const ContentStudio = () => {
       {filtered.length === 0 && (
         <div className="text-center py-16">
           <Image className="w-10 h-10 text-navy-200 mx-auto mb-3" />
-          <p className="text-sm text-navy-400">No templates matching your filters</p>
+          <p className="text-sm text-navy-400">{t('csNoTemplates', language)}</p>
         </div>
       )}
 
@@ -558,14 +560,14 @@ export const ContentStudio = () => {
               <div className="flex gap-2 mt-5">
                 <button onClick={() => { setSelectedTemplate(null); setEditingTemplate(selectedTemplate); }}
                   className="flex-1 py-2.5 bg-teal-600 text-white text-xs font-semibold rounded-lg hover:bg-teal-700 flex items-center justify-center gap-1.5">
-                  <Palette className="w-3.5 h-3.5" /> Open in Editor
+                  <Palette className="w-3.5 h-3.5" /> {t('csOpenEditor', language)}
                 </button>
                 <button onClick={() => setSharingTemplate(selectedTemplate)}
                   className="px-4 py-2.5 bg-navy-700 text-white text-xs font-semibold rounded-lg hover:bg-navy-800 flex items-center gap-1.5">
-                  <Share2 className="w-3.5 h-3.5" /> Share
+                  <Share2 className="w-3.5 h-3.5" /> {t('share', language)}
                 </button>
                 <button className="px-4 py-2.5 bg-navy-50 text-navy-700 text-xs font-semibold rounded-lg hover:bg-navy-100 flex items-center gap-1.5">
-                  <Download className="w-3.5 h-3.5" /> Download
+                  <Download className="w-3.5 h-3.5" /> {t('download', language)}
                 </button>
               </div>
             </div>

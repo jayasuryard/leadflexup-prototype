@@ -60,7 +60,7 @@ export const LeadManager = () => {
         </div>
         <div className="flex items-center gap-2">
           <button className="px-3 py-1.5 text-[10px] font-semibold bg-navy-50 text-navy-600 rounded-lg hover:bg-navy-100 flex items-center gap-1">
-            <Download className="w-3 h-3" /> Export
+            <Download className="w-3 h-3" /> {t('export', language)}
           </button>
         </div>
       </div>
@@ -68,11 +68,11 @@ export const LeadManager = () => {
       {/* KPI Row */}
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
         {[
-          { icon: Users, label: 'Total Leads', value: leads.length, change: '+12%', color: 'text-blue-600' },
-          { icon: DollarSign, label: 'Pipeline Value', value: `₹${(totalValue/100000).toFixed(1)}L`, change: '+28%', color: 'text-teal-600' },
-          { icon: Target, label: 'Weighted Value', value: `₹${(totalWeighted/100000).toFixed(1)}L`, change: '+18%', color: 'text-purple-600' },
-          { icon: Zap, label: 'Avg. Score', value: avgScore, change: null, color: 'text-orange-600' },
-          { icon: Flame, label: 'Surging Intent', value: leads.filter(l => l.intent === 'surging').length, change: 'Hot!', color: 'text-red-600' },
+          { icon: Users, label: t('lmTotalLeads', language), value: leads.length, change: '+12%', color: 'text-blue-600' },
+          { icon: DollarSign, label: t('lmPipelineValue', language), value: `₹${(totalValue/100000).toFixed(1)}L`, change: '+28%', color: 'text-teal-600' },
+          { icon: Target, label: t('lmWeightedValue', language), value: `₹${(totalWeighted/100000).toFixed(1)}L`, change: '+18%', color: 'text-purple-600' },
+          { icon: Zap, label: t('lmAvgScore', language), value: avgScore, change: null, color: 'text-orange-600' },
+          { icon: Flame, label: t('lmSurgingIntent', language), value: leads.filter(l => l.intent === 'surging').length, change: 'Hot!', color: 'text-red-600' },
         ].map((kpi, i) => (
           <motion.div key={i} {...fade(i)} className="bg-white rounded-xl border border-navy-100 p-4">
             <div className="flex items-center justify-between mb-1.5">
@@ -89,7 +89,7 @@ export const LeadManager = () => {
       <div className="bg-white rounded-xl border border-navy-100 overflow-hidden">
         <div className="px-4 py-3 border-b border-navy-100 flex items-center gap-4 flex-wrap">
           <div className="flex gap-1">
-            {[{ k: 'pipeline', l: 'Pipeline' }, { k: 'table', l: 'Table' }, { k: 'analytics', l: 'Analytics' }].map(v => (
+            {[{ k: 'pipeline', l: t('lmPipeline', language) }, { k: 'table', l: t('lmTable', language) }, { k: 'analytics', l: t('lmAnalyticsTab', language) }].map(v => (
               <button key={v.k} onClick={() => setView(v.k)}
                 className={`px-3 py-1.5 rounded-lg text-[11px] font-semibold transition-colors ${view === v.k ? 'bg-navy-700 text-white' : 'bg-navy-50 text-navy-500 hover:bg-navy-100'}`}>
                 {v.l}
@@ -99,16 +99,16 @@ export const LeadManager = () => {
           <div className="flex items-center gap-2 px-3 py-1.5 bg-navy-50 rounded-lg border border-navy-100 w-52">
             <Search className="w-3.5 h-3.5 text-navy-400" />
             <input value={searchTerm} onChange={e => setSearchTerm(e.target.value)}
-              placeholder="Search leads..." className="bg-transparent text-[11px] outline-none w-full text-navy-700 placeholder:text-navy-300" />
+              placeholder={t('lmSearchPlaceholder', language)} className="bg-transparent text-[11px] outline-none w-full text-navy-700 placeholder:text-navy-300" />
           </div>
           <button onClick={() => setFilterOpen(!filterOpen)}
             className="flex items-center gap-1 px-3 py-1.5 bg-navy-50 text-navy-600 rounded-lg text-[11px] font-medium hover:bg-navy-100">
-            <SlidersHorizontal className="w-3 h-3" /> Filters
+            <SlidersHorizontal className="w-3 h-3" /> {t('filters', language)}
           </button>
           {(stageFilter !== 'all' || intentFilter !== 'all') && (
             <button onClick={() => { setStageFilter('all'); setIntentFilter('all'); }}
               className="text-[10px] text-red-500 font-medium hover:text-red-700 flex items-center gap-0.5">
-              <X className="w-3 h-3" /> Clear
+              <X className="w-3 h-3" /> {t('clear', language)}
             </button>
           )}
         </div>
@@ -117,7 +117,7 @@ export const LeadManager = () => {
         {filterOpen && (
           <div className="px-4 py-3 border-b border-navy-100 bg-navy-50/50 flex gap-6 flex-wrap">
             <div>
-              <span className="text-[9px] font-bold text-navy-500 uppercase mb-1 block">Stage</span>
+              <span className="text-[9px] font-bold text-navy-500 uppercase mb-1 block">{t('lmStage', language)}</span>
               <div className="flex gap-1 flex-wrap">
                 {['all','new','contacted','qualified','proposal','negotiation','won','lost'].map(s => (
                   <button key={s} onClick={() => setStageFilter(s)}
@@ -129,7 +129,7 @@ export const LeadManager = () => {
               </div>
             </div>
             <div>
-              <span className="text-[9px] font-bold text-navy-500 uppercase mb-1 block">Intent</span>
+              <span className="text-[9px] font-bold text-navy-500 uppercase mb-1 block">{t('lmIntent', language)}</span>
               <div className="flex gap-1">
                 {['all','low','medium','high','surging'].map(i => (
                   <button key={i} onClick={() => setIntentFilter(i)}
@@ -194,7 +194,7 @@ export const LeadManager = () => {
             <table className="w-full">
               <thead className="bg-navy-50">
                 <tr>
-                  {['Company', 'Contact', 'Stage', 'Intent', 'Score', 'Deal Value', 'Channel', 'Last Activity'].map(h => (
+                  {[t('lmCompany', language), t('lmContact', language), t('lmStage', language), t('lmIntent', language), t('metricScore', language), t('lmDealValue', language), t('lmChannel', language), t('lmLastActivity', language)].map(h => (
                     <th key={h} className="px-3 py-2.5 text-left text-[9px] font-bold text-navy-500 uppercase whitespace-nowrap">{h}</th>
                   ))}
                 </tr>
@@ -247,7 +247,7 @@ export const LeadManager = () => {
             <div className="grid lg:grid-cols-2 gap-4">
               <motion.div {...fade(0)} className="bg-white rounded-xl border border-navy-100 p-4">
                 <h3 className="text-[12px] font-bold text-navy-800 mb-3 flex items-center gap-1.5">
-                  <BarChart3 className="w-4 h-4 text-navy-500" /> Pipeline by Stage
+                  <BarChart3 className="w-4 h-4 text-navy-500" /> {t('lmPipelineByStage', language)}
                 </h3>
                 <ResponsiveContainer width="100%" height={200}>
                   <BarChart data={pipelineChartData}>
@@ -264,7 +264,7 @@ export const LeadManager = () => {
 
               <motion.div {...fade(1)} className="bg-white rounded-xl border border-navy-100 p-4">
                 <h3 className="text-[12px] font-bold text-navy-800 mb-3 flex items-center gap-1.5">
-                  <Activity className="w-4 h-4 text-navy-500" /> Buyer Journey Distribution
+                  <Activity className="w-4 h-4 text-navy-500" /> {t('lmBuyerJourney', language)}
                 </h3>
                 <ResponsiveContainer width="100%" height={200}>
                   <RPie>
@@ -286,7 +286,7 @@ export const LeadManager = () => {
             <div className="grid lg:grid-cols-3 gap-4">
               <motion.div {...fade(2)} className="bg-white rounded-xl border border-navy-100 p-4">
                 <h3 className="text-[12px] font-bold text-navy-800 mb-3 flex items-center gap-1.5">
-                  <Flame className="w-4 h-4 text-orange-500" /> Intent Distribution
+                  <Flame className="w-4 h-4 text-orange-500" /> {t('lmIntentDist', language)}
                 </h3>
                 <div className="space-y-2">
                   {intentDist.map((id, i) => (
@@ -304,7 +304,7 @@ export const LeadManager = () => {
 
               <motion.div {...fade(3)} className="lg:col-span-2 bg-white rounded-xl border border-navy-100 p-4">
                 <h3 className="text-[12px] font-bold text-navy-800 mb-3 flex items-center gap-1.5">
-                  <Globe className="w-4 h-4 text-navy-500" /> Lead Sources
+                  <Globe className="w-4 h-4 text-navy-500" /> {t('lmLeadSources', language)}
                 </h3>
                 <ResponsiveContainer width="100%" height={160}>
                   <BarChart data={channelData} layout="vertical">
@@ -321,23 +321,23 @@ export const LeadManager = () => {
             <motion.div {...fade(4)} className="bg-gradient-to-r from-navy-700 to-navy-800 rounded-xl p-5 text-white">
               <div className="flex items-center gap-2 mb-3">
                 <Sparkles className="w-5 h-5 text-teal-400" />
-                <h3 className="text-sm font-bold">Predictive Sales Intelligence</h3>
+                <h3 className="text-sm font-bold">{t('lmPredictiveTitle', language)}</h3>
               </div>
               <div className="grid md:grid-cols-3 gap-4">
                 <div className="bg-white/10 rounded-lg p-3">
-                  <p className="text-[9px] text-navy-200 mb-1">Predicted Close Rate</p>
+                  <p className="text-[9px] text-navy-200 mb-1">{t('lmPredictedClose', language)}</p>
                   <p className="text-2xl font-bold text-teal-400">34%</p>
-                  <p className="text-[9px] text-navy-300 mt-1 flex items-center gap-1"><ArrowUpRight className="w-3 h-3 text-teal-400" /> +8% vs last quarter</p>
+                  <p className="text-[9px] text-navy-300 mt-1 flex items-center gap-1"><ArrowUpRight className="w-3 h-3 text-teal-400" /> {t('lmCloseVsLast', language)}</p>
                 </div>
                 <div className="bg-white/10 rounded-lg p-3">
-                  <p className="text-[9px] text-navy-200 mb-1">Expected Revenue (Q1)</p>
+                  <p className="text-[9px] text-navy-200 mb-1">{t('lmExpectedRevenue', language)}</p>
                   <p className="text-2xl font-bold">₹{(totalWeighted/100000).toFixed(1)}L</p>
-                  <p className="text-[9px] text-navy-300 mt-1">Based on weighted pipeline</p>
+                  <p className="text-[9px] text-navy-300 mt-1">{t('lmRevenueBase', language)}</p>
                 </div>
                 <div className="bg-white/10 rounded-lg p-3">
-                  <p className="text-[9px] text-navy-200 mb-1">Avg. Sales Cycle</p>
-                  <p className="text-2xl font-bold">42 <span className="text-sm font-normal text-navy-300">days</span></p>
-                  <p className="text-[9px] text-navy-300 mt-1 flex items-center gap-1"><ArrowDownRight className="w-3 h-3 text-teal-400" /> -5 days improvement</p>
+                  <p className="text-[9px] text-navy-200 mb-1">{t('lmAvgSalesCycle', language)}</p>
+                  <p className="text-2xl font-bold">42 <span className="text-sm font-normal text-navy-300">{t('days', language)}</span></p>
+                  <p className="text-[9px] text-navy-300 mt-1 flex items-center gap-1"><ArrowDownRight className="w-3 h-3 text-teal-400" /> {t('lmCycleImprove', language)}</p>
                 </div>
               </div>
             </motion.div>
@@ -370,21 +370,21 @@ export const LeadManager = () => {
               <div className="grid grid-cols-3 gap-2">
                 <div className="bg-navy-50 rounded-xl p-3 text-center">
                   <p className="text-2xl font-bold text-navy-800">{selectedLead.combinedScore}</p>
-                  <p className="text-[9px] text-navy-500">Combined Score</p>
+                  <p className="text-[9px] text-navy-500">{t('lmCombinedScore', language)}</p>
                 </div>
                 <div className="bg-orange-50 rounded-xl p-3 text-center">
                   <p className="text-2xl font-bold text-orange-600">{selectedLead.intentScore}</p>
-                  <p className="text-[9px] text-navy-500">Intent Score</p>
+                  <p className="text-[9px] text-navy-500">{t('lmIntentScore', language)}</p>
                 </div>
                 <div className="bg-teal-50 rounded-xl p-3 text-center">
                   <p className="text-2xl font-bold text-teal-600">{selectedLead.fitScore}</p>
-                  <p className="text-[9px] text-navy-500">Fit Score</p>
+                  <p className="text-[9px] text-navy-500">{t('lmFitScore', language)}</p>
                 </div>
               </div>
 
               {/* Contact */}
               <div className="bg-white rounded-xl border border-navy-100 p-4">
-                <h4 className="text-[11px] font-bold text-navy-700 mb-2 flex items-center gap-1"><User className="w-3.5 h-3.5" /> Contact</h4>
+                <h4 className="text-[11px] font-bold text-navy-700 mb-2 flex items-center gap-1"><User className="w-3.5 h-3.5" /> {t('lmContact', language)}</h4>
                 <div className="space-y-2">
                   <div className="flex items-center gap-2"><User className="w-3 h-3 text-navy-300" /><span className="text-[11px] text-navy-700">{selectedLead.contact.name} • {selectedLead.contact.title}</span></div>
                   <div className="flex items-center gap-2"><Mail className="w-3 h-3 text-navy-300" /><span className="text-[11px] text-navy-600">{selectedLead.contact.email}</span></div>
@@ -394,26 +394,26 @@ export const LeadManager = () => {
 
               {/* Deal Info */}
               <div className="bg-white rounded-xl border border-navy-100 p-4">
-                <h4 className="text-[11px] font-bold text-navy-700 mb-2 flex items-center gap-1"><DollarSign className="w-3.5 h-3.5" /> Deal</h4>
+                <h4 className="text-[11px] font-bold text-navy-700 mb-2 flex items-center gap-1"><DollarSign className="w-3.5 h-3.5" /> {t('lmDeal', language)}</h4>
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="bg-navy-50 rounded-lg p-2"><p className="text-[8px] text-navy-400">Value</p><p className="text-[12px] font-bold text-navy-800">₹{(selectedLead.dealValue/1000).toFixed(0)}K</p></div>
-                  <div className="bg-navy-50 rounded-lg p-2"><p className="text-[8px] text-navy-400">Probability</p><p className="text-[12px] font-bold text-navy-800">{selectedLead.probability}%</p></div>
-                  <div className="bg-navy-50 rounded-lg p-2"><p className="text-[8px] text-navy-400">Stage</p><p className="text-[12px] font-bold capitalize" style={{ color: stageColors[selectedLead.stage] }}>{selectedLead.stage}</p></div>
-                  <div className="bg-navy-50 rounded-lg p-2"><p className="text-[8px] text-navy-400">Channel</p><p className="text-[12px] font-bold text-navy-800">{selectedLead.channel}</p></div>
+                  <div className="bg-navy-50 rounded-lg p-2"><p className="text-[8px] text-navy-400">{t('lmValue', language)}</p><p className="text-[12px] font-bold text-navy-800">₹{(selectedLead.dealValue/1000).toFixed(0)}K</p></div>
+                  <div className="bg-navy-50 rounded-lg p-2"><p className="text-[8px] text-navy-400">{t('lmProbability', language)}</p><p className="text-[12px] font-bold text-navy-800">{selectedLead.probability}%</p></div>
+                  <div className="bg-navy-50 rounded-lg p-2"><p className="text-[8px] text-navy-400">{t('lmStage', language)}</p><p className="text-[12px] font-bold capitalize" style={{ color: stageColors[selectedLead.stage] }}>{selectedLead.stage}</p></div>
+                  <div className="bg-navy-50 rounded-lg p-2"><p className="text-[8px] text-navy-400">{t('lmChannel', language)}</p><p className="text-[12px] font-bold text-navy-800">{selectedLead.channel}</p></div>
                 </div>
               </div>
 
               {/* Company Info */}
               <div className="bg-white rounded-xl border border-navy-100 p-4">
-                <h4 className="text-[11px] font-bold text-navy-700 mb-2 flex items-center gap-1"><Briefcase className="w-3.5 h-3.5" /> Company</h4>
+                <h4 className="text-[11px] font-bold text-navy-700 mb-2 flex items-center gap-1"><Briefcase className="w-3.5 h-3.5" /> {t('lmCompany', language)}</h4>
                 <div className="grid grid-cols-2 gap-2">
-                  <div className="text-[10px]"><span className="text-navy-400">Employees:</span> <span className="font-semibold text-navy-700">{selectedLead.company.employees}</span></div>
-                  <div className="text-[10px]"><span className="text-navy-400">Revenue:</span> <span className="font-semibold text-navy-700">{selectedLead.company.revenue}</span></div>
-                  <div className="text-[10px]"><span className="text-navy-400">City:</span> <span className="font-semibold text-navy-700">{selectedLead.company.city}</span></div>
-                  <div className="text-[10px]"><span className="text-navy-400">Domain:</span> <span className="font-semibold text-navy-700">{selectedLead.company.domain}</span></div>
+                  <div className="text-[10px]"><span className="text-navy-400">{t('lmEmployees', language)}</span> <span className="font-semibold text-navy-700">{selectedLead.company.employees}</span></div>
+                  <div className="text-[10px]"><span className="text-navy-400">{t('lmRevenue', language)}</span> <span className="font-semibold text-navy-700">{selectedLead.company.revenue}</span></div>
+                  <div className="text-[10px]"><span className="text-navy-400">{t('lmCity', language)}</span> <span className="font-semibold text-navy-700">{selectedLead.company.city}</span></div>
+                  <div className="text-[10px]"><span className="text-navy-400">{t('lmDomain', language)}</span> <span className="font-semibold text-navy-700">{selectedLead.company.domain}</span></div>
                 </div>
                 <div className="mt-2">
-                  <span className="text-[9px] font-bold text-navy-500">Tech Stack</span>
+                  <span className="text-[9px] font-bold text-navy-500">{t('lmTechStack', language)}</span>
                   <div className="flex flex-wrap gap-1 mt-1">
                     {selectedLead.company.tech.map((t, i) => (
                       <span key={i} className="text-[8px] bg-navy-50 text-navy-600 px-1.5 py-0.5 rounded font-medium">{t}</span>
@@ -424,7 +424,7 @@ export const LeadManager = () => {
 
               {/* Intent Signals */}
               <div className="bg-white rounded-xl border border-navy-100 p-4">
-                <h4 className="text-[11px] font-bold text-navy-700 mb-2 flex items-center gap-1"><Flame className="w-3.5 h-3.5 text-orange-500" /> Intent Signals</h4>
+                <h4 className="text-[11px] font-bold text-navy-700 mb-2 flex items-center gap-1"><Flame className="w-3.5 h-3.5 text-orange-500" /> {t('lmIntentSignals', language)}</h4>
                 <div className="space-y-1.5">
                   {selectedLead.signals.map((s, i) => (
                     <div key={i} className="flex items-center gap-2 text-[10px]"><Zap className="w-3 h-3 text-orange-400" /><span className="text-navy-600">{s}</span></div>
@@ -434,7 +434,7 @@ export const LeadManager = () => {
 
               {/* Activity Timeline */}
               <div className="bg-white rounded-xl border border-navy-100 p-4">
-                <h4 className="text-[11px] font-bold text-navy-700 mb-2 flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> Recent Activity</h4>
+                <h4 className="text-[11px] font-bold text-navy-700 mb-2 flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {t('lmRecentActivity', language)}</h4>
                 <div className="space-y-2">
                   {selectedLead.activities.map((a, i) => (
                     <div key={i} className="flex items-start gap-2">
