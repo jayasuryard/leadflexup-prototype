@@ -20,6 +20,16 @@ export const AppProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isOnboarded, setIsOnboarded] = useState(false);
 
+  // Chat history (persisted for signed-up users)
+  const [chatHistory, setChatHistory] = useState([]);
+  const [activeChatId, setActiveChatId] = useState(null);
+
+  // Workflows created by AI agent
+  const [workflows, setWorkflows] = useState([]);
+
+  // Activity preview items (right panel)
+  const [liveActivities, setLiveActivities] = useState([]);
+
   useEffect(() => {
     const saved = localStorage.getItem('leadflexup_data');
     if (saved) {
@@ -34,6 +44,8 @@ export const AppProvider = ({ children }) => {
         setIsAuthenticated(p.isAuthenticated || false);
         setIsOnboarded(p.isOnboarded || false);
         setLanguage(p.language || 'en');
+        setChatHistory(p.chatHistory || []);
+        setWorkflows(p.workflows || []);
       } catch (e) {
         console.error('Error loading saved data:', e);
       }
@@ -44,10 +56,11 @@ export const AppProvider = ({ children }) => {
     if (currentUser || businessData || subscription) {
       localStorage.setItem('leadflexup_data', JSON.stringify({
         currentUser, businessData, analyticsData, recommendations,
-        subscription, growthProgress, isAuthenticated, isOnboarded, language
+        subscription, growthProgress, isAuthenticated, isOnboarded, language,
+        chatHistory, workflows
       }));
     }
-  }, [currentUser, businessData, analyticsData, recommendations, subscription, growthProgress, isAuthenticated, isOnboarded, language]);
+  }, [currentUser, businessData, analyticsData, recommendations, subscription, growthProgress, isAuthenticated, isOnboarded, language, chatHistory, workflows]);
 
   const signup = (userData) => {
     setCurrentUser(userData);
@@ -63,6 +76,9 @@ export const AppProvider = ({ children }) => {
     setGrowthProgress({});
     setIsAuthenticated(false);
     setIsOnboarded(false);
+    setChatHistory([]);
+    setWorkflows([]);
+    setLiveActivities([]);
     localStorage.removeItem('leadflexup_data');
   };
 
@@ -89,12 +105,43 @@ export const AppProvider = ({ children }) => {
 
   const changeLanguage = (lang) => setLanguage(lang);
 
+  // Save a chat session to history
+  const saveChat = (chatId, title, messages) => {
+    setChatHistory(prev => {
+      const existing = prev.findIndex(c => c.id === chatId);
+      const entry = { id: chatId, title, messages, updatedAt: Date.now() };
+      if (existing >= 0) {
+        const copy = [...prev];
+        copy[existing] = entry;
+        return copy;
+      }
+      return [entry, ...prev];
+    });
+  };
+
+  // Add a workflow
+  const addWorkflow = (workflow) => {
+    setWorkflows(prev => [{ ...workflow, id: `wf-${Date.now()}`, createdAt: Date.now(), status: 'running' }, ...prev]);
+  };
+
+  const updateWorkflowStatus = (id, status) => {
+    setWorkflows(prev => prev.map(w => w.id === id ? { ...w, status } : w));
+  };
+
+  // Add live activity
+  const addLiveActivity = (activity) => {
+    setLiveActivities(prev => [{ ...activity, id: `act-${Date.now()}`, ts: Date.now() }, ...prev].slice(0, 20));
+  };
+
   const value = {
     language, changeLanguage,
     currentUser, isAuthenticated, signup, logout,
     businessData, analyticsData, recommendations,
     subscription, growthProgress, isOnboarded,
-    onboardBusiness, selectSubscription, updateGrowthProgress
+    onboardBusiness, selectSubscription, updateGrowthProgress,
+    chatHistory, activeChatId, setActiveChatId, saveChat,
+    workflows, addWorkflow, updateWorkflowStatus,
+    liveActivities, addLiveActivity,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

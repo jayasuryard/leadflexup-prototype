@@ -90,7 +90,7 @@ const MiniGauge = ({ value, label, color }) => (
       </svg>
       <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-navy-800">{value}</span>
     </div>
-    <span className="text-[9px] text-navy-500 mt-1 text-center leading-tight">{label}</span>
+    <span className="text-[9px] text-navy-50 mt-1 text-center leading-tight">{label}</span>
   </div>
 );
 

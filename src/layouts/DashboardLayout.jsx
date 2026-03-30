@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard, TrendingUp,
   Rocket, Settings, LogOut, Menu, X, Bell, Search, ChevronDown,
-  BarChart3, CreditCard, Globe, Palette, Zap, Users, UserPlus, Terminal
+  BarChart3, CreditCard, Globe, Palette, Zap, Users, UserPlus, Terminal,
+  MessageCircle, Plus, Clock, ChevronRight, Workflow
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { t } from '../utils/i18n';
@@ -11,14 +13,15 @@ import { t } from '../utils/i18n';
 export const DashboardLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { language, changeLanguage, businessData, logout, currentUser, analyticsData, isAuthenticated, signup } = useApp();
+  const { language, changeLanguage, businessData, logout, currentUser, analyticsData, isAuthenticated, signup,
+    chatHistory, workflows } = useApp();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
+  const [chatSidebarOpen, setChatSidebarOpen] = useState(false);
 
   const handleLogout = () => { logout(); navigate('/'); };
 
-  // Build nav items dynamically based on auth state
   const navItems = [
     { key: 'overview', icon: LayoutDashboard, path: '/dashboard', label: t('dashboard', language) },
     { key: 'analytics', icon: BarChart3, path: '/dashboard/analytics', label: t('analytics', language) },
@@ -47,7 +50,7 @@ export const DashboardLayout = () => {
         </button>
       </div>
 
-      {/* ─── Sidebar ─── */}
+      {/* ─── Main Sidebar ─── */}
       <aside
         onMouseEnter={() => setSidebarExpanded(true)}
         onMouseLeave={() => setSidebarExpanded(false)}
@@ -87,6 +90,29 @@ export const DashboardLayout = () => {
               </NavLink>
             ))}
 
+            {/* Chat History toggle for authenticated users */}
+            {isAuthenticated && (sidebarExpanded || sidebarOpen) && chatHistory.length > 0 && (
+              <button onClick={() => setChatSidebarOpen(!chatSidebarOpen)}
+                className="mx-1 mt-3 flex items-center gap-2 px-3 py-2 text-navy-500 hover:bg-navy-50 rounded-lg text-[12px] font-medium w-full transition-colors">
+                <Clock className="w-[18px] h-[18px] flex-shrink-0" />
+                <span className="whitespace-nowrap flex-1 text-left">Chat History</span>
+                <span className="text-[9px] bg-navy-100 text-navy-500 px-1.5 py-0.5 rounded-full">{chatHistory.length}</span>
+              </button>
+            )}
+
+            {/* Workflows count for authenticated users */}
+            {isAuthenticated && (sidebarExpanded || sidebarOpen) && workflows.length > 0 && (
+              <NavLink to="/dashboard/automation"
+                className="mx-1 flex items-center gap-2 px-3 py-2 text-navy-500 hover:bg-navy-50 rounded-lg text-[12px] font-medium transition-colors">
+                <Workflow className="w-[18px] h-[18px] flex-shrink-0" />
+                <span className="whitespace-nowrap flex-1">Workflows</span>
+                <span className="flex items-center gap-1 text-[9px] bg-teal-50 text-teal-600 px-1.5 py-0.5 rounded-full">
+                  <span className="w-1 h-1 bg-teal-500 rounded-full animate-pulse" />
+                  {workflows.filter(w => w.status === 'running').length}
+                </span>
+              </NavLink>
+            )}
+
             {/* Signup button for guests */}
             {!isAuthenticated && (sidebarExpanded || sidebarOpen) && (
               <button onClick={() => {
@@ -106,7 +132,7 @@ export const DashboardLayout = () => {
             )}
           </nav>
 
-          {/* Score card — only when expanded */}
+          {/* Score card */}
           {(sidebarExpanded || sidebarOpen) && analyticsData && (
             <div className="mx-2 mb-2 p-3 bg-navy-700 rounded-xl text-white">
               <p className="text-[10px] font-medium text-navy-200 mb-0.5">Digital Score</p>
@@ -161,11 +187,88 @@ export const DashboardLayout = () => {
         </div>
       </aside>
 
+      {/* ─── Chat History Sub-Sidebar (post-signup) ─── */}
+      <AnimatePresence>
+        {chatSidebarOpen && isAuthenticated && (
+          <motion.aside
+            initial={{ x: -280, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: -280, opacity: 0 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className="fixed top-0 h-full w-[280px] bg-white border-r border-navy-100 z-[45] shadow-xl"
+            style={{ left: sidebarExpanded ? 220 : 60 }}
+          >
+            <div className="flex flex-col h-full">
+              <div className="px-4 py-4 border-b border-navy-100 flex items-center justify-between">
+                <h3 className="text-sm font-bold text-navy-800 flex items-center gap-2">
+                  <MessageCircle className="w-4 h-4 text-teal-600" /> Chat History
+                </h3>
+                <button onClick={() => setChatSidebarOpen(false)} className="p-1 rounded-lg hover:bg-navy-50">
+                  <X className="w-4 h-4 text-navy-400" />
+                </button>
+              </div>
+
+              <button onClick={() => { setChatSidebarOpen(false); navigate('/dashboard'); }}
+                className="mx-3 mt-3 flex items-center gap-2 px-3 py-2.5 bg-teal-600 text-white rounded-lg text-[12px] font-semibold hover:bg-teal-700">
+                <Plus className="w-4 h-4" /> New Chat
+              </button>
+
+              <div className="flex-1 overflow-y-auto p-3 space-y-1.5">
+                {chatHistory.length === 0 ? (
+                  <div className="text-center py-8">
+                    <MessageCircle className="w-8 h-8 text-navy-200 mx-auto mb-2" />
+                    <p className="text-[11px] text-navy-400">No conversations yet</p>
+                  </div>
+                ) : (
+                  chatHistory.map(chat => (
+                    <button key={chat.id}
+                      onClick={() => { setChatSidebarOpen(false); navigate('/dashboard'); }}
+                      className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg hover:bg-navy-50 text-left transition-colors group">
+                      <div className="w-7 h-7 bg-navy-50 rounded-lg flex items-center justify-center flex-shrink-0 group-hover:bg-navy-100">
+                        <MessageCircle className="w-3.5 h-3.5 text-navy-400" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[11px] font-medium text-navy-700 truncate">{chat.title}</p>
+                        <p className="text-[9px] text-navy-300">{new Date(chat.updatedAt).toLocaleDateString()}</p>
+                      </div>
+                    </button>
+                  ))
+                )}
+              </div>
+
+              {/* Active Workflows section in sub-sidebar */}
+              {workflows.length > 0 && (
+                <div className="border-t border-navy-100 p-3">
+                  <p className="text-[9px] font-bold text-navy-400 uppercase tracking-wider mb-2">Active Workflows</p>
+                  <div className="space-y-1.5">
+                    {workflows.filter(w => w.status === 'running').slice(0, 3).map(wf => (
+                      <div key={wf.id} className="flex items-center gap-2 px-2 py-1.5 bg-teal-50 rounded-lg">
+                        <span className="text-sm">{wf.icon}</span>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-[10px] font-medium text-navy-700 truncate">{wf.name}</p>
+                        </div>
+                        <span className="w-1.5 h-1.5 bg-teal-500 rounded-full animate-pulse" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </motion.aside>
+        )}
+      </AnimatePresence>
+
       {/* ─── Top bar ─── */}
       <div className={`transition-all duration-200 ${mlVal}`}>
         <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-navy-100">
           <div className="flex items-center justify-between h-14 px-6">
             <div className="flex items-center gap-3 pl-10 lg:pl-0">
+              {isAuthenticated && chatHistory.length > 0 && (
+                <button onClick={() => setChatSidebarOpen(!chatSidebarOpen)}
+                  className="p-1.5 rounded-lg hover:bg-navy-50 mr-1" title="Chat History">
+                  <Clock className="w-4 h-4 text-navy-500" />
+                </button>
+              )}
               <h1 className="text-sm font-bold text-navy-800">{t('dashboard', language)}</h1>
               <ChevronDown className="w-4 h-4 text-navy-400" />
             </div>
@@ -195,6 +298,7 @@ export const DashboardLayout = () => {
 
       {/* Mobile overlay */}
       {sidebarOpen && <div className="fixed inset-0 bg-navy-950/40 z-30 lg:hidden" onClick={() => setSidebarOpen(false)} />}
+      {chatSidebarOpen && <div className="fixed inset-0 bg-navy-950/20 z-[44]" onClick={() => setChatSidebarOpen(false)} />}
     </div>
   );
 };
