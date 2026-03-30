@@ -1,61 +1,61 @@
 // Mock Database - Simulating enriched data intelligence
 
 export const businessCategories = [
-  { id: 'restaurant', label: { en: 'Restaurant', hi: 'रेस्तरां', ta: 'உணவகம்' } },
-  { id: 'retail', label: { en: 'Retail Shop', hi: 'खुदरा दुकान', ta: 'சில்லறை கடை' } },
-  { id: 'salon', label: { en: 'Salon & Spa', hi: 'सैलून और स्पा', ta: 'அழகு நிலையம்' } },
-  { id: 'gym', label: { en: 'Gym & Fitness', hi: 'जिम और फिटनेस', ta: 'உடற்பயிற்சி' } },
-  { id: 'medical', label: { en: 'Medical Clinic', hi: 'चिकित्सा क्लिनिक', ta: 'மருத்துவ நிலையம்' } },
-  { id: 'education', label: { en: 'Education & Training', hi: 'शिक्षा और प्रशिक्षण', ta: 'கல்வி' } },
-  { id: 'professional', label: { en: 'Professional Services', hi: 'व्यावसायिक सेवाएं', ta: 'தொழில்முறை சேவைகள்' } },
-  { id: 'automotive', label: { en: 'Automotive', hi: 'ऑटोमोटिव', ta: 'வாகனம்' } }
+  { id: 'restaurant', label: { en: 'Restaurant', hi: 'रेस्तरां', ta: 'உணவகம்', kn: 'ರೆಸ್ಟೋರೆಂಟ್', te: 'రెస్టారెంట్', ml: 'റെസ്റ്റോറന്റ്' } },
+  { id: 'retail', label: { en: 'Retail Shop', hi: 'खुदरा दुकान', ta: 'சில்லறை கடை', kn: 'ಚಿಲ್ಲರೆ ಅಂಗಡಿ', te: 'రిటైల్ షాప్', ml: 'റീട്ടെയിൽ ഷോപ്പ്' } },
+  { id: 'salon', label: { en: 'Salon & Spa', hi: 'सैलून और स्पा', ta: 'அழகு நிலையம்', kn: 'ಸಲೂನ್ ಮತ್ತು ಸ್ಪಾ', te: 'సెలూన్ & స్పా', ml: 'സലൂൺ & സ്പാ' } },
+  { id: 'gym', label: { en: 'Gym & Fitness', hi: 'जिम और फिटनेस', ta: 'உடற்பயிற்சி', kn: 'ಜಿಮ್ ಮತ್ತು ಫಿಟ್ನೆಸ್', te: 'జిమ్ & ఫిట్‌నెస్', ml: 'ജിം & ഫിറ്റ്നസ്' } },
+  { id: 'medical', label: { en: 'Medical Clinic', hi: 'चिकित्सा क्लिनिक', ta: 'மருத்துவ நிலையம்', kn: 'ವೈದ್ಯಕೀಯ ಕ್ಲಿನಿಕ್', te: 'మెడికల్ క్లినిక్', ml: 'മെഡിക്കൽ ക്ലിനിക്' } },
+  { id: 'education', label: { en: 'Education & Training', hi: 'शिक्षा और प्रशिक्षण', ta: 'கல்வி', kn: 'ಶಿಕ್ಷಣ ಮತ್ತು ತರಬೇತಿ', te: 'విద్య & శిక్షణ', ml: 'വിദ്യാഭ്യാസം & പരിശീലനം' } },
+  { id: 'professional', label: { en: 'Professional Services', hi: 'व्यावसायिक सेवाएं', ta: 'தொழில்முறை சேவைகள்', kn: 'ವೃತ್ತಿಪರ ಸೇವೆಗಳು', te: 'ప్రొఫెషనల్ సేవలు', ml: 'പ്രൊഫഷണൽ സേവനങ്ങൾ' } },
+  { id: 'automotive', label: { en: 'Automotive', hi: 'ऑटोमोटिव', ta: 'வாகனம்', kn: 'ಆಟೋಮೋಟಿವ್', te: 'ఆటోమోటివ్', ml: 'ഓട്ടോമോട്ടീവ്' } }
 ];
 
 export const subscriptionPlans = [
   {
     id: 'starter',
-    name: { en: 'Starter Growth', hi: 'स्टार्टर ग्रोथ', ta: 'தொடக்க வளர்ச்சி' },
+    name: { en: 'Starter Growth', hi: 'स्टार्टर ग्रोथ', ta: 'தொடக்க வளர்ச்சி', kn: 'ಸ್ಟಾರ್ಟರ್ ಬೆಳವಣಿಗೆ', te: 'స్టార్టర్ గ్రోత్', ml: 'സ്റ്റാർട്ടർ ഗ്രോത്ത്' },
     price: 149999,
     currency: '₹',
-    period: { en: 'month', hi: 'महीना', ta: 'மாதம்' },
+    period: { en: 'month', hi: 'महीना', ta: 'மாதம்', kn: 'ತಿಂಗಳು', te: 'నెల', ml: 'മാസം' },
     features: [
-      { en: 'Basic Analytics Dashboard', hi: 'बेसिक एनालिटिक्स डैशबोर्ड', ta: 'அடிப்படை பகுப்பாய்வு' },
-      { en: 'Competitor Benchmarking (5 competitors)', hi: '5 प्रतिस्पर्धी बेंचमार्किंग', ta: '5 போட்டியாளர் ஒப்பீடு' },
-      { en: 'Social Media Setup Guidance', hi: 'सोशल मीडिया सेटअप गाइडेंस', ta: 'சமூக ஊடக வழிகாட்டி' },
-      { en: 'Monthly Performance Report', hi: 'मासिक प्रदर्शन रिपोर्ट', ta: 'மாதாந்திர அறிக்கை' },
-      { en: 'Email Support', hi: 'ईमेल सपोर्ट', ta: 'மின்னஞ்சல் ஆதரவு' }
+      { en: 'Basic Analytics Dashboard', hi: 'बेसिक एनालिटिक्स डैशबोर्ड', ta: 'அடிப்படை பகுப்பாய்வு', kn: 'ಮೂಲ ವಿಶ್ಲೇಷಣೆ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್', te: 'బేసిక్ అనలిటిక్స్ డ్యాష్‌బోర్డ్', ml: 'ബേസിക് അനലിറ്റിക്സ് ഡാഷ്ബോർഡ്' },
+      { en: 'Competitor Benchmarking (5 competitors)', hi: '5 प्रतिस्पर्धी बेंचमार्किंग', ta: '5 போட்டியாளர் ஒப்பீடு', kn: '5 ಪ್ರತಿಸ್ಪರ್ಧಿ ಬೆಂಚ್‌ಮಾರ್ಕಿಂಗ್', te: '5 పోటీదారుల బెంచ్‌మార్కింగ్', ml: '5 എതിരാളി ബെഞ്ച്മാർക്കിംഗ്' },
+      { en: 'Social Media Setup Guidance', hi: 'सोशल मीडिया सेटअप गाइडेंस', ta: 'சமூக ஊடக வழிகாட்டி', kn: 'ಸೋಶಿಯಲ್ ಮೀಡಿಯಾ ಸೆಟಪ್ ಮಾರ್ಗದರ್ಶಿ', te: 'సోషల్ మీడియా సెటప్ గైడెన్స్', ml: 'സോഷ്യൽ മീഡിയ സെറ്റപ്പ് ഗൈഡൻസ്' },
+      { en: 'Monthly Performance Report', hi: 'मासिक प्रदर्शन रिपोर्ट', ta: 'மாதாந்திர அறிக்கை', kn: 'ಮಾಸಿಕ ಕಾರ್ಯಕ್ಷಮತೆ ವರದಿ', te: 'నెలవారీ పనితీరు నివేదిక', ml: 'പ്രതിമാസ പ്രകടന റിപ്പോർട്ട്' },
+      { en: 'Email Support', hi: 'ईमेल सपोर्ट', ta: 'மின்னஞ்சல் ஆதரவு', kn: 'ಇಮೇಲ್ ಬೆಂಬಲ', te: 'ఇమెయిల్ సపోర్ట్', ml: 'ഇമെയിൽ സപ്പോർട്ട്' }
     ],
     recommended: false
   },
   {
     id: 'professional',
-    name: { en: 'Professional Scale', hi: 'प्रोफेशनल स्केल', ta: 'தொழில்முறை அளவு' },
+    name: { en: 'Professional Scale', hi: 'प्रोफेशनल स्केल', ta: 'தொழில்முறை அளவு', kn: 'ವೃತ್ತಿಪರ ಸ್ಕೇಲ್', te: 'ప్రొఫెషనల్ స్కేల్', ml: 'പ്രൊഫഷണൽ സ്കെയിൽ' },
     price: 349999,
     currency: '₹',
-    period: { en: 'month', hi: 'महीना', ta: 'மாதம்' },
+    period: { en: 'month', hi: 'महीना', ta: 'மாதம்', kn: 'ತಿಂಗಳು', te: 'నెల', ml: 'മാസം' },
     features: [
-      { en: 'Advanced Analytics + AI Insights', hi: 'एडवांस्ड एनालिटिक्स + AI इनसाइट्स', ta: 'மேம்பட்ட பகுப்பாய்வு + AI' },
-      { en: 'Unlimited Competitor Analysis', hi: 'असीमित प्रतिस्पर्धी विश्लेषण', ta: 'வரம்பற்ற போட்டியாளர் பகுப்பாய்வு' },
-      { en: 'Automated Marketing Campaigns', hi: 'स्वचालित मार्केटिंग अभियान', ta: 'தானியங்கு சந்தைப்படுத்தல்' },
-      { en: 'Lead Capture & CRM Integration', hi: 'लीड कैप्चर और CRM इंटीग्रेशन', ta: 'வாடிக்கையாளர் பிடிப்பு' },
-      { en: 'Weekly Strategy Calls', hi: 'साप्ताहिक रणनीति कॉल', ta: 'வாராந்திர உத்தி அழைப்புகள்' },
-      { en: 'Priority Support (24/7)', hi: 'प्राथमिकता सपोर्ट (24/7)', ta: 'முன்னுரிமை ஆதரவு (24/7)' }
+      { en: 'Advanced Analytics + AI Insights', hi: 'एडवांस्ड एनालिटिक्स + AI इनसाइट्स', ta: 'மேம்பட்ட பகுப்பாய்வு + AI', kn: 'ಸುಧಾರಿತ ವಿಶ್ಲೇಷಣೆ + AI', te: 'అడ్వాన్స్డ్ అనలిటిక్స్ + AI', ml: 'അഡ്വാൻസ്ഡ് അനലിറ്റിക്സ് + AI' },
+      { en: 'Unlimited Competitor Analysis', hi: 'असीमित प्रतिस्पर्धी विश्लेषण', ta: 'வரம்பற்ற போட்டியாளர் பகுப்பாய்வு', kn: 'ಅನಿಯಮಿತ ಪ್ರತಿಸ್ಪರ್ಧಿ ವಿಶ್ಲೇಷಣೆ', te: 'అపరిమిత పోటీదారుల విశ్లేషణ', ml: 'അൺലിമിറ്റഡ് എതിരാളി വിശകലനം' },
+      { en: 'Automated Marketing Campaigns', hi: 'स्वचालित मार्केटिंग अभियान', ta: 'தானியங்கு சந்தைப்படுத்தல்', kn: 'ಸ್ವಯಂಚಾಲಿತ ಮಾರ್ಕೆಟಿಂಗ್', te: 'ఆటోమేటెడ్ మార్కెటింగ్', ml: 'ഓട്ടോമേറ്റഡ് മാർക്കറ്റിംഗ്' },
+      { en: 'Lead Capture & CRM Integration', hi: 'लीड कैप्चर और CRM इंटीग्रेशन', ta: 'வாடிக்கையாளர் பிடிப்பு', kn: 'ಲೀಡ್ ಕ್ಯಾಪ್ಚರ್ & CRM', te: 'లీడ్ క్యాప్చర్ & CRM', ml: 'ലീഡ് ക്യാപ്ചർ & CRM' },
+      { en: 'Weekly Strategy Calls', hi: 'साप्ताहिक रणनीति कॉल', ta: 'வாராந்திர உத்தி அழைப்புகள்', kn: 'ಸಾಪ್ತಾಹಿಕ ತಂತ್ರ ಕರೆಗಳು', te: 'వారపు స్ట్రాటజీ కాల్స్', ml: 'പ്രതിവാര സ്ട്രാറ്റജി കോളുകൾ' },
+      { en: 'Priority Support (24/7)', hi: 'प्राथमिकता सपोर्ट (24/7)', ta: 'முன்னுரிமை ஆதரவு (24/7)', kn: 'ಆದ್ಯತೆ ಬೆಂಬಲ (24/7)', te: 'ప్రాధాన్య సపోర్ట్ (24/7)', ml: 'പ്രയോറിറ്റി സപ്പോർട്ട് (24/7)' }
     ],
     recommended: true
   },
   {
     id: 'enterprise',
-    name: { en: 'Enterprise Domination', hi: 'एंटरप्राइज डोमिनेशन', ta: 'நிறுவன ஆதிக்கம்' },
+    name: { en: 'Enterprise Domination', hi: 'एंटरप्राइज डोमिनेशन', ta: 'நிறுவன ஆதிக்கம்', kn: 'ಎಂಟರ್‌ಪ್ರೈಸ್ ಡಾಮಿನೇಶನ್', te: 'ఎంటర్‌ప్రైజ్ డామినేషన్', ml: 'എന്റർപ്രൈസ് ഡോമിനേഷൻ' },
     price: 499999,
     currency: '₹',
-    period: { en: 'month', hi: 'महीना', ta: 'மாதம்' },
+    period: { en: 'month', hi: 'महीना', ta: 'மாதம்', kn: 'ತಿಂಗಳು', te: 'నెల', ml: 'മാസം' },
     features: [
-      { en: 'Everything in Professional', hi: 'प्रोफेशनल में सब कुछ', ta: 'தொழில்முறையில் அனைத்தும்' },
-      { en: 'Custom AI Growth Models', hi: 'कस्टम AI ग्रोथ मॉडल्स', ta: 'தனிப்பயன் AI வளர்ச்சி' },
-      { en: 'Multi-location Management', hi: 'मल्टी-लोकेशन मैनेजमेंट', ta: 'பல இட மேலாண்மை' },
-      { en: 'White-label Solutions', hi: 'व्हाइट-लेबल सॉल्यूशंस', ta: 'வெள்ளை லேபிள்' },
-      { en: 'Dedicated Account Manager', hi: 'समर्पित खाता प्रबंधक', ta: 'பிரத்யேக கணக்கு மேலாளர்' },
-      { en: 'Revenue Growth Guarantee (4x)', hi: 'राजस्व वृद्धि गारंटी (4x)', ta: 'வருவாய் வளர்ச்சி உத்தரவாதம் (4x)' }
+      { en: 'Everything in Professional', hi: 'प्रोफेशनल में सब कुछ', ta: 'தொழில்முறையில் அனைத்தும்', kn: 'ವೃತ್ತಿಪರದಲ್ಲಿ ಎಲ್ಲವೂ', te: 'ప్రొఫెషనల్‌లో అన్నీ', ml: 'പ്രൊഫഷണലിലെ എല്ലാം' },
+      { en: 'Custom AI Growth Models', hi: 'कस्टम AI ग्रोथ मॉडल्स', ta: 'தனிப்பயன் AI வளர்ச்சி', kn: 'ಕಸ್ಟಮ್ AI ಬೆಳವಣಿಗೆ ಮಾದರಿಗಳು', te: 'కస్టమ్ AI గ్రోత్ మోడల్స్', ml: 'കസ്റ്റം AI ഗ്രോത്ത് മോഡലുകൾ' },
+      { en: 'Multi-location Management', hi: 'मल्टी-लोकेशन मैनेजमेंट', ta: 'பல இட மேலாண்மை', kn: 'ಬಹು-ಸ್ಥಳ ನಿರ್ವಹಣೆ', te: 'మల్టీ-లొకేషన్ మేనేజ్‌మెంట్', ml: 'മൾട്ടി-ലൊക്കേഷൻ മാനേജ്മെന്റ്' },
+      { en: 'White-label Solutions', hi: 'व्हाइट-लेबल सॉल्यूशंस', ta: 'வெள்ளை லேபிள்', kn: 'ವೈಟ್-ಲೇಬಲ್ ಪರಿಹಾರಗಳು', te: 'వైట్-లేబుల్ సొల్యూషన్స్', ml: 'വൈറ്റ്-ലേബൽ സൊല്യൂഷൻസ്' },
+      { en: 'Dedicated Account Manager', hi: 'समर्पित खाता प्रबंधक', ta: 'பிரத்யேக கணக்கு மேலாளர்', kn: 'ಮೀಸಲಾದ ಖಾತೆ ನಿರ್ವಾಹಕ', te: 'డెడికేటెడ్ అకౌంట్ మేనేజర్', ml: 'ഡെഡിക്കേറ്റഡ് അക്കൗണ്ട് മാനേജർ' },
+      { en: 'Revenue Growth Guarantee (4x)', hi: 'राजस्व वृद्धि गारंटी (4x)', ta: 'வருவாய் வளர்ச்சி உத்தரவாதம் (4x)', kn: 'ಆದಾಯ ಬೆಳವಣಿಗೆ ಗ್ಯಾರಂಟಿ (4x)', te: 'రెవెన్యూ గ్రోత్ గ్యారంటీ (4x)', ml: 'റവന്യൂ ഗ്രോത്ത് ഗ്യാരണ്ടി (4x)' }
     ],
     recommended: false
   }
@@ -151,11 +151,14 @@ export const generateRecommendations = (businessData, analyticsData) => {
     recommendations.push({
       priority: 'critical',
       category: 'website',
-      title: { en: 'Establish Online Presence', hi: 'ऑनलाइन उपस्थिति स्थापित करें', ta: 'இணைய இருப்பை நிறுவுங்கள்' },
+      title: { en: 'Establish Online Presence', hi: 'ऑनलाइन उपस्थिति स्थापित करें', ta: 'இணைய இருப்பை நிறுவுங்கள்', kn: 'ಆನ್‌ಲೈನ್ ಉಪಸ್ಥಿತಿ ಸ್ಥಾಪಿಸಿ', te: 'ఆన్‌లైన్ ప్రెజెన్స్ ఏర్పాటు', ml: 'ഓൺലൈൻ സാന്നിധ്യം സ്ഥാപിക്കുക' },
       description: { 
         en: 'Your business has minimal digital footprint. Create a professional website to establish credibility.',
         hi: 'आपके व्यवसाय की डिजिटल उपस्थिति न्यूनतम है। विश्वसनीयता स्थापित करने के लिए एक पेशेवर वेबसाइट बनाएं।',
-        ta: 'உங்கள் வணிகத்திற்கு குறைந்த டிஜிட்டல் இருப்பு உள்ளது. நம்பகத்தன்மையை நிறுவ ஒரு தொழில்முறை இணையதளத்தை உருவாக்கவும்.'
+        ta: 'உங்கள் வணிகத்திற்கு குறைந்த டிஜிட்டல் இருப்பு உள்ளது. நம்பகத்தன்மையை நிறுவ ஒரு தொழில்முறை இணையதளத்தை உருவாக்கவும்.',
+        kn: 'ನಿಮ್ಮ ವ್ಯಾಪಾರಕ್ಕೆ ಕನಿಷ್ಠ ಡಿಜಿಟಲ್ ಹೆಜ್ಜೆಗುರುತು ಇದೆ. ವಿಶ್ವಾಸಾರ್ಹತೆಯನ್ನು ಸ್ಥಾಪಿಸಲು ವೃತ್ತಿಪರ ವೆಬ್‌ಸೈಟ್ ರಚಿಸಿ.',
+        te: 'మీ వ్యాపారానికి తక్కువ డిజిటల్ ఫుట్‌ప్రింట్ ఉంది. విశ్వసనీయత కోసం ప్రొఫెషనల్ వెబ్‌సైట్ సృష్టించండి.',
+        ml: 'നിങ്ങളുടെ ബിസിനസിന് ഡിജിറ്റൽ സാന്നിധ്യം കുറവാണ്. വിശ്വാസ്യത സ്ഥാപിക്കാൻ പ്രൊഫഷണൽ വെബ്സൈറ്റ് നിർമ്മിക്കുക.'
       },
       impact: '60% increase in customer trust',
       timeline: '2-3 weeks'
@@ -164,11 +167,14 @@ export const generateRecommendations = (businessData, analyticsData) => {
     recommendations.push({
       priority: 'high',
       category: 'social',
-      title: { en: 'Setup Social Media Profiles', hi: 'सोशल मीडिया प्रोफाइल सेटअप करें', ta: 'சமூக ஊடக சுயவிவரங்களை அமைக்கவும்' },
+      title: { en: 'Setup Social Media Profiles', hi: 'सोशल मीडिया प्रोफाइल सेटअप करें', ta: 'சமூக ஊடக சுயவிவரங்களை அமைக்கவும்', kn: 'ಸೋಶಿಯಲ್ ಮೀಡಿಯಾ ಪ್ರೊಫೈಲ್ ಸೆಟಪ್', te: 'సోషల్ మీడియా ప్రొఫైల్ సెటప్', ml: 'സോഷ്യൽ മീഡിയ പ്രൊഫൈൽ സെറ്റപ്പ്' },
       description: { 
         en: 'Create profiles on Instagram, Facebook, and Google Business to reach local customers.',
         hi: 'स्थानीय ग्राहकों तक पहुंचने के लिए Instagram, Facebook और Google Business पर प्रोफाइल बनाएं।',
-        ta: 'உள்ளூர் வாடிக்கையாளர்களை அடைய Instagram, Facebook மற்றும் Google வணிகத்தில் சுயவிவரங்களை உருவாக்கவும்.'
+        ta: 'உள்ளூர் வாடிக்கையாளர்களை அடைய Instagram, Facebook மற்றும் Google வணிகத்தில் சுயவிவரங்களை உருவாக்கவும்.',
+        kn: 'ಸ್ಥಳೀಯ ಗ್ರಾಹಕರನ್ನು ತಲುಪಲು Instagram, Facebook ಮತ್ತು Google Business ನಲ್ಲಿ ಪ್ರೊಫೈಲ್ ರಚಿಸಿ.',
+        te: 'స్థానిక కస్టమర్లను చేరుకోవడానికి Instagram, Facebook మరియు Google Business లో ప్రొఫైల్స్ సృష్టించండి.',
+        ml: 'ലോക്കൽ കസ്റ്റമർമാരെ എത്തിക്കാൻ Instagram, Facebook, Google Business-ൽ പ്രൊഫൈലുകൾ സൃഷ്ടിക്കുക.'
       },
       impact: '40% increase in local discovery',
       timeline: '1 week'
@@ -179,11 +185,14 @@ export const generateRecommendations = (businessData, analyticsData) => {
     recommendations.push({
       priority: 'medium',
       category: 'seo',
-      title: { en: 'Improve Search Rankings', hi: 'सर्च रैंकिंग में सुधार करें', ta: 'தேடல் தரவரிசையை மேம்படுத்துங்கள்' },
+      title: { en: 'Improve Search Rankings', hi: 'सर्च रैंकिंग में सुधार करें', ta: 'தேடல் தரவரிசையை மேம்படுத்துங்கள்', kn: 'ಹುಡುಕಾಟ ಶ್ರೇಣಿ ಸುಧಾರಿಸಿ', te: 'శోధన ర్యాంకింగ్‌లు మెరుగుపరచండి', ml: 'സെർച്ച് റാങ്കിംഗ് മെച്ചപ്പെടുത്തുക' },
       description: { 
         en: 'Optimize your website for local SEO to appear in top search results.',
         hi: 'शीर्ष खोज परिणामों में दिखाई देने के लिए अपनी वेबसाइट को स्थानीय SEO के लिए अनुकूलित करें।',
-        ta: 'உயர் தேடல் முடிவுகளில் தோன்ற உங்கள் இணையதளத்தை உள்ளூர் SEO க்கு மேம்படுத்துங்கள்.'
+        ta: 'உயர் தேடல் முடிவுகளில் தோன்ற உங்கள் இணையதளத்தை உள்ளூர் SEO க்கு மேம்படுத்துங்கள்.',
+        kn: 'ಉನ್ನತ ಹುಡುಕಾಟ ಫಲಿತಾಂಶಗಳಲ್ಲಿ ಕಾಣಿಸಲು ಸ್ಥಳೀಯ SEO ಗಾಗಿ ವೆಬ್‌ಸೈಟ್ ಆಪ್ಟಿಮೈಜ್ ಮಾಡಿ.',
+        te: 'టాప్ సెర్చ్ ఫలితాలలో కనిపించడానికి లోకల్ SEO కోసం వెబ్‌సైట్ ఆప్టిమైజ్ చేయండి.',
+        ml: 'ടോപ്പ് സെർച്ച് ഫലങ്ങളിൽ കാണിക്കാൻ ലോക്കൽ SEO-യ്ക്കായി വെബ്സൈറ്റ് ഒപ്റ്റിമൈസ് ചെയ്യുക.'
       },
       impact: '35% increase in organic traffic',
       timeline: '4-6 weeks'
@@ -192,11 +201,14 @@ export const generateRecommendations = (businessData, analyticsData) => {
     recommendations.push({
       priority: 'medium',
       category: 'reviews',
-      title: { en: 'Build Review Strategy', hi: 'समीक्षा रणनीति बनाएं', ta: 'மதிப்பாய்வு மூலோபாயத்தை உருவாக்குங்கள்' },
+      title: { en: 'Build Review Strategy', hi: 'समीक्षा रणनीति बनाएं', ta: 'மதிப்பாய்வு மூலோபாயத்தை உருவாக்குங்கள்', kn: 'ವಿಮರ್ಶೆ ತಂತ್ರ ನಿರ್ಮಿಸಿ', te: 'రివ్యూ స్ట్రాటజీ నిర్మించండి', ml: 'റിവ്യൂ സ്ട്രാറ്റജി നിർമ്മിക്കുക' },
       description: { 
         en: 'Encourage satisfied customers to leave reviews. Target 50+ reviews in 3 months.',
         hi: 'संतुष्ट ग्राहकों को समीक्षा छोड़ने के लिए प्रोत्साहित करें। 3 महीनों में 50+ समीक्षाओं का लक्ष्य रखें।',
-        ta: 'திருப்தியான வாடிக்கையாளர்களை மதிப்புரைகள் இடும்படி ஊக்குவிக்கவும். 3 மாதங்களில் 50+ மதிப்புரைகள் இலக்கு.'
+        ta: 'திருப்தியான வாடிக்கையாளர்களை மதிப்புரைகள் இடும்படி ஊக்குவிக்கவும். 3 மாதங்களில் 50+ மதிப்புரைகள் இலக்கு.',
+        kn: 'ತೃಪ್ತ ಗ್ರಾಹಕರನ್ನು ವಿಮರ್ಶೆ ಬಿಡಲು ಪ್ರೋತ್ಸಾಹಿಸಿ. 3 ತಿಂಗಳಲ್ಲಿ 50+ ವಿಮರ್ಶೆಗಳ ಗುರಿ.',
+        te: 'సంతృప్తి చెందిన కస్టమర్లను రివ్యూలు ఇవ్వమని ప్రోత్సహించండి. 3 నెలల్లో 50+ రివ్యూల లక్ష్యం.',
+        ml: 'സംതൃപ്തരായ ഉപഭോക്താക്കളെ റിവ്യൂ നൽകാൻ പ്രോത്സാഹിപ്പിക്കുക. 3 മാസത്തിൽ 50+ റിവ്യൂകൾ ലക്ഷ്യം.'
       },
       impact: '28% boost in conversion rate',
       timeline: '3 months'
@@ -207,11 +219,14 @@ export const generateRecommendations = (businessData, analyticsData) => {
     recommendations.push({
       priority: 'low',
       category: 'automation',
-      title: { en: 'Enable Marketing Automation', hi: 'मार्केटिंग ऑटोमेशन सक्षम करें', ta: 'சந்தைப்படுத்தல் தானியங்குவை இயக்குங்கள்' },
+      title: { en: 'Enable Marketing Automation', hi: 'मार्केटिंग ऑटोमेशन सक्षम करें', ta: 'சந்தைப்படுத்தல் தானியங்குவை இயக்குங்கள்', kn: 'ಮಾರ್ಕೆಟಿಂಗ್ ಆಟೋಮೇಶನ್ ಸಕ್ರಿಯಗೊಳಿಸಿ', te: 'మార్కెటింగ్ ఆటోమేషన్ ఎనేబుల్ చేయండి', ml: 'മാർക്കറ്റിംഗ് ഓട്ടോമേഷൻ എനേബിൾ ചെയ്യുക' },
       description: { 
         en: 'Set up automated campaigns to nurture leads and maximize conversions.',
         hi: 'लीड को पोषित करने और रूपांतरण को अधिकतम करने के लिए स्वचालित अभियान सेट करें।',
-        ta: 'வாடிக்கையாளர்களை வளர்க்க மற்றும் மாற்றங்களை அதிகரிக்க தானியங்கு பிரச்சாரங்களை அமைக்கவும்.'
+        ta: 'வாடிக்கையாளர்களை வளர்க்க மற்றும் மாற்றங்களை அதிகரிக்க தானியங்கு பிரச்சாரங்களை அமைக்கவும்.',
+        kn: 'ಲೀಡ್‌ಗಳನ್ನು ಪೋಷಿಸಲು ಮತ್ತು ಪರಿವರ್ತನೆಗಳನ್ನು ಗರಿಷ್ಠಗೊಳಿಸಲು ಸ್ವಯಂಚಾಲಿತ ಅಭಿಯಾನಗಳನ್ನು ಸೆಟಪ್ ಮಾಡಿ.',
+        te: 'లీడ్‌లను పెంచడానికి మరియు కన్వర్షన్లను గరిష్టం చేయడానికి ఆటోమేటెడ్ క్యాంపెయిన్లు సెటప్ చేయండి.',
+        ml: 'ലീഡുകളെ പരിപോഷിപ്പിക്കാനും കൺവേർഷനുകൾ പരമാവധിയാക്കാനും ഓട്ടോമേറ്റഡ് ക്യാമ്പെയിനുകൾ സെറ്റപ്പ് ചെയ്യുക.'
       },
       impact: '45% increase in lead quality',
       timeline: '2-4 weeks'
