@@ -23,21 +23,24 @@ export const DashboardOverview = () => {
       value: analyticsData.traffic.monthly[analyticsData.traffic.monthly.length - 1]?.visits,
       change: '+24%',
       icon: TrendingUp,
-      color: 'indigo'
+      iconBg: 'bg-indigo-100',
+      iconColor: 'text-indigo-600'
     },
     { 
       label: 'Leads Generated', 
       value: analyticsData.traffic.monthly[analyticsData.traffic.monthly.length - 1]?.leads,
       change: '+38%',
       icon: Target,
-      color: 'purple'
+      iconBg: 'bg-purple-100',
+      iconColor: 'text-purple-600'
     },
     { 
       label: 'Social Followers', 
       value: analyticsData.socialMedia.platforms.reduce((acc, p) => acc + p.followers, 0).toLocaleString(),
       change: '+16%',
       icon: Users,
-      color: 'pink'
+      iconBg: 'bg-pink-100',
+      iconColor: 'text-pink-600'
     }
   ];
 
@@ -69,8 +72,8 @@ export const DashboardOverview = () => {
                   <p className="text-3xl font-bold text-gray-900">{stat.value}</p>
                   <p className="text-sm font-semibold text-green-600 mt-2">{stat.change}</p>
                 </div>
-                <div className={`w-14 h-14 bg-${stat.color}-100 rounded-xl flex items-center justify-center`}>
-                  <stat.icon className={`w-7 h-7 text-${stat.color}-600`} />
+                <div className={`w-14 h-14 ${stat.iconBg} rounded-xl flex items-center justify-center`}>
+                  <stat.icon className={`w-7 h-7 ${stat.iconColor}`} />
                 </div>
               </CardBody>
             </Card>

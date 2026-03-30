@@ -63,7 +63,7 @@ export const GrowthJourney = () => {
           <ProgressBar 
             value={overallProgress} 
             showLabel={true}
-            className="[&_.bg-gray-200]:bg-white/20 [&_.bg-indigo-600]:bg-white"
+            theme="dark"
           />
         </CardBody>
       </Card>

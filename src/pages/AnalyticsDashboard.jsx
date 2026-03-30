@@ -70,7 +70,7 @@ export const AnalyticsDashboard = () => {
                   <ProgressBar 
                     value={digitalPresence.website} 
                     showLabel={true} 
-                    className="[&_.bg-gray-200]:bg-white/20 [&_.bg-indigo-600]:bg-white"
+                    theme="dark"
                   />
                 </div>
                 <div>
@@ -78,7 +78,7 @@ export const AnalyticsDashboard = () => {
                   <ProgressBar 
                     value={digitalPresence.socialMedia} 
                     showLabel={true}
-                    className="[&_.bg-gray-200]:bg-white/20 [&_.bg-indigo-600]:bg-white"
+                    theme="dark"
                   />
                 </div>
                 <div>
@@ -86,7 +86,7 @@ export const AnalyticsDashboard = () => {
                   <ProgressBar 
                     value={digitalPresence.searchVisibility} 
                     showLabel={true}
-                    className="[&_.bg-gray-200]:bg-white/20 [&_.bg-indigo-600]:bg-white"
+                    theme="dark"
                   />
                 </div>
                 <div>
@@ -94,7 +94,7 @@ export const AnalyticsDashboard = () => {
                   <ProgressBar 
                     value={digitalPresence.onlineReviews} 
                     showLabel={true}
-                    className="[&_.bg-gray-200]:bg-white/20 [&_.bg-indigo-600]:bg-white"
+                    theme="dark"
                   />
                 </div>
               </div>
@@ -104,7 +104,7 @@ export const AnalyticsDashboard = () => {
                 value={digitalPresence.overall} 
                 size={180}
                 strokeWidth={12}
-                className="[&_circle]:stroke-white/20 [&_motion\\.circle]:!stroke-white [&_span]:text-white"
+                theme="dark"
               />
             </div>
           </div>
