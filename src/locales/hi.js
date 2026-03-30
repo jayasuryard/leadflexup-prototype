@@ -706,4 +706,123 @@ export default {
 
   visualPreview: 'विज़ुअल प्रीव्यू',
   visualPreviewDesc: 'Copilot से बात करो और रिज़ल्ट यहां दिखेंगे।',
+
+  // ══════════════════════════════════════
+  // LANDING PAGE — NAV & BADGES
+  // ══════════════════════════════════════
+  lpNavFeatures: 'फ़ीचर्स',
+  lpNavHowItWorks: 'कैसे काम करता है',
+  lpNavPricing: 'प्राइसिंग',
+  lpSignUp: 'साइन अप',
+  lpBadgeEnterprise: 'एंटरप्राइज़ ग्रेड सिक्योरिटी',
+  lpBadgeMultilingual: '6 भाषाएं सपोर्टेड',
+  lpBadgeNonTech: 'कोई टेक स्किल ज़रूरी नहीं',
+  lpPlatformCapabilities: 'प्लैटफॉर्म कैपेबिलिटीज़',
+  lpFeaturesHeading: 'अपने मार्केट पर राज करने के लिए सब कुछ यहां है',
+  lpFeaturesDesc: 'एनालिटिक्स से ऑटोमेशन तक, हमारा AI प्लैटफॉर्म आपकी डिजिटल ग्रोथ का हर पहलू संभालता है।',
+  lpHowItWorks: 'कैसे काम करता है',
+  lpHowItWorksHeading: 'ज़ीरो से ग्रोथ तक — बस 4 आसान स्टेप्स',
+  lpFormSubtitle: 'मुफ़्त एनालिसिस, कोई साइन-अप नहीं',
+  lpAnalyzingDesc: 'इसमें लगभग 10 सेकंड लगेंगे',
+  lpBusinessLocation: 'बिज़नेस लोकेशन',
+  lpNoSignup: 'कोई साइन-अप नहीं — बस ऊपर अपनी डिटेल्स डालो',
+  lpCtaTitle: 'अपना बिज़नेस बढ़ाने के लिए तैयार हो?',
+  lpCtaDesc: '10,000+ बिज़नेस पहले से LeadFlexUp के साथ बढ़ रहे हैं। आज ही मुफ़्त एनालिसिस शुरू करो।',
+  lpCtaBtn: 'मुफ़्त एनालिसिस शुरू करो',
+  lpFooterText: '© 2026 LeadFlexUp. सभी अधिकार सुरक्षित।',
+
+  // ══════════════════════════════════════
+  // ANALYTICS — MARKET OPPORTUNITY
+  // ══════════════════════════════════════
+  adMktOppTitle: 'मार्केट ऑपर्च्युनिटी',
+  adMktOppDesc: 'आपके मार्केट में अनटैप्ड पोटेंशियल — LeadFlexUp से यह सब पकड़ सकते हो।',
+  adMktOppUnclaimed: 'अनक्लेम्ड सर्चेज़',
+  adMktOppUnclaimedDesc: 'मंथली सर्चेज़ जिनमें कोई स्ट्रॉन्ग लोकल कम्पटीटर रैंक नहीं कर रहा',
+  adMktOppReviewGap: 'रिव्यू गैप',
+  adMktOppReviewGapDesc: 'मार्केट लीडर से मैच करने के लिए इतने और रिव्यू चाहिए',
+  adMktOppSocialReach: 'सोशल ऑडियंस',
+  adMktOppSocialReachDesc: 'आपके एरिया में पोटेंशियल फॉलोअर्स जो किसी कम्पटीटर को फॉलो नहीं करते',
+  adMktOppLeadPool: 'अनटैप्ड लीड पूल',
+  adMktOppLeadPoolDesc: 'अनुमानित मंथली लीड्स जो आपके कम्पटीटर मिस कर रहे हैं',
+  adMktOppRevenue: 'अनुमानित रेवेन्यू पोटेंशियल',
+  adMktOppRevenueDesc: 'यह ऑपर्च्युनिटी पकड़ो तो इतना एडिशनल मंथली रेवेन्यू मिल सकता है',
+  adMktOppRevenueTime: '3-6 महीने में अचीव कर सकते हो',
+  adMktOppGrabIt: 'यह ऑपर्च्युनिटी पकड़ो',
+  adMktOppAutomate: 'हमारा AI ऑटो वर्कफ़्लो बनाएगा इन मौकों को पकड़ने के लिए',
+  adMktOppWf1: 'SEO और लोकल सर्च ऑप्टिमाइज़ेशन',
+  adMktOppWf2: 'रिव्यू कलेक्शन कैंपेन',
+  adMktOppWf3: 'सोशल मीडिया ग्रोथ इंजन',
+  adMktOppWf4: 'लीड कैप्चर और नर्चर पाइपलाइन',
+  adMktOppReady: '1 क्लिक में तैयार — AI सब संभालेगा',
+
+  // ══════════════════════════════════════
+  // LANDING PAGE — DASHBOARD PREVIEW
+  // ══════════════════════════════════════
+  lpPreviewBadge: 'एक्शन में देखो',
+  lpPreviewTitle: 'आपका कम्प्लीट ग्रोथ कमांड सेंटर',
+  lpPreviewDesc: 'एक AI डैशबोर्ड से ट्रैक करो, ऑटोमेट करो, और पूरी डिजिटल प्रेज़ेंस स्केल करो।',
+  lpDashScore: 'डिजिटल स्कोर',
+  lpDashAutomations: 'एक्टिव ऑटोमेशन',
+  lpDashLeads: 'इस महीने लीड्स',
+  lpDashContent: 'पोस्ट शेड्यूल्ड',
+
+  // ══════════════════════════════════════
+  // LANDING PAGE — TESTIMONIALS
+  // ══════════════════════════════════════
+  lpTestimonialBadge: 'सक्सेस स्टोरीज़',
+  lpTestimonialTitle: 'पूरे भारत के बिज़नेस ओनर्स का भरोसा',
+  lpTestimonial1Name: 'Priya Sharma',
+  lpTestimonial1Role: 'ओनर, Sharma Sweets',
+  lpTestimonial1City: 'Jaipur',
+  lpTestimonial1Quote: 'LeadFlexUp ने मेरी मिठाई की दुकान को ज़ीरो ऑनलाइन प्रेज़ेंस से 3 महीने में 200+ Google रिव्यू तक पहुंचाया। रेवेन्यू 3.5 गुना बढ़ गया!',
+  lpTestimonial1Metric: '3.5x रेवेन्यू ग्रोथ',
+  lpTestimonial2Name: 'Rajesh Kumar',
+  lpTestimonial2Role: 'फाउंडर, TechNova Solutions',
+  lpTestimonial2City: 'Bangalore',
+  lpTestimonial2Quote: 'AI ऑटोमेशन हब मेरी पूरी मार्केटिंग चलाता है। सोशल पोस्ट, ईमेल कैंपेन, एड ऑप्टिमाइज़ेशन — सब ऑटोपायलट पर।',
+  lpTestimonial2Metric: '200+ लीड्स/महीना',
+  lpTestimonial3Name: 'Anita Desai',
+  lpTestimonial3Role: 'डायरेक्टर, Desai Clinics',
+  lpTestimonial3City: 'Mumbai',
+  lpTestimonial3Quote: 'कम्पटीटर इंटेलिजेंस ने बिल्कुल दिखाया कहां पेशेंट खो रहे थे। गैप्स फ़िक्स किए और 6 महीने में 4 गुना ग्रोथ हुई।',
+  lpTestimonial3Metric: '4x पेशेंट ग्रोथ',
+
+  // ══════════════════════════════════════
+  // LANDING PAGE — PRICING
+  // ══════════════════════════════════════
+  lpPricingBadge: 'सिंपल प्राइसिंग',
+  lpPricingTitle: 'आपके बिज़नेस के साथ बढ़ने वाले प्लान',
+  lpPricingDesc: 'मुफ़्त शुरू करो, जब चाहो अपग्रेड करो। कोई छुपी फ़ीस नहीं, कभी भी कैंसल करो।',
+
+  // ══════════════════════════════════════
+  // LANDING PAGE — FAQ
+  // ══════════════════════════════════════
+  lpFaqBadge: 'आम सवाल',
+  lpFaqTitle: 'अक्सर पूछे जाने वाले सवाल',
+  lpFaq1Q: 'क्या LeadFlexUp इस्तेमाल करने के लिए टेक्निकल नॉलेज चाहिए?',
+  lpFaq1A: 'बिल्कुल नहीं! LeadFlexUp नॉन-टेक बिज़नेस ओनर्स के लिए बना है। हमारा AI सब संभालता है — वेबसाइट बनाना, एड कैंपेन, कंटेंट क्रिएशन। बस अपने बिज़नेस के बारे में बताओ।',
+  lpFaq2Q: 'AI ऑटोमेशन कैसे काम करता है?',
+  lpFaq2A: 'हमारा AI ऑटोमैटिक मार्केटिंग वर्कफ़्लो बनाता और चलाता है — सोशल मीडिया पोस्ट, ईमेल कैंपेन, एड ऑप्टिमाइज़ेशन, रिव्यू कलेक्शन — सब 24/7 बिना आपकी मेहनत के।',
+  lpFaq3Q: 'कौन-कौन सी भाषाएं सपोर्ट हैं?',
+  lpFaq3A: 'हम 6 भाषाएं सपोर्ट करते हैं: English, Hindi, Tamil, Kannada, Telugu, और Malayalam। पूरा प्लैटफॉर्म और AI रिस्पॉन्स आपकी पसंदीदा भाषा में ढल जाता है।',
+  lpFaq4Q: 'क्या मैं कम्पटीटर की परफ़ॉर्मेंस देख सकता हूं?',
+  lpFaq4A: 'हां! हमारी कम्पटीटर इंटेलिजेंस आपके लोकल मार्केट को मैप करती है, लीडरबोर्ड रैंकिंग दिखाती है, और गैप्स बताती है जहां आप मार्केट शेयर बढ़ा सकते हो।',
+  lpFaq5Q: 'क्या कोई मुफ़्त प्लान है?',
+  lpFaq5A: 'आप गेस्ट के तौर पर लिमिटेड AI क्रेडिट्स के साथ पूरा प्लैटफॉर्म एक्सप्लोर कर सकते हो। ऑटोमेशन, लीड मैनेजमेंट, और वेबसाइट बिल्डर अनलॉक करने के लिए Starter प्लान लो।',
+  lpFaq6Q: 'रिज़ल्ट कितनी जल्दी दिखेंगे?',
+  lpFaq6A: 'ज़्यादातर बिज़नेस को 2-4 हफ़्तों में फ़र्क दिखता है। हमारा Growth Journey रोडमैप और AI ऑटोमेशन तुरंत काम शुरू कर देते हैं।',
+
+  // ══════════════════════════════════════
+  // LANDING PAGE — FOOTER
+  // ══════════════════════════════════════
+  lpFooterTagline: 'भारतीय बिज़नेस के लिए AI-पावर्ड ग्रोथ प्लैटफॉर्म',
+  lpFooterProduct: 'प्रोडक्ट',
+  lpFooterCompany: 'कंपनी',
+  lpFooterLegal: 'लीगल',
+  lpFooterAbout: 'हमारे बारे में',
+  lpFooterBlog: 'ब्लॉग',
+  lpFooterCareers: 'करियर',
+  lpFooterContact: 'संपर्क',
+  lpFooterPrivacy: 'प्राइवेसी पॉलिसी',
+  lpFooterTermsLink: 'टर्म्स ऑफ़ सर्विस',
 };

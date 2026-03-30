@@ -706,4 +706,127 @@ export default {
 
   visualPreview: 'విజువల్ ప్రివ్యూ',
   visualPreviewDesc: 'Copilot తో మాట్లాడండి — రిజల్ట్ ఇక్కడ కనిపిస్తుంది.',
+
+  // ══════════════════════════════════════
+  // LANDING PAGE — NAV & BADGES
+  // ══════════════════════════════════════
+  lpNavFeatures: 'ఫీచర్లు',
+  lpNavHowItWorks: 'ఎలా పనిచేస్తుంది',
+  lpNavPricing: 'ప్రైసింగ్',
+  lpSignUp: 'సైన్ అప్',
+  lpBadgeEnterprise: 'Enterprise గ్రేడ్ సెక్యూరిటీ',
+  lpBadgeMultilingual: '6 భాషలు సపోర్ట్',
+  lpBadgeNonTech: 'టెక్ స్కిల్స్ అక్కర్లేదు',
+
+  // ══════════════════════════════════════
+  // LANDING PAGE — FEATURES & HOW IT WORKS
+  // ══════════════════════════════════════
+  lpPlatformCapabilities: 'ప్లాట్‌ఫామ్ కెపాబిలిటీస్',
+  lpFeaturesHeading: 'మీ మార్కెట్‌ని డామినేట్ చేయడానికి కావలసినవన్నీ',
+  lpFeaturesDesc: 'అనలిటిక్స్ నుండి ఆటోమేషన్ వరకు, మా AI ప్లాట్‌ఫామ్ మీ డిజిటల్ గ్రోత్ అన్ని అంశాలు హ్యాండిల్ చేస్తుంది.',
+  lpHowItWorks: 'ఎలా పనిచేస్తుంది',
+  lpHowItWorksHeading: 'జీరో నుండి గ్రోత్ వరకు 4 సింపుల్ స్టెప్స్‌లో',
+
+  // ══════════════════════════════════════
+  // LANDING PAGE — FORM & CTA
+  // ══════════════════════════════════════
+  lpFormSubtitle: 'ఫ్రీ అనాలిసిస్, సైన్-అప్ అక్కర్లేదు',
+  lpAnalyzingDesc: 'ఇది దాదాపు 10 సెకన్లు తీసుకుంటుంది',
+  lpBusinessLocation: 'బిజినెస్ లొకేషన్',
+  lpNoSignup: 'సైన్-అప్ అక్కర్లేదు — పైన మీ డీటెయిల్స్ ఎంటర్ చేయండి',
+  lpCtaTitle: 'మీ బిజినెస్ గ్రో చేయడానికి రెడీనా?',
+  lpCtaDesc: '10,000+ బిజినెస్‌లు ఇప్పటికే LeadFlexUp తో గ్రో అవుతున్నాయి.',
+  lpCtaBtn: 'ఫ్రీ అనాలిసిస్ స్టార్ట్ చేయండి',
+  lpFooterText: '© 2026 LeadFlexUp. All rights reserved.',
+
+  // ══════════════════════════════════════
+  // ANALYTICS — MARKET OPPORTUNITY
+  // ══════════════════════════════════════
+  adMktOppTitle: 'మార్కెట్ ఆపర్చునిటీ',
+  adMktOppDesc: 'మీ మార్కెట్‌లో అన్‌ట్యాప్డ్ పొటెన్షియల్.',
+  adMktOppUnclaimed: 'అన్‌క్లెయిమ్డ్ సెర్చ్‌లు',
+  adMktOppUnclaimedDesc: 'స్ట్రాంగ్ లోకల్ కాంపిటిటర్ ర్యాంకింగ్ లేని మంత్లీ సెర్చ్‌లు',
+  adMktOppReviewGap: 'రివ్యూ గ్యాప్',
+  adMktOppReviewGapDesc: 'మార్కెట్ లీడర్‌తో మ్యాచ్ అవ్వడానికి ఇంకా రివ్యూలు కావాలి',
+  adMktOppSocialReach: 'సోషియల్ ఆడియన్స్',
+  adMktOppSocialReachDesc: 'ఏ కాంపిటిటర్‌నీ ఫాలో చేయని పొటెన్షియల్ ఫాలోవర్లు',
+  adMktOppLeadPool: 'అన్‌ట్యాప్డ్ లీడ్ పూల్',
+  adMktOppLeadPoolDesc: 'కాంపిటిటర్లు మిస్ అవుతున్న ఎస్టిమేటెడ్ మంత్లీ లీడ్స్',
+  adMktOppRevenue: 'ఎస్టిమేటెడ్ రెవెన్యూ పొటెన్షియల్',
+  adMktOppRevenueDesc: 'దీన్ని క్యాప్చర్ చేస్తే అదనపు మంత్లీ రెవెన్యూ',
+  adMktOppRevenueTime: '3-6 నెలల్లో అచీవ్ చేయవచ్చు',
+  adMktOppGrabIt: 'ఈ ఆపర్చునిటీ గ్రాబ్ చేయండి',
+  adMktOppAutomate: 'మా AI ఈ ఆపర్చునిటీలను క్యాప్చర్ చేయడానికి వర్క్‌ఫ్లోలు ఆటో-క్రియేట్ చేస్తుంది',
+  adMktOppWf1: 'SEO & లోకల్ సెర్చ్ ఆప్టిమైజేషన్',
+  adMktOppWf2: 'రివ్యూ కలెక్షన్ క్యాంపేన్',
+  adMktOppWf3: 'సోషియల్ మీడియా గ్రోత్ ఇంజిన్',
+  adMktOppWf4: 'లీడ్ క్యాప్చర్ & నర్చర్ పైప్‌లైన్',
+  adMktOppReady: '1 క్లిక్‌లో రెడీ — AI అంతా హ్యాండిల్ చేస్తుంది',
+
+  // ══════════════════════════════════════
+  // LANDING PAGE — DASHBOARD PREVIEW
+  // ══════════════════════════════════════
+  lpPreviewBadge: 'యాక్షన్‌లో చూడండి',
+  lpPreviewTitle: 'మీ కంప్లీట్ గ్రోత్ కమాండ్ సెంటర్',
+  lpPreviewDesc: 'మీ డిజిటల్ ప్రజెన్స్ ట్రాక్, ఆటోమేట్ & స్కేల్ చేయడానికి ఒకే AI డ్యాష్‌బోర్డ్.',
+  lpDashScore: 'డిజిటల్ స్కోర్',
+  lpDashAutomations: 'యాక్టివ్ ఆటోమేషన్లు',
+  lpDashLeads: 'ఈ నెల లీడ్స్',
+  lpDashContent: 'షెడ్యూల్ చేసిన పోస్ట్‌లు',
+
+  // ══════════════════════════════════════
+  // LANDING PAGE — TESTIMONIALS
+  // ══════════════════════════════════════
+  lpTestimonialBadge: 'సక్సెస్ స్టోరీలు',
+  lpTestimonialTitle: 'ఇండియా అంతటా బిజినెస్ ఓనర్లు ఇష్టపడుతున్నారు',
+  lpTestimonial1Name: 'Priya Sharma',
+  lpTestimonial1Role: 'Owner, Sharma Sweets',
+  lpTestimonial1City: 'Jaipur',
+  lpTestimonial1Quote: 'LeadFlexUp నా స్వీట్ షాప్‌ని జీరో ఆన్‌లైన్ ప్రజెన్స్ నుండి 3 నెలల్లో 200+ Google రివ్యూలకు తీసుకెళ్ళింది. రెవెన్యూ 3.5x పెరిగింది!',
+  lpTestimonial1Metric: '3.5x రెవెన్యూ గ్రోత్',
+  lpTestimonial2Name: 'Rajesh Kumar',
+  lpTestimonial2Role: 'Founder, TechNova Solutions',
+  lpTestimonial2City: 'Bangalore',
+  lpTestimonial2Quote: 'AI ఆటోమేషన్ హబ్ నా మొత్తం మార్కెటింగ్ రన్ చేస్తోంది. అంతా ఆటోపైలట్‌లో.',
+  lpTestimonial2Metric: '200+ లీడ్స్/నెల',
+  lpTestimonial3Name: 'Anita Desai',
+  lpTestimonial3Role: 'Director, Desai Clinics',
+  lpTestimonial3City: 'Mumbai',
+  lpTestimonial3Quote: 'కాంపిటిటర్ ఇంటెలిజెన్స్ ఎక్కడ పేషంట్లు పోతున్నారో ఎగ్జాక్ట్‌గా చూపించింది. 6 నెలల్లో 4x గ్రో అయ్యాం.',
+  lpTestimonial3Metric: '4x పేషంట్ గ్రోత్',
+
+  // ══════════════════════════════════════
+  // LANDING PAGE — PRICING & FAQ
+  // ══════════════════════════════════════
+  lpPricingBadge: 'సింపుల్ ప్రైసింగ్',
+  lpPricingTitle: 'మీ బిజినెస్‌తో పాటు గ్రో అయ్యే ప్లాన్‌లు',
+  lpPricingDesc: 'ఫ్రీగా స్టార్ట్ చేయండి, రెడీ అయినప్పుడు అప్‌గ్రేడ్ చేయండి. హిడెన్ ఫీస్ లేవు, ఎప్పుడైనా క్యాన్సల్.',
+  lpFaqBadge: 'కామన్ క్వశ్చన్స్',
+  lpFaqTitle: 'ఫ్రీక్వెంట్లీ ఆస్క్డ్ క్వశ్చన్స్',
+  lpFaq1Q: 'నాకు టెక్నికల్ నాలెడ్జ్ కావాలా?',
+  lpFaq1A: 'అస్సలు అక్కర్లేదు! నాన్-టెక్ బిజినెస్ ఓనర్ల కోసం డిజైన్ చేశాం.',
+  lpFaq2Q: 'AI ఆటోమేషన్ ఎలా పనిచేస్తుంది?',
+  lpFaq2A: 'AI మార్కెటింగ్ వర్క్‌ఫ్లోలు ఆటోమేటిక్‌గా క్రియేట్ చేసి రన్ చేస్తుంది — 24/7.',
+  lpFaq3Q: 'ఏ భాషలు సపోర్ట్ చేస్తారు?',
+  lpFaq3A: '6 భాషలు: English, Hindi, Tamil, Kannada, Telugu, Malayalam.',
+  lpFaq4Q: 'కాంపిటిటర్ పర్ఫామెన్స్ చూడగలనా?',
+  lpFaq4A: 'అవును! మార్కెట్ మ్యాప్ చేస్తుంది, ర్యాంకింగ్‌లు చూపిస్తుంది, గ్యాప్‌లు కనుక్కుంటుంది.',
+  lpFaq5Q: 'ఫ్రీ ప్లాన్ ఉందా?',
+  lpFaq5A: 'గెస్ట్‌గా ఎక్స్‌ప్లోర్ చేయండి. అన్నీ అన్‌లాక్ చేయడానికి Starter కి సైన్ అప్ చేయండి.',
+  lpFaq6Q: 'రిజల్ట్స్ ఎంత త్వరగా కనిపిస్తాయి?',
+  lpFaq6A: 'చాలామంది 2-4 వారాల్లో ఇంప్రూవ్‌మెంట్ చూస్తారు.',
+
+  // ══════════════════════════════════════
+  // LANDING PAGE — FOOTER
+  // ══════════════════════════════════════
+  lpFooterTagline: 'ఇండియన్ బిజినెస్‌లకు AI-పవర్డ్ గ్రోత్ ప్లాట్‌ఫామ్',
+  lpFooterProduct: 'ప్రొడక్ట్',
+  lpFooterCompany: 'కంపెనీ',
+  lpFooterLegal: 'లీగల్',
+  lpFooterAbout: 'మా గురించి',
+  lpFooterBlog: 'Blog',
+  lpFooterCareers: 'Careers',
+  lpFooterContact: 'కాంటాక్ట్',
+  lpFooterPrivacy: 'Privacy Policy',
+  lpFooterTermsLink: 'Terms of Service',
 };

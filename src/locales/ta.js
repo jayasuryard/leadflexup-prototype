@@ -706,4 +706,115 @@ export default {
 
   visualPreview: 'விஷுவல் ப்ரிவ்யூ',
   visualPreviewDesc: 'Copilot கூட பேசுங்க — ரிசல்ட் இங்கே தெரியும்.',
+
+  // ══════════════════════════════════════
+  // LANDING PAGE — EXTENDED
+  // ══════════════════════════════════════
+  lpNavFeatures: 'Features',
+  lpNavHowItWorks: 'எப்படி வேலை செய்யும்',
+  lpNavPricing: 'Pricing',
+  lpSignUp: 'Sign Up',
+  lpBadgeEnterprise: 'Enterprise Grade Security',
+  lpBadgeMultilingual: '6 மொழிகள் சப்போர்ட்',
+  lpBadgeNonTech: 'Tech ஸ்கில் வேண்டாம்',
+  lpPlatformCapabilities: 'Platform Capabilities',
+  lpFeaturesHeading: 'உங்க மார்க்கெட்ல டாமினேட் பண்ண வேண்டிய எல்லாமே இங்க இருக்கு',
+  lpFeaturesDesc: 'Analytics லேர்ந்து automation வரைக்கும், எங்க AI platform உங்க டிஜிட்டல் வளர்ச்சியோட எல்லா அம்சத்தையும் ஹேண்டில் பண்ணும்.',
+  lpHowItWorks: 'எப்படி வேலை செய்யும்',
+  lpHowItWorksHeading: 'ஜீரோ லேர்ந்து வளர்ச்சிக்கு 4 சிம்பிள் ஸ்டெப்ஸ்ல',
+  lpFormSubtitle: 'இலவச analysis, sign-up தேவையில்ல',
+  lpAnalyzingDesc: 'இது சுமார் 10 செகண்ட் ஆகும்',
+  lpBusinessLocation: 'பிசினஸ் லொகேஷன்',
+  lpNoSignup: 'Sign-up தேவையில்ல — மேல உங்க details கொடுங்க',
+  lpCtaTitle: 'உங்க பிசினஸ் வளர்க்க ரெடியா?',
+  lpCtaDesc: '10,000+ பிசினஸ்கள் ஏற்கனவே LeadFlexUp ல வளருது. இன்னைக்கே உங்க free analysis ஆரம்பிங்க.',
+  lpCtaBtn: 'Free Analysis ஆரம்பிங்க',
+  lpFooterText: '© 2026 LeadFlexUp. All rights reserved.',
+
+  // ══════════════════════════════════════
+  // ANALYTICS — MARKET OPPORTUNITY
+  // ══════════════════════════════════════
+  adMktOppTitle: 'Market Opportunity',
+  adMktOppDesc: 'உங்க மார்க்கெட்ல இன்னும் grab பண்ணாத potential இருக்கு — LeadFlexUp ல அத புடிங்க.',
+  adMktOppUnclaimed: 'Unclaimed Searches',
+  adMktOppUnclaimedDesc: 'எந்த strong local competitor-உம் rank ஆகாத monthly searches',
+  adMktOppReviewGap: 'Review Gap',
+  adMktOppReviewGapDesc: 'market leader-ஐ match பண்ண இன்னும் இவ்வளவு reviews வேணும்',
+  adMktOppSocialReach: 'Social Audience',
+  adMktOppSocialReachDesc: 'உங்க area-ல எந்த competitor-ஐயும் follow பண்ணாத potential followers',
+  adMktOppLeadPool: 'Untapped Lead Pool',
+  adMktOppLeadPoolDesc: 'உங்க competitors மிஸ் பண்ற estimated monthly leads',
+  adMktOppRevenue: 'Estimated Revenue Potential',
+  adMktOppRevenueDesc: 'இந்த opportunity-ய grab பண்ணா கிடைக்கக்கூடிய additional monthly revenue',
+  adMktOppRevenueTime: '3-6 மாசத்துல achieve பண்ணலாம்',
+  adMktOppGrabIt: 'இந்த Opportunity-ய புடிங்க',
+  adMktOppAutomate: 'எங்க AI இந்த opportunities-ஐ capture பண்ண auto workflows create பண்ணும்',
+  adMktOppWf1: 'SEO & Local Search Optimization',
+  adMktOppWf2: 'Review Collection Campaign',
+  adMktOppWf3: 'Social Media Growth Engine',
+  adMktOppWf4: 'Lead Capture & Nurture Pipeline',
+  adMktOppReady: '1 click-ல ரெடி — AI எல்லாத்தையும் ஹேண்டில் பண்ணும்',
+
+  // ══════════════════════════════════════
+  // LANDING PAGE — PREVIEW & TESTIMONIALS
+  // ══════════════════════════════════════
+  lpPreviewBadge: 'ஆக்ஷன்ல பாருங்க',
+  lpPreviewTitle: 'உங்க Complete Growth Command Center',
+  lpPreviewDesc: 'ஒரே AI-powered dashboard-ல track பண்ணுங்க, automate பண்ணுங்க, உங்க full digital presence-ஐ scale பண்ணுங்க.',
+  lpDashScore: 'Digital Score',
+  lpDashAutomations: 'Active Automations',
+  lpDashLeads: 'இந்த மாசம் Leads',
+  lpDashContent: 'Schedule ஆன Posts',
+  lpTestimonialBadge: 'Success Stories',
+  lpTestimonialTitle: 'இந்தியா முழுக்க Business Owners பிடிச்ச Platform',
+  lpTestimonial1Name: 'Priya Sharma',
+  lpTestimonial1Role: 'Owner, Sharma Sweets',
+  lpTestimonial1City: 'Jaipur',
+  lpTestimonial1Quote: 'LeadFlexUp என் sweet shop-ஐ zero online presence-ல இருந்து 3 மாசத்துல 200+ Google reviews-க்கு கொண்டு போச்சு. Revenue 3.5x உயர்ந்துடுச்சு!',
+  lpTestimonial1Metric: '3.5x revenue வளர்ச்சி',
+  lpTestimonial2Name: 'Rajesh Kumar',
+  lpTestimonial2Role: 'Founder, TechNova Solutions',
+  lpTestimonial2City: 'Bangalore',
+  lpTestimonial2Quote: 'AI automation hub என் முழு marketing-ஐயும் ரன் பண்றது. Social posts, email campaigns, ad optimization — எல்லாம் autopilot-ல.',
+  lpTestimonial2Metric: '200+ leads/மாசம்',
+  lpTestimonial3Name: 'Anita Desai',
+  lpTestimonial3Role: 'Director, Desai Clinics',
+  lpTestimonial3City: 'Mumbai',
+  lpTestimonial3Quote: 'Competitor intelligence எங்க patients எங்க போறாங்கன்னு exact-ஆ காட்டுச்சு. Gaps-ஐ fix பண்ணோம், 6 மாசத்துல 4x வளர்ந்துடுச்சு.',
+  lpTestimonial3Metric: '4x patient வளர்ச்சி',
+
+  // ══════════════════════════════════════
+  // LANDING PAGE — PRICING & FAQ
+  // ══════════════════════════════════════
+  lpPricingBadge: 'Simple Pricing',
+  lpPricingTitle: 'உங்க பிசினஸ் கூட வளரும் Plans',
+  lpPricingDesc: 'Free-ல ஆரம்பிங்க, ரெடி ஆனா upgrade பண்ணுங்க. Hidden fees இல்ல, எப்போ வேணா cancel பண்ணுங்க.',
+  lpFaqBadge: 'Common Questions',
+  lpFaqTitle: 'அடிக்கடி கேக்கப்படற கேள்விகள்',
+  lpFaq1Q: 'LeadFlexUp use பண்ண technical knowledge வேணுமா?',
+  lpFaq1A: 'வேண்டாமே! LeadFlexUp non-tech business owners-க்காக design பண்ணது. Website building, ad campaigns, content creation — எல்லாத்தையும் AI ஹேண்டில் பண்ணும். உங்க business பத்தி சொல்லுங்க போதும்.',
+  lpFaq2Q: 'AI automation எப்படி வேலை செய்யும்?',
+  lpFaq2A: 'எங்க AI marketing workflows-ஐ auto-ஆ create பண்ணி ரன் பண்ணும் — social media posts, email campaigns, ad optimization, review collection — எல்லாம் 24/7 உங்க involvement இல்லாம வேலை செய்யும்.',
+  lpFaq3Q: 'எந்த languages support பண்றீங்க?',
+  lpFaq3A: '6 languages support பண்றோம்: English, Hindi, Tamil, Kannada, Telugu, மற்றும் Malayalam. AI responses உட்பட full platform உங்க preferred language-க்கு adapt ஆகும்.',
+  lpFaq4Q: 'என் competitors-ோட performance பாக்க முடியுமா?',
+  lpFaq4A: 'ஆமா! எங்க competitor intelligence உங்க local market-ஐ map பண்ணும், leaderboard rankings காட்டும், market share பிடிக்க exploit பண்ணக்கூடிய gaps-ஐ identify பண்ணும்.',
+  lpFaq5Q: 'Free plan இருக்கா?',
+  lpFaq5A: 'Limited AI credits-ல full platform-ஐ guest-ஆ explore பண்ணலாம். Automation, lead management, website builder unlock பண்ண Starter plan-க்கு sign up பண்ணுங்க.',
+  lpFaq6Q: 'எவ்வளவு சீக்கிரம் results தெரியும்?',
+  lpFaq6A: 'பெரும்பாலான businesses 2-4 வாரத்துல measurable improvement பாக்கும். எங்க Growth Journey roadmap மற்றும் AI automations உடனே வேலை ஆரம்பிக்கும்.',
+
+  // ══════════════════════════════════════
+  // LANDING PAGE — FOOTER
+  // ══════════════════════════════════════
+  lpFooterTagline: 'Indian businesses-க்கான AI-powered growth platform',
+  lpFooterProduct: 'Product',
+  lpFooterCompany: 'Company',
+  lpFooterLegal: 'Legal',
+  lpFooterAbout: 'About Us',
+  lpFooterBlog: 'Blog',
+  lpFooterCareers: 'Careers',
+  lpFooterContact: 'Contact',
+  lpFooterPrivacy: 'Privacy Policy',
+  lpFooterTermsLink: 'Terms of Service',
 };

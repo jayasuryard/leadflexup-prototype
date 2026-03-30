@@ -706,4 +706,115 @@ export default {
 
   visualPreview: 'ವಿಶ್ಯುಯಲ ಪ್ರಿವ್ಯೂ',
   visualPreviewDesc: 'Copilot ಜೊತೆ ಮಾತಾಡಿ — ರಿಸಲ್ಟ ಇಲ್ಲಿ ಕಾಣಿಸುತ್ತೆ.',
+
+  // ══════════════════════════════════════
+  // LANDING PAGE — EXTENDED (Kanglish)
+  // ══════════════════════════════════════
+  lpNavFeatures: 'Features',
+  lpNavHowItWorks: 'Hege Kelsa Maadatte',
+  lpNavPricing: 'Pricing',
+  lpSignUp: 'Sign Up',
+  lpBadgeEnterprise: 'Enterprise Grade Security',
+  lpBadgeMultilingual: '6 Languages Support Ide',
+  lpBadgeNonTech: 'Tech Skills Beda',
+  lpPlatformCapabilities: 'Platform Capabilities',
+  lpFeaturesHeading: 'Nimma Market Dominate Maadoke Beku Adella Ide Illi',
+  lpFeaturesDesc: 'Analytics inda automation varegu, namma AI platform nimma digital growth ella nodkoLLatte.',
+  lpHowItWorks: 'Hege Kelsa Maadatte',
+  lpHowItWorksHeading: 'Zero inda Growth ge 4 Simple Steps nalli',
+  lpFormSubtitle: 'Free analysis, sign-up beda',
+  lpAnalyzingDesc: 'Idu saamanya 10 seconds togotte',
+  lpBusinessLocation: 'Business Location',
+  lpNoSignup: 'Sign-up beda — mele nimma details haaki andre saaku',
+  lpCtaTitle: 'Nimma Business Grow Maadoke Ready aa?',
+  lpCtaDesc: '10,000+ businesses already LeadFlexUp jote grow aagthidare. Ivattu free analysis shuru maadi.',
+  lpCtaBtn: 'Free Analysis Shuru Maadi',
+  lpFooterText: '© 2026 LeadFlexUp. All rights reserved.',
+
+  // ══════════════════════════════════════
+  // MARKET OPPORTUNITY (Kanglish)
+  // ══════════════════════════════════════
+  adMktOppTitle: 'Market Opportunity',
+  adMktOppDesc: 'Nimma market nalli untapped potential ide — LeadFlexUp jote idu grab maadbahudu.',
+  adMktOppUnclaimed: 'Unclaimed Searches',
+  adMktOppUnclaimedDesc: 'monthly searches nalli yaaru strong local competitor rank maadilla',
+  adMktOppReviewGap: 'Review Gap',
+  adMktOppReviewGapDesc: 'market leader match maadoke innu reviews beku',
+  adMktOppSocialReach: 'Social Audience',
+  adMktOppSocialReachDesc: 'nimma area nalli yaava competitor nu follow maadtilla adashtu potential followers',
+  adMktOppLeadPool: 'Untapped Lead Pool',
+  adMktOppLeadPoolDesc: 'nimma competitors miss maadthirodu estimated monthly leads',
+  adMktOppRevenue: 'Estimated Revenue Potential',
+  adMktOppRevenueDesc: 'ee opportunity capture maadidre additional monthly revenue',
+  adMktOppRevenueTime: '3-6 months nalli achieve maadbahudu',
+  adMktOppGrabIt: 'Ee Opportunity Grab Maadi',
+  adMktOppAutomate: 'Namma AI auto workflows create maadi ee opportunities capture maadatte',
+  adMktOppWf1: 'SEO & Local Search Optimization',
+  adMktOppWf2: 'Review Collection Campaign',
+  adMktOppWf3: 'Social Media Growth Engine',
+  adMktOppWf4: 'Lead Capture & Nurture Pipeline',
+  adMktOppReady: '1 click nalli ready — AI ella handle maadatte',
+
+  // ══════════════════════════════════════
+  // DASHBOARD PREVIEW & TESTIMONIALS (Kanglish)
+  // ══════════════════════════════════════
+  lpPreviewBadge: 'Action nalli Nodi',
+  lpPreviewTitle: 'Nimma Complete Growth Command Center',
+  lpPreviewDesc: 'Ondu AI-powered dashboard nalli track, automate, scale — nimma full digital presence.',
+  lpDashScore: 'Digital Score',
+  lpDashAutomations: 'Active Automations',
+  lpDashLeads: 'Ee Tingalu Leads',
+  lpDashContent: 'Posts Scheduled',
+  lpTestimonialBadge: 'Success Stories',
+  lpTestimonialTitle: 'India dalli Business Owners Ishta Padthare',
+  lpTestimonial1Name: 'Priya Sharma',
+  lpTestimonial1Role: 'Owner, Sharma Sweets',
+  lpTestimonial1City: 'Jaipur',
+  lpTestimonial1Quote: 'LeadFlexUp nanna sweet shop na zero online presence inda 3 months nalli 200+ Google reviews ge togondu bantu. Revenue 3.5x aagide!',
+  lpTestimonial1Metric: '3.5x revenue growth',
+  lpTestimonial2Name: 'Rajesh Kumar',
+  lpTestimonial2Role: 'Founder, TechNova Solutions',
+  lpTestimonial2City: 'Bangalore',
+  lpTestimonial2Quote: 'AI automation hub nanna entire marketing nodkoLLatte. Social posts, email campaigns, ad optimization — ella autopilot nalli.',
+  lpTestimonial2Metric: '200+ leads/month',
+  lpTestimonial3Name: 'Anita Desai',
+  lpTestimonial3Role: 'Director, Desai Clinics',
+  lpTestimonial3City: 'Mumbai',
+  lpTestimonial3Quote: 'Competitor intelligence exact aagi elli patients kaLedkoLthidivi antha torsitu. Gaps fix maadi 6 months nalli 4x grow aadvi.',
+  lpTestimonial3Metric: '4x patient growth',
+
+  // ══════════════════════════════════════
+  // PRICING & FAQ (Kanglish)
+  // ══════════════════════════════════════
+  lpPricingBadge: 'Simple Pricing',
+  lpPricingTitle: 'Nimma Business Jote Grow Aagodu Plans',
+  lpPricingDesc: 'Free inda shuru maadi, ready aadaga upgrade maadi. Hidden fees illa, yavaglaadru cancel maadbahudu.',
+  lpFaqBadge: 'Common Questions',
+  lpFaqTitle: 'Jaasti Kelodu Prashne gaLu',
+  lpFaq1Q: 'LeadFlexUp use maadoke technical knowledge beka?',
+  lpFaq1A: 'Ille! LeadFlexUp non-tech business owners ge design aagide. Namma AI ella handle maadatte — website building, ad campaigns, content creation. Nimma business bagge heli andre saaku.',
+  lpFaq2Q: 'AI automation hege kelsa maadatte?',
+  lpFaq2A: 'Namma AI marketing workflows auto create & run maadatte — social media posts, email campaigns, ad optimization, review collection — ella 24/7 nimma intervention illade kelsa maadatte.',
+  lpFaq3Q: 'Yava languages support ide?',
+  lpFaq3A: '6 languages support ide: English, Hindi, Tamil, Kannada, Telugu, and Malayalam. Full platform AI responses sahita nimma preferred language ge adapt aagatte.',
+  lpFaq4Q: 'Competitors performance nodbahudu aa?',
+  lpFaq4A: 'Houdu! Namma competitor intelligence nimma local market map maadi, leaderboard rankings torsi, market share gain maadoke gaps identify maadatte.',
+  lpFaq5Q: 'Free plan idey aa?',
+  lpFaq5A: 'Guest aagi full platform explore maadbahudu limited AI credits jote. Automation, lead management, website builder unlock maadoke Starter plan ge sign up maadi.',
+  lpFaq6Q: 'Results eshtara bega sigatte?',
+  lpFaq6A: 'Hechinanashtu businesses 2-4 weeks nalli measurable improvement nodthare. Namma Growth Journey roadmap & AI automations turant kelsa shuru maadthave.',
+
+  // ══════════════════════════════════════
+  // FOOTER (Kanglish)
+  // ══════════════════════════════════════
+  lpFooterTagline: 'Indian businesses ge AI-powered growth platform',
+  lpFooterProduct: 'Product',
+  lpFooterCompany: 'Company',
+  lpFooterLegal: 'Legal',
+  lpFooterAbout: 'Namma Bagge',
+  lpFooterBlog: 'Blog',
+  lpFooterCareers: 'Careers',
+  lpFooterContact: 'Contact',
+  lpFooterPrivacy: 'Privacy Policy',
+  lpFooterTermsLink: 'Terms of Service',
 };
