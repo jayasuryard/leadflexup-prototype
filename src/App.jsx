@@ -6,7 +6,6 @@ import { LandingPage } from './pages/LandingPage';
 import { DashboardLayout } from './layouts/DashboardLayout';
 import { DashboardOverview } from './pages/DashboardOverview';
 import { AnalyticsDashboard } from './pages/AnalyticsDashboard';
-import { RecommendationsPage } from './pages/RecommendationsPage';
 import { SubscriptionPlans } from './pages/SubscriptionPlans';
 import { GrowthJourney } from './pages/GrowthJourney';
 
@@ -36,7 +35,6 @@ function AppRoutes() {
       >
         <Route index element={<DashboardOverview />} />
         <Route path="analytics" element={<AnalyticsDashboard />} />
-        <Route path="recommendations" element={<RecommendationsPage />} />
         <Route path="subscription" element={<SubscriptionPlans />} />
         <Route path="journey" element={<AuthRoute><GrowthJourney /></AuthRoute>} />
         <Route path="settings" element={<AuthRoute><div className="text-center py-20 text-navy-400">Settings coming soon...</div></AuthRoute>} />

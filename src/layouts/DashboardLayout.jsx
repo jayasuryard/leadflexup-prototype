@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import {
-  LayoutDashboard, TrendingUp, Lightbulb,
+  LayoutDashboard, TrendingUp,
   Rocket, Settings, LogOut, Menu, X, Bell, Search, ChevronDown,
   BarChart3, CreditCard
 } from 'lucide-react';
@@ -21,7 +21,6 @@ export const DashboardLayout = () => {
   const navItems = [
     { key: 'overview', icon: LayoutDashboard, path: '/dashboard', label: t('dashboard', language) },
     { key: 'analytics', icon: BarChart3, path: '/dashboard/analytics', label: t('analytics', language) },
-    { key: 'recommendations', icon: Lightbulb, path: '/dashboard/recommendations', label: t('recommendations', language) },
     ...(isAuthenticated ? [
       { key: 'subscription', icon: CreditCard, path: '/dashboard/subscription', label: t('subscription', language) },
       { key: 'growthJourney', icon: Rocket, path: '/dashboard/journey', label: t('growthJourney', language) },
