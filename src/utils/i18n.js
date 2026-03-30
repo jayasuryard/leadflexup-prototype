@@ -147,6 +147,12 @@ export const translations = {
     scoreStrong: 'मजबूत उपस्थिति! अनुकूलन और स्केलिंग पर ध्यान दें।',
     logout: 'लॉग आउट',
     viewAll: 'सभी देखें', summary: 'सारांश', totalFollowers: 'कुल फॉलोअर्स', avgEngagement: 'औसत सहभागिता',
+    websiteBuilder: 'वेबसाइट बिल्डर', websiteBuilderDesc: 'अपने व्यवसाय के लिए वेबसाइट बनाएं',
+    contentStudio: 'कंटेंट स्टूडियो', contentStudioDesc: 'टेम्पलेट से पोस्टर और वीडियो बनाएं',
+    automationHub: 'ऑटोमेशन', automationHubDesc: 'बैकग्राउंड में चल रहे ऑटोमेशन',
+    leadManager: 'लीड मैनेजर', leadManagerDesc: 'पूर्वानुमान विश्लेषण के साथ पाइपलाइन',
+    signUpFree: 'मुफ्त साइन अप', signupCopilotDesc: 'सभी सुविधाएं अनलॉक करने के लिए साइन अप करें।',
+    visualPreview: 'विज़ुअल प्रीव्यू', visualPreviewDesc: 'चैट परिणाम यहां दिखाई देंगे।',
   },
   ta: {
     heroTitle: 'உங்கள் வணிகத்தை மாற்றுங்கள்', heroSubtitle: 'தரவு-இயக்கப்படும் நுண்ணறிவுடன்',
@@ -184,6 +190,9 @@ export const translations = {
     scoreGoodProgress: 'நல்ல முன்னேற்றம்! சில முக்கிய மேம்பாடுகள் உங்கள் அணுகலை அதிகரிக்கும்.',
     scoreStrong: 'வலுவான இருப்பு! மேம்படுத்தல் மற்றும் அளவிடுதலில் கவனம் செலுத்துங்கள்.',
     logout: 'வெளியேறு', viewAll: 'அனைத்தும் காண்க', summary: 'சுருக்கம்',
+    websiteBuilder: 'இணையதள உருவாக்கி', contentStudio: 'உள்ளடக்க ஸ்டுடியோ',
+    automationHub: 'ஆட்டோமேஷன்', leadManager: 'லீட் மேனேஜர்',
+    signUpFree: 'இலவச பதிவு', visualPreview: 'காட்சி முன்னோட்டம்',
   },
   kn: {
     heroTitle: 'ನಿಮ್ಮ ವ್ಯಾಪಾರವನ್ನು ಪರಿವರ್ತಿಸಿ', heroSubtitle: 'ಡೇಟಾ-ಚಾಲಿತ ಬುದ್ಧಿವಂತಿಕೆಯೊಂದಿಗೆ',
@@ -221,6 +230,9 @@ export const translations = {
     scoreGoodProgress: 'ಒಳ್ಳೆಯ ಪ್ರಗತಿ! ಕೆಲವು ಸುಧಾರಣೆಗಳು ನಿಮ್ಮ ತಲುಪುವಿಕೆಯನ್ನು ಹೆಚ್ಚಿಸಬಹುದು.',
     scoreStrong: 'ಬಲವಾದ ಉಪಸ್ಥಿತಿ! ಅತ್ಯುತ್ತಮಗೊಳಿಸುವಿಕೆ ಮೇಲೆ ಗಮನ ಕೊಡಿ.',
     logout: 'ಲಾಗ್ ಔಟ್', viewAll: 'ಎಲ್ಲಾ ನೋಡಿ', summary: 'ಸಾರಾಂಶ',
+    websiteBuilder: 'ವೆಬ್‌ಸೈಟ್ ಬಿಲ್ಡರ್', contentStudio: 'ಕಂಟೆಂಟ್ ಸ್ಟುಡಿಯೋ',
+    automationHub: 'ಆಟೋಮೇಶನ್', leadManager: 'ಲೀಡ್ ಮ್ಯಾನೇಜರ್',
+    signUpFree: 'ಉಚಿತ ಸೈನ್ ಅಪ್', visualPreview: 'ದೃಶ್ಯ ಪೂರ್ವವೀಕ್ಷಣೆ',
   },
   te: {
     heroTitle: 'మీ వ్యాపారాన్ని మార్చండి', heroSubtitle: 'డేటా-ఆధారిత తెలివితేటలతో',
@@ -257,6 +269,9 @@ export const translations = {
     scoreGoodProgress: 'మంచి పురోగతి! కొన్ని మెరుగుదలలు మీ చేరికను పెంచగలవు.',
     scoreStrong: 'బలమైన ఉనికి! ఆప్టిమైజేషన్ మరియు స్కేలింగ్‌పై దృష్టి పెట్టండి.',
     logout: 'లాగ్ అవుట్', viewAll: 'అన్నీ చూడండి', summary: 'సారాంశం',
+    websiteBuilder: 'వెబ్‌సైట్ బిల్డర్', contentStudio: 'కంటెంట్ స్టూడియో',
+    automationHub: 'ఆటోమేషన్', leadManager: 'లీడ్ మేనేజర్',
+    signUpFree: 'ఉచిత సైన్ అప్', visualPreview: 'విజువల్ ప్రివ్యూ',
   },
   ml: {
     heroTitle: 'നിങ്ങളുടെ ബിസിനസ്സ് പരിവർത്തനം ചെയ്യുക', heroSubtitle: 'ഡാറ്റ-ഡ്രൈവൺ ഇന്റലിജൻസ് ഉപയോഗിച്ച്',
@@ -293,6 +308,9 @@ export const translations = {
     scoreGoodProgress: 'നല്ല പുരോഗതി! ചില മെച്ചപ്പെടുത്തലുകൾ നിങ്ങളുടെ റീച്ച് വർദ്ധിപ്പിക്കും.',
     scoreStrong: 'ശക്തമായ സാന്നിധ്യം! ഒപ്റ്റിമൈസേഷനിൽ ശ്രദ്ധിക്കുക.',
     logout: 'ലോഗ് ഔട്ട്', viewAll: 'എല്ലാം കാണുക', summary: 'സംഗ്രഹം',
+    websiteBuilder: 'വെബ്‌സൈറ്റ് ബിൽഡർ', contentStudio: 'കാണ്ടന്റ് സ്റ്റുഡിയോ',
+    automationHub: 'ഓട്ടോമേഷൻ', leadManager: 'ലീഡ് മാനേജർ',
+    signUpFree: 'സൗജന്യ സൈൻ അപ്പ്', visualPreview: 'വിഷ്വൽ പ്രിവ്യൂ',
   },
 };
 
