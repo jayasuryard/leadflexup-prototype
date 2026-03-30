@@ -6,15 +6,20 @@ import { LandingPage } from './pages/LandingPage';
 import { DashboardLayout } from './layouts/DashboardLayout';
 import { DashboardOverview } from './pages/DashboardOverview';
 import { AnalyticsDashboard } from './pages/AnalyticsDashboard';
-import { CompetitorLeaderboard } from './pages/CompetitorLeaderboard';
 import { RecommendationsPage } from './pages/RecommendationsPage';
 import { SubscriptionPlans } from './pages/SubscriptionPlans';
 import { GrowthJourney } from './pages/GrowthJourney';
 
-// Protected Route Component
-const ProtectedRoute = ({ children }) => {
+// Only require onboarded (analysis done), NOT authenticated
+const OnboardedRoute = ({ children }) => {
+  const { isOnboarded } = useApp();
+  return isOnboarded ? children : <Navigate to="/" replace />;
+};
+
+// Require both auth + onboarded for premium features
+const AuthRoute = ({ children }) => {
   const { isAuthenticated, isOnboarded } = useApp();
-  return (isAuthenticated && isOnboarded) ? children : <Navigate to="/" replace />;
+  return (isAuthenticated && isOnboarded) ? children : <Navigate to="/dashboard/analytics" replace />;
 };
 
 function AppRoutes() {
@@ -24,18 +29,17 @@ function AppRoutes() {
       <Route
         path="/dashboard"
         element={
-          <ProtectedRoute>
+          <OnboardedRoute>
             <DashboardLayout />
-          </ProtectedRoute>
+          </OnboardedRoute>
         }
       >
         <Route index element={<DashboardOverview />} />
         <Route path="analytics" element={<AnalyticsDashboard />} />
-        <Route path="competitors" element={<CompetitorLeaderboard />} />
         <Route path="recommendations" element={<RecommendationsPage />} />
         <Route path="subscription" element={<SubscriptionPlans />} />
-        <Route path="journey" element={<GrowthJourney />} />
-        <Route path="settings" element={<div className="text-center py-20 text-gray-600">Settings page coming soon...</div>} />
+        <Route path="journey" element={<AuthRoute><GrowthJourney /></AuthRoute>} />
+        <Route path="settings" element={<AuthRoute><div className="text-center py-20 text-navy-400">Settings coming soon...</div></AuthRoute>} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

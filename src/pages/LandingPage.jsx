@@ -133,11 +133,6 @@ export const LandingPage = () => {
   const handleOnboard = async (e) => {
     e.preventDefault();
 
-    if (!isAuthenticated) {
-      setShowSignUp(true);
-      return;
-    }
-
     setIsAnalyzing(true);
     await new Promise(r => setTimeout(r, 2000));
     onboardBusiness({
@@ -149,29 +144,12 @@ export const LandingPage = () => {
       lat: formData.location?.lat,
       lng: formData.location?.lng
     });
-    navigate('/dashboard');
+    navigate('/dashboard/analytics');
   };
 
   const handleSignUp = (userData) => {
     signup(userData);
     setShowSignUp(false);
-    // Auto-submit onboarding if form was filled
-    if (formData.businessName && formData.category && formData.location) {
-      (async () => {
-        setIsAnalyzing(true);
-        await new Promise(r => setTimeout(r, 2000));
-        onboardBusiness({
-          ...formData,
-          businessAddress: formData.location?.address || '',
-          businessCity: formData.location?.city || '',
-          businessState: formData.location?.state || '',
-          businessPincode: formData.location?.pincode || '',
-          lat: formData.location?.lat,
-          lng: formData.location?.lng
-        });
-        navigate('/dashboard');
-      })();
-    }
   };
 
   const features = [
@@ -225,6 +203,9 @@ export const LandingPage = () => {
                 <option value="en">EN</option>
                 <option value="hi">हिंदी</option>
                 <option value="ta">தமிழ்</option>
+                <option value="kn">ಕನ್ನಡ</option>
+                <option value="te">తెలుగు</option>
+                <option value="ml">മലയാളം</option>
               </select>
               <button
                 onClick={() => setShowSignUp(true)}
@@ -386,7 +367,7 @@ export const LandingPage = () => {
                   </button>
 
                   <p className="text-xs text-navy-400 text-center">
-                    {!isAuthenticated && 'You\'ll be asked to create an account before we start the analysis.'}
+                    No sign-up required to view your analysis
                   </p>
                 </form>
               )}
