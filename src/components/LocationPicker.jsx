@@ -71,7 +71,7 @@ export const LocationPicker = ({ onLocationChange, value }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searching, setSearching] = useState(false);
   const [detecting, setDetecting] = useState(false);
-  const [mapType, setMapType] = useState('satellite'); // Default to satellite
+  const [mapType, setMapType] = useState('hybrid'); // Default to hybrid (satellite with labels)
   const [showMapMenu, setShowMapMenu] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);

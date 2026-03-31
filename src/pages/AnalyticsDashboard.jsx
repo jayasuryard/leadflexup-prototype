@@ -127,7 +127,7 @@ const MiniGauge = ({ value, label, color }) => (
 export const AnalyticsDashboard = () => {
   const { analyticsData, language, businessData, recommendations, isAuthenticated, selectSubscription } = useApp();
   const [showPlans, setShowPlans] = useState(false);
-  const [mapType, setMapType] = useState('satellite'); // Default to satellite
+  const [mapType, setMapType] = useState('hybrid'); // Default to hybrid (satellite with labels)
   const [showMapMenu, setShowMapMenu] = useState(false);
   const mapMenuRef = useRef(null);
   
