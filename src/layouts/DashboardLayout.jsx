@@ -181,8 +181,6 @@ export const DashboardLayout = () => {
         <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-navy-100">
           <div className="flex items-center justify-between h-14 px-6">
             <div className="flex items-center gap-3 pl-10 lg:pl-0">
-              <h1 className="text-sm font-bold text-navy-800">{t('dashboard', language)}</h1>
-              <ChevronDown className="w-4 h-4 text-navy-400" />
             </div>
             <div className="flex items-center gap-3">
               <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-navy-50 rounded-lg border border-navy-100 w-56">

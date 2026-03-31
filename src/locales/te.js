@@ -851,4 +851,12 @@ export default {
   nhReadMore: 'పూర్తి విశ్లేషణ చదవండి →',
   nhQuoteOfDay: 'ఈ రోజు కోట్',
   nhQuote: '"ముందుకు సాగే రహస్యం ప్రారంభించడం." — మార్క్ ట్వైన్',
+
+  voiceListening: 'వింటున్నాను... మాట్లాడండి',
+  voiceSpeaking: 'మాట్లాడుతోంది...',
+  voiceSpeak: 'చదవండి',
+  voiceAutoSpeak: 'జవాబులు ఆటో రీడ్',
+  voiceTapToSpeak: 'మాట్లాడటానికి ట్యాప్ చేయండి',
+  voiceInputHint: 'మీ బిజినెస్ పేరు చెప్పండి',
+  voicePhoneHint: 'మీ ఫోన్ నంబర్ చెప్పండి',
 };

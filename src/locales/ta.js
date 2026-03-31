@@ -839,4 +839,12 @@ export default {
   nhReadMore: 'முழு பகுப்பாய்வு படிக்க →',
   nhQuoteOfDay: 'இன்றைய மேற்கோள்',
   nhQuote: '"தொடங்குவதே வெற்றியின் ரகசியம்." — மார்க் ட்வைன்',
+
+  voiceListening: 'கேட்கிறேன்... பேசுங்கள்',
+  voiceSpeaking: 'பேசுகிறது...',
+  voiceSpeak: 'படிக்கவும்',
+  voiceAutoSpeak: 'பதில்களை தானாக படிக்கவும்',
+  voiceTapToSpeak: 'பேச தட்டவும்',
+  voiceInputHint: 'உங்கள் வணிக பெயரை சொல்லுங்கள்',
+  voicePhoneHint: 'உங்கள் தொலைபேசி எண்ணை சொல்லுங்கள்',
 };

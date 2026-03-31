@@ -1,16 +1,62 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import {
   Store, MapPin, Tag, TrendingUp, Sparkles, BarChart3, Target, Zap,
   Phone, Mail, Lock, Eye, EyeOff, X, CheckCircle, ArrowRight,
   Globe, Users, Shield, LineChart, Rocket, Star, ChevronRight,
-  Check, Crown, ChevronDown, MessageSquare, Layers, PieChart
+  Check, Crown, ChevronDown, MessageSquare, Layers, PieChart,
+  Mic, MicOff
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { t, getLocalizedText } from '../utils/i18n';
 import { businessCategories, subscriptionPlans } from '../data/mockDatabase';
 import { LocationPicker } from '../components/LocationPicker';
+
+/* ─── Language → BCP-47 map for Speech Recognition ─── */
+const sttLangMap = { en: 'en-IN', hi: 'hi-IN', ta: 'ta-IN', kn: 'kn-IN', te: 'te-IN', ml: 'ml-IN' };
+
+/* ─── Inline Voice Input Button ─── */
+const VoiceMicButton = ({ onResult, lang = 'en', hint }) => {
+  const [listening, setListening] = useState(false);
+  const [supported, setSupported] = useState(false);
+  const recRef = useRef(null);
+
+  useEffect(() => {
+    const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SR) {
+      setSupported(true);
+      const rec = new SR();
+      rec.continuous = false;
+      rec.interimResults = false;
+      rec.lang = sttLangMap[lang] || 'en-IN';
+      rec.onresult = (e) => { onResult(e.results[0][0].transcript); setListening(false); };
+      rec.onerror = () => setListening(false);
+      rec.onend = () => setListening(false);
+      recRef.current = rec;
+    }
+  }, [onResult, lang]);
+
+  if (!supported) return null;
+
+  const toggle = () => {
+    if (!recRef.current) return;
+    if (listening) { recRef.current.stop(); setListening(false); }
+    else {
+      recRef.current.lang = sttLangMap[lang] || 'en-IN';
+      recRef.current.start(); setListening(true);
+    }
+  };
+
+  return (
+    <button type="button" onClick={toggle}
+      className={`absolute right-3 top-1/2 -translate-y-1/2 p-1.5 rounded-lg transition-all z-10 ${
+        listening ? 'bg-red-500 text-white animate-pulse shadow-lg shadow-red-200' : 'hover:bg-navy-100 text-navy-400'}`}
+      title={listening ? t('voiceListening', lang) : (hint || t('voiceTapToSpeak', lang))}>
+      {listening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+    </button>
+  );
+};
 
 /* ─── Sign-up Modal ─── */
 const SignUpModal = ({ open, onClose, onSignUp, language }) => {
@@ -392,8 +438,10 @@ export const LandingPage = () => {
                         value={formData.businessName}
                         onChange={(e) => setFormData({ ...formData, businessName: e.target.value })}
                         placeholder={t('businessNamePlaceholder', language)}
-                        className="matte-input w-full pl-10 pr-4 py-2.5 rounded-lg text-sm"
+                        className="matte-input w-full pl-10 pr-12 py-2.5 rounded-lg text-sm"
                       />
+                      <VoiceMicButton lang={language} hint={t('voiceInputHint', language)}
+                        onResult={(text) => setFormData(prev => ({ ...prev, businessName: text }))} />
                     </div>
                   </div>
 
@@ -407,8 +455,10 @@ export const LandingPage = () => {
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         placeholder={t('lpPhonePlaceholder', language)}
-                        className="matte-input w-full pl-10 pr-4 py-2.5 rounded-lg text-sm"
+                        className="matte-input w-full pl-10 pr-12 py-2.5 rounded-lg text-sm"
                       />
+                      <VoiceMicButton lang={language} hint={t('voicePhoneHint', language)}
+                        onResult={(text) => setFormData(prev => ({ ...prev, phone: text.replace(/\s/g, '') }))} />
                     </div>
                   </div>
 

@@ -839,4 +839,12 @@ export default {
   nhReadMore: 'ಪೂರ್ಣ ವಿಶ್ಲೇಷಣೆ ಓದಿ →',
   nhQuoteOfDay: 'ಇಂದಿನ ಉಲ್ಲೇಖ',
   nhQuote: '"ಮುಂದೆ ಹೋಗುವ ರಹಸ್ಯ ಪ್ರಾರಂಭಿಸುವುದು." — ಮಾರ್ಕ್ ಟ್ವೈನ್',
+
+  voiceListening: 'ಕೇಳುತ್ತಿದ್ದೇನೆ... ಮಾತನಾಡಿ',
+  voiceSpeaking: 'ಮಾತನಾಡುತ್ತಿದೆ...',
+  voiceSpeak: 'ಓದಿ',
+  voiceAutoSpeak: 'ಉತ್ತರಗಳನ್ನು ಸ್ವಯಂ ಓದಿ',
+  voiceTapToSpeak: 'ಮಾತನಾಡಲು ಟ್ಯಾಪ್ ಮಾಡಿ',
+  voiceInputHint: 'ನಿಮ್ಮ ವ್ಯಾಪಾರದ ಹೆಸರು ಹೇಳಿ',
+  voicePhoneHint: 'ನಿಮ್ಮ ಫೋನ್ ಸಂಖ್ಯೆ ಹೇಳಿ',
 };

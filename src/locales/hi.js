@@ -865,4 +865,14 @@ export default {
   nhReadMore: 'पूरा एनालिसिस पढ़ें →',
   nhQuoteOfDay: 'आज का विचार',
   nhQuote: '"शुरुआत करना सबसे बड़ा कदम है।" — मार्क ट्वेन',
+
+  voiceListening: 'सुन रहा हूं... बोलो',
+  voiceSpeaking: 'बोल रहा है...',
+  voiceStopSpeaking: 'बोलना बंद करो',
+  voiceSpeak: 'पढ़कर सुनाओ',
+  voiceAutoSpeak: 'जवाब अपने आप पढ़ो',
+  voiceNotSupported: 'इस ब्राउज़र में वॉइस सपोर्ट नहीं है',
+  voiceTapToSpeak: 'बोलने के लिए टैप करो',
+  voiceInputHint: 'अपने बिज़नेस का नाम बोलो',
+  voicePhoneHint: 'अपना फ़ोन नंबर बोलो',
 };

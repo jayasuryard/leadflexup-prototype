@@ -974,4 +974,17 @@ export default {
   nhClassifiedDesc: 'Premium ad space available for your business. Boost visibility today.',
   nhQuoteOfDay: 'Quote of the Day',
   nhQuote: '"The secret of getting ahead is getting started." — Mark Twain',
+
+  // ══════════════════════════════════════
+  // VOICE FEATURES
+  // ══════════════════════════════════════
+  voiceListening: 'Listening... speak now',
+  voiceSpeaking: 'Speaking...',
+  voiceStopSpeaking: 'Stop speaking',
+  voiceSpeak: 'Read aloud',
+  voiceAutoSpeak: 'Auto-read responses',
+  voiceNotSupported: 'Voice not supported in this browser',
+  voiceTapToSpeak: 'Tap to speak',
+  voiceInputHint: 'Say your business name',
+  voicePhoneHint: 'Say your phone number',
 };

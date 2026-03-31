@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Send, Bot, Sparkles, Zap, Loader2, AlertCircle, Lock, UserPlus,
   X, MessageCircle, Paperclip, ChevronRight, ArrowLeft, Clock,
-  Mic, MicOff, Eye, CheckCircle2, Activity
+  Mic, MicOff, Eye, CheckCircle2, Activity, Volume2, VolumeX
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { t } from '../utils/i18n';
@@ -71,11 +71,19 @@ const detectActivities = (text) => {
   return acts;
 };
 
-/* ─── Voice Input Hook ─── */
-const useVoiceInput = (onResult) => {
+/* ─── Language → BCP-47 map for Speech Recognition ─── */
+const sttLangMap = { en: 'en-IN', hi: 'hi-IN', ta: 'ta-IN', kn: 'kn-IN', te: 'te-IN', ml: 'ml-IN' };
+
+/* ─── Language → BCP-47 map for TTS voices ─── */
+const ttsLangMap = { en: 'en-IN', hi: 'hi-IN', ta: 'ta-IN', kn: 'kn-IN', te: 'te-IN', ml: 'ml-IN' };
+
+/* ─── Voice Input Hook (multi-lingual STT) ─── */
+const useVoiceInput = (onResult, lang = 'en') => {
   const [listening, setListening] = useState(false);
   const [supported, setSupported] = useState(false);
   const recognitionRef = useRef(null);
+  const langRef = useRef(lang);
+  langRef.current = lang;
 
   useEffect(() => {
     const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -84,20 +92,56 @@ const useVoiceInput = (onResult) => {
       const recognition = new SR();
       recognition.continuous = false;
       recognition.interimResults = false;
-      recognition.lang = 'en-IN';
+      recognition.lang = sttLangMap[lang] || 'en-IN';
       recognition.onresult = (e) => { onResult(e.results[0][0].transcript); setListening(false); };
       recognition.onerror = () => setListening(false);
       recognition.onend = () => setListening(false);
       recognitionRef.current = recognition;
     }
-  }, [onResult]);
+  }, [onResult, lang]);
 
   const toggle = () => {
     if (!recognitionRef.current) return;
     if (listening) { recognitionRef.current.stop(); setListening(false); }
-    else { recognitionRef.current.start(); setListening(true); }
+    else {
+      recognitionRef.current.lang = sttLangMap[langRef.current] || 'en-IN';
+      recognitionRef.current.start(); setListening(true);
+    }
   };
   return { listening, supported, toggle };
+};
+
+/* ─── TTS Hook (multi-lingual Text-to-Speech) ─── */
+const useTTS = (lang = 'en') => {
+  const [speaking, setSpeaking] = useState(false);
+  const [supported] = useState(() => typeof window !== 'undefined' && 'speechSynthesis' in window);
+  const utterRef = useRef(null);
+
+  const speak = useCallback((text) => {
+    if (!supported || !text) return;
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance(text);
+    utter.lang = ttsLangMap[lang] || 'en-IN';
+    utter.rate = 0.95;
+    utter.pitch = 1;
+    // Try to find a matching voice
+    const voices = window.speechSynthesis.getVoices();
+    const target = ttsLangMap[lang] || 'en-IN';
+    const match = voices.find(v => v.lang === target) || voices.find(v => v.lang.startsWith(target.split('-')[0]));
+    if (match) utter.voice = match;
+    utter.onstart = () => setSpeaking(true);
+    utter.onend = () => setSpeaking(false);
+    utter.onerror = () => setSpeaking(false);
+    utterRef.current = utter;
+    window.speechSynthesis.speak(utter);
+  }, [lang, supported]);
+
+  const stop = useCallback(() => {
+    window.speechSynthesis.cancel();
+    setSpeaking(false);
+  }, []);
+
+  return { speaking, supported, speak, stop };
 };
 
 /* ─── Signup Prompt Modal ─── */
@@ -244,10 +288,24 @@ const ActivityPreviewPanel = ({ activities, workflows, language }) => {
 const ChatView = ({ messages, loading, input, setInput, handleSend, mode, setMode, isAuthenticated,
   onRequestSignup, language, onBack, activities, workflows, onVoiceResult, guestCreditsLeft }) => {
   const endRef = useRef(null);
+  const [autoSpeak, setAutoSpeak] = useState(false);
+  const lastMsgCountRef = useRef(messages.length);
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
   const handleAgentClick = () => { if (!isAuthenticated) { onRequestSignup(); return; } setMode('agent'); };
   const voiceCallback = useCallback((transcript) => { onVoiceResult(transcript); }, [onVoiceResult]);
-  const { listening, supported, toggle: toggleVoice } = useVoiceInput(voiceCallback);
+  const { listening, supported, toggle: toggleVoice } = useVoiceInput(voiceCallback, language);
+  const tts = useTTS(language);
+
+  // Auto-speak new bot messages
+  useEffect(() => {
+    if (autoSpeak && messages.length > lastMsgCountRef.current) {
+      const lastMsg = messages[messages.length - 1];
+      if (lastMsg?.role === 'bot' && !lastMsg.isError) {
+        tts.speak(lastMsg.text);
+      }
+    }
+    lastMsgCountRef.current = messages.length;
+  }, [messages, autoSpeak, tts]);
 
   return (
     <div className="flex h-full">
@@ -267,6 +325,14 @@ const ChatView = ({ messages, loading, input, setInput, handleSend, mode, setMod
               {!isAuthenticated ? <Lock className="w-3 h-3" /> : <Zap className="w-3 h-3" />} {t('doAgent', language)}
               {!isAuthenticated && <span className="text-[8px] bg-yellow-100 text-yellow-700 px-1 rounded ml-1">{t('pro', language)}</span>}
             </button>
+            {/* Auto-speak toggle */}
+            {tts.supported && (
+              <button onClick={() => { setAutoSpeak(p => !p); if (tts.speaking) tts.stop(); }}
+                className={`p-1.5 rounded-lg transition-all ${autoSpeak ? 'bg-teal-600 text-white' : 'bg-navy-50 text-navy-400 hover:bg-navy-100'}`}
+                title={t('voiceAutoSpeak', language)}>
+                {autoSpeak ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}
+              </button>
+            )}
           </div>
         </div>
 
@@ -278,12 +344,22 @@ const ChatView = ({ messages, loading, input, setInput, handleSend, mode, setMod
                   {msg.isError ? <AlertCircle className="w-3.5 h-3.5 text-white" /> : mode === 'agent' ? <Zap className="w-3.5 h-3.5 text-white" /> : <Bot className="w-3.5 h-3.5 text-white" />}
                 </div>
               )}
-              <div className={`max-w-[75%] px-4 py-3 rounded-2xl text-[12px] leading-relaxed whitespace-pre-wrap ${
-                msg.role === 'user' ? 'bg-navy-700 text-white rounded-br-md' :
-                msg.isError ? 'bg-red-50 text-red-700 rounded-bl-md border border-red-100' :
-                'bg-navy-50 text-navy-700 rounded-bl-md'}`}>
+              <div className={`max-w-[75%] rounded-2xl text-[12px] leading-relaxed whitespace-pre-wrap ${
+                msg.role === 'user' ? 'bg-navy-700 text-white rounded-br-md px-4 py-3' :
+                msg.isError ? 'bg-red-50 text-red-700 rounded-bl-md border border-red-100 px-4 py-3' :
+                'bg-navy-50 text-navy-700 rounded-bl-md px-4 py-3'}`}>
                 {msg.text}
                 {msg.isVoice && <span className="inline-flex ml-1.5 text-[9px] opacity-60">🎙️</span>}
+                {/* TTS speak button for bot messages */}
+                {msg.role === 'bot' && !msg.isError && tts.supported && (
+                  <button
+                    onClick={(e) => { e.stopPropagation(); tts.speaking ? tts.stop() : tts.speak(msg.text); }}
+                    className="inline-flex items-center gap-1 ml-2 mt-1 px-1.5 py-0.5 rounded text-[9px] text-navy-400 hover:text-teal-600 hover:bg-teal-50 transition-colors"
+                    title={tts.speaking ? t('voiceStopSpeaking', language) : t('voiceSpeak', language)}>
+                    {tts.speaking ? <VolumeX className="w-3 h-3" /> : <Volume2 className="w-3 h-3" />}
+                    <span>{tts.speaking ? '■' : '▶'}</span>
+                  </button>
+                )}
               </div>
             </motion.div>
           ))}
@@ -347,7 +423,7 @@ const HeroInput = ({ input, setInput, handleSend, mode, handleAgentToggle, isAut
     setInput(transcript);
     setTimeout(() => handleSend(transcript, true), 300);
   }, [setInput, handleSend]);
-  const { listening, supported, toggle: toggleVoice } = useVoiceInput(voiceCallback);
+  const { listening, supported, toggle: toggleVoice } = useVoiceInput(voiceCallback, language);
 
   return (
     <div className="bg-white rounded-2xl border border-navy-100 shadow-sm overflow-hidden">
