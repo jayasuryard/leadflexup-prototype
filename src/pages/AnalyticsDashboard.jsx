@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   AreaChart, Area, BarChart, Bar, RadialBarChart, RadialBar,
@@ -9,7 +9,8 @@ import {
   TrendingUp, Users, Star, MapPin,
   Eye, MousePointer, Share2, Globe, Trophy, AlertTriangle,
   X, Check, Sparkles, Crown, Rocket, ArrowRight,
-  Lightbulb, Activity, BarChart3, Search, Target, Zap, IndianRupee
+  Lightbulb, Activity, BarChart3, Search, Target, Zap, IndianRupee,
+  Satellite, Layers, Map as MapIcon, Mountain
 } from 'lucide-react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
@@ -20,7 +21,7 @@ import { competitorDatabase, subscriptionPlans } from '../data/mockDatabase';
 
 /* ─── Map marker icons ─── */
 const redIcon = new L.Icon({
-  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
   iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41]
 });
@@ -29,6 +30,35 @@ const blueIcon = new L.Icon({
   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
   iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34], shadowSize: [41, 41]
 });
+
+/* ─── Map tile layers ─── */
+const mapLayers = {
+  satellite: {
+    name: 'Satellite',
+    icon: Satellite,
+    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    attribution: '&copy; Esri'
+  },
+  hybrid: {
+    name: 'Hybrid',
+    icon: Layers,
+    url: ['https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+          'https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}'],
+    attribution: '&copy; Esri'
+  },
+  street: {
+    name: 'Street',
+    icon: MapIcon,
+    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    attribution: '&copy; OpenStreetMap'
+  },
+  terrain: {
+    name: 'Terrain',
+    icon: Mountain,
+    url: 'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+    attribution: '&copy; OpenTopoMap'
+  }
+};
 
 /* ─── Subscription Popup ─── */
 const SubscriptionPopup = ({ open, onClose, language, selectSubscription }) => {
@@ -88,7 +118,7 @@ const MiniGauge = ({ value, label, color }) => (
         <circle cx="40" cy="40" r="32" fill="none" stroke={color} strokeWidth="6" strokeLinecap="round"
           strokeDasharray={`${(value / 100) * 201} 201`} />
       </svg>
-      <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-navy-800">{value}</span>
+      <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-navy-100">{value}</span>
     </div>
     <span className="text-[9px] text-navy-50 mt-1 text-center leading-tight">{label}</span>
   </div>
@@ -97,12 +127,27 @@ const MiniGauge = ({ value, label, color }) => (
 export const AnalyticsDashboard = () => {
   const { analyticsData, language, businessData, recommendations, isAuthenticated, selectSubscription } = useApp();
   const [showPlans, setShowPlans] = useState(false);
+  const [mapType, setMapType] = useState('satellite'); // Default to satellite
+  const [showMapMenu, setShowMapMenu] = useState(false);
+  const mapMenuRef = useRef(null);
+  
   if (!analyticsData) return null;
 
   const { digitalPresence, traffic, socialMedia, geoInsights } = analyticsData;
   const last = traffic.monthly[traffic.monthly.length - 1];
   const prev = traffic.monthly[traffic.monthly.length - 2];
   const scoreColor = (s) => s < 30 ? '#ef4444' : s < 60 ? '#eab308' : '#14a88a';
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (mapMenuRef.current && !mapMenuRef.current.contains(event.target)) {
+        setShowMapMenu(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   // Computed deltas
   const visitDelta = prev && prev.visits > 0 ? Math.round(((last.visits - prev.visits) / prev.visits) * 100) : 0;
@@ -174,28 +219,32 @@ export const AnalyticsDashboard = () => {
   ];
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4 sm:space-y-5">
       <SubscriptionPopup open={showPlans} onClose={() => setShowPlans(false)} language={language} selectSubscription={selectSubscription} />
 
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <div>
           <h1 className="text-xl font-bold text-navy-900">{t('analytics', language)}</h1>
           <p className="text-sm text-navy-400 mt-0.5">{businessData?.businessName}</p>
         </div>
         {!isAuthenticated && (
-          <button onClick={() => setShowPlans(true)} className="px-4 py-2 bg-teal-600 text-white text-xs font-semibold rounded-lg hover:bg-teal-700 flex items-center gap-1.5">
+          <button onClick={() => setShowPlans(true)} className="px-4 py-2 bg-teal-600 text-white text-xs font-semibold rounded-lg hover:bg-teal-700 flex items-center gap-1.5 whitespace-nowrap">
             {t('signUpToUnlock', language)} <ArrowRight className="w-3.5 h-3.5" />
           </button>
         )}
       </div>
 
-      {/* ═══ BENTO GRID ═══ */}
+      {/* Main Layout Grid: Center Content + Right Sidebar */}
+      <div className="grid lg:grid-cols-[1fr_320px] gap-4 sm:gap-5">
+        {/* Center Content */}
+        <div className="space-y-4 sm:space-y-5">
+          {/* ═══ BENTO GRID ═══ */}
 
       {/* Row 1: Score Hero (full width) */}
-      <motion.div {...fade()} className="bg-navy-700 text-white rounded-2xl p-5">
-        <div className="flex flex-col sm:flex-row items-center gap-5">
-          <div className="relative w-28 h-28 flex-shrink-0">
+      <motion.div {...fade()} className="bg-navy-700 text-white rounded-2xl p-4 sm:p-5">
+        <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-5">
+          <div className="relative w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0">
             <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
               <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,.12)" strokeWidth="10" />
               <circle cx="60" cy="60" r="52" fill="none" stroke={scoreColor(digitalPresence.overall)} strokeWidth="10" strokeLinecap="round"
@@ -206,9 +255,9 @@ export const AnalyticsDashboard = () => {
               <span className="text-[9px] text-navy-200">{t('dlScoreOf', language)}</span>
             </div>
           </div>
-          <div className="flex-1">
-            <h2 className="text-sm font-bold mb-3">{t('digitalPresence', language)}</h2>
-            <div className="grid grid-cols-4 gap-3">
+          <div className="flex-1 w-full">
+            <h2 className="text-sm font-bold mb-3 text-center sm:text-left">{t('digitalPresence', language)}</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
               <MiniGauge value={digitalPresence.website} label={t('websiteHealth', language)} color="#ffffff" />
               <MiniGauge value={digitalPresence.socialMedia} label={t('socialMediaScore', language)} color="#5eead4" />
               <MiniGauge value={digitalPresence.searchVisibility} label={t('searchVisibility', language)} color="#a5b4fc" />
@@ -217,9 +266,9 @@ export const AnalyticsDashboard = () => {
           </div>
         </div>
         <div className="mt-4 pt-3 border-t border-white/10">
-          <div className="flex items-center justify-between text-[10px] mb-1.5">
-            <span className="text-navy-200">#{userPosition} {t('of', language)} {leaderboard.length} — {t('yourBusiness', language)} vs {t('competitors', language)} avg</span>
-            <span className="font-bold">{userScore} <span className="text-navy-300 font-normal">vs</span> {avgCompScore}</span>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1 text-[10px] mb-1.5">
+            <span className="text-navy-200 text-[9px] sm:text-[10px]">#{userPosition} {t('of', language)} {leaderboard.length} — {t('yourBusiness', language)} vs {t('competitors', language)} avg</span>
+            <span className="font-bold whitespace-nowrap">{userScore} <span className="text-navy-300 font-normal">vs</span> {avgCompScore}</span>
           </div>
           <div className="flex gap-1 h-2 rounded-full overflow-hidden bg-white/10">
             <div className="bg-teal-400 rounded-full" style={{ width: `${userScore}%` }} />
@@ -233,10 +282,10 @@ export const AnalyticsDashboard = () => {
       </motion.div>
 
       {/* Row 2: Map (left 2/3) + KPI Cards (right 1/3 stacked) */}
-      <div className="grid lg:grid-cols-[1fr_320px] gap-4">
+      <div className="grid lg:grid-cols-[1fr_320px] gap-3 sm:gap-4">
         {/* Map */}
         <motion.div {...fade()} className="bg-white rounded-2xl border border-navy-100 overflow-hidden">
-          <div className="px-5 py-3 border-b border-navy-100 flex items-center justify-between">
+          <div className="px-4 sm:px-5 py-3 border-b border-navy-100 flex items-center justify-between">
             <div>
               <h3 className="text-sm font-bold text-navy-800">{t('competitorMap', language)}</h3>
               <p className="text-[10px] text-navy-400">
@@ -245,9 +294,26 @@ export const AnalyticsDashboard = () => {
               </p>
             </div>
           </div>
-          <div style={{ height: 320 }}>
-            <MapContainer center={[bizLat, bizLng]} zoom={14} style={{ height: '100%', width: '100%' }} scrollWheelZoom={false}>
-              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; OpenStreetMap' />
+          <div className="relative" style={{ height: '280px' }}>
+            <MapContainer center={[bizLat, bizLng]} zoom={14} style={{ height: '100%', width: '100%' }} scrollWheelZoom={false} attributionControl={false}>
+              {/* Render tile layers based on map type */}
+              {mapType === 'hybrid' ? (
+                <>
+                  <TileLayer
+                    attribution={mapLayers.hybrid.attribution}
+                    url={mapLayers.hybrid.url[0]}
+                  />
+                  <TileLayer
+                    attribution={mapLayers.hybrid.attribution}
+                    url={mapLayers.hybrid.url[1]}
+                  />
+                </>
+              ) : (
+                <TileLayer
+                  attribution={mapLayers[mapType].attribution}
+                  url={mapLayers[mapType].url}
+                />
+              )}
               <Marker position={[bizLat, bizLng]} icon={redIcon}>
                 <Popup><strong>{businessData?.businessName || t('yourBusiness', language)}</strong><br />{t('adScore', language)} {userScore}</Popup>
               </Marker>
@@ -257,25 +323,66 @@ export const AnalyticsDashboard = () => {
                 </Marker>
               ))}
             </MapContainer>
+            
+            {/* Map Type Switcher - Compact Dropdown */}
+            <div ref={mapMenuRef} className="absolute top-3 right-3 z-[1000]">
+              <button
+                type="button"
+                onClick={() => setShowMapMenu(!showMapMenu)}
+                className="bg-white/95 backdrop-blur-sm p-2 rounded-lg shadow-lg border border-navy-200/50 hover:bg-white transition-all"
+                title={mapLayers[mapType].name}
+              >
+                {(() => {
+                  const Icon = mapLayers[mapType].icon;
+                  return <Icon className="w-4 h-4 text-navy-700" />;
+                })()}
+              </button>
+              
+              {showMapMenu && (
+                <div className="absolute top-full right-0 mt-2 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-navy-200/50 overflow-hidden min-w-[140px]">
+                  {Object.entries(mapLayers).map(([key, layer]) => {
+                    const Icon = layer.icon;
+                    return (
+                      <button
+                        key={key}
+                        type="button"
+                        onClick={() => {
+                          setMapType(key);
+                          setShowMapMenu(false);
+                        }}
+                        className={`w-full flex items-center gap-2 px-3 py-2 text-xs font-medium transition-all ${
+                          mapType === key
+                            ? 'bg-navy-700 text-white'
+                            : 'text-navy-600 hover:bg-navy-50'
+                        }`}
+                      >
+                        <Icon className="w-3.5 h-3.5" />
+                        <span>{layer.name}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </div>
         </motion.div>
 
-        {/* 4 KPI Cards stacked in 2x2 */}
-        <div className="grid grid-cols-2 gap-3 content-start">
+        {/* 4 KPI Cards stacked in 2x2 - matching map height */}
+        <div className="grid grid-cols-2 gap-2 sm:gap-3">
           {[
             { icon: Eye, label: t('monthlyVisits', language), value: last?.visits?.toLocaleString(), delta: `${visitDelta > 0 ? '+' : ''}${visitDelta}%`, up: visitDelta >= 0, accent: 'bg-navy-700' },
             { icon: MousePointer, label: t('leadsGenerated', language), value: last?.leads, delta: `${leadDelta > 0 ? '+' : ''}${leadDelta}%`, up: leadDelta >= 0, accent: 'bg-teal-600' },
             { icon: Activity, label: t('adConversionRate', language), value: `${convRate}%`, delta: '', up: true, accent: 'bg-indigo-600' },
             { icon: Users, label: t('totalFollowers', language), value: socialMedia.platforms.reduce((a, p) => a + p.followers, 0).toLocaleString(), delta: '+16%', up: true, accent: 'bg-amber-500' },
           ].map((s, i) => (
-            <motion.div key={i} {...fade(i)} className="bg-white rounded-2xl border border-navy-100 p-4 flex flex-col justify-between min-h-[140px]">
+            <motion.div key={i} {...fade(i)} className="bg-white rounded-2xl border border-navy-100 p-3 sm:p-4 flex flex-col justify-between" style={{ minHeight: '130px' }}>
               <div className="flex items-center justify-between">
-                <div className={`w-9 h-9 ${s.accent} rounded-xl flex items-center justify-center`}><s.icon className="w-4 h-4 text-white" /></div>
-                {s.delta && <span className={`text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${s.up ? 'text-teal-600 bg-teal-50' : 'text-red-600 bg-red-50'}`}>{s.delta}</span>}
+                <div className={`w-8 h-8 sm:w-9 sm:h-9 ${s.accent} rounded-xl flex items-center justify-center`}><s.icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" /></div>
+                {s.delta && <span className={`text-[9px] sm:text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${s.up ? 'text-teal-600 bg-teal-50' : 'text-red-600 bg-red-50'}`}>{s.delta}</span>}
               </div>
               <div className="mt-auto">
-                <p className="text-2xl font-bold text-navy-900">{s.value}</p>
-                <p className="text-[10px] text-navy-400 mt-0.5">{s.label}</p>
+                <p className="text-xl sm:text-2xl font-bold text-navy-900">{s.value}</p>
+                <p className="text-[9px] sm:text-[10px] text-navy-400 mt-0.5">{s.label}</p>
               </div>
             </motion.div>
           ))}
@@ -284,11 +391,11 @@ export const AnalyticsDashboard = () => {
 
       {/* Row 3: Leaderboard (full width) */}
       <motion.div {...fade()} className="bg-white rounded-2xl border border-navy-100 overflow-hidden">
-        <div className="px-5 py-3 border-b border-navy-100">
+        <div className="px-4 sm:px-5 py-3 border-b border-navy-100">
           <h3 className="text-sm font-bold text-navy-800">{t('competitorLeaderboard', language)}</h3>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full min-w-[600px]">
             <thead className="bg-navy-50">
               <tr>
                 {['#', t('competitors', language), t('adScore', language), t('adWeb', language), t('adSocial', language), t('reviewCount', language), t('monthlyVisits', language)].map(h => (
@@ -337,8 +444,8 @@ export const AnalyticsDashboard = () => {
       </motion.div>
 
       {/* Row 4: Traffic & Leads (2/3) + Traffic Sources (1/3) */}
-      <div className="grid lg:grid-cols-3 gap-4">
-        <motion.div {...fade()} className="lg:col-span-2 bg-white rounded-2xl border border-navy-100 p-5">
+      <div className="grid lg:grid-cols-3 gap-3 sm:gap-4">
+        <motion.div {...fade()} className="lg:col-span-2 bg-white rounded-2xl border border-navy-100 p-4 sm:p-5">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-sm font-bold text-navy-800">{t('adTrafficLeads', language)}</h3>
             <div className="flex items-center gap-3 text-[10px]">
@@ -361,7 +468,7 @@ export const AnalyticsDashboard = () => {
             </AreaChart>
           </ResponsiveContainer>
         </motion.div>
-        <motion.div {...fade(1)} className="bg-white rounded-2xl border border-navy-100 p-5">
+        <motion.div {...fade(1)} className="bg-white rounded-2xl border border-navy-100 p-4 sm:p-5">
           <h3 className="text-sm font-bold text-navy-800 mb-3">{t('trafficSources', language)}</h3>
           <ResponsiveContainer width="100%" height={140}>
             <PieChart><Pie data={traffic.sources} cx="50%" cy="50%" innerRadius={40} outerRadius={58} paddingAngle={4} dataKey="value">
@@ -380,8 +487,8 @@ export const AnalyticsDashboard = () => {
       </div>
 
       {/* Row 5: Social Media (1/2) + Geographic Insights (1/2) */}
-      <div className="grid lg:grid-cols-2 gap-4">
-        <motion.div {...fade()} className="bg-white rounded-2xl border border-navy-100 p-5">
+      <div className="grid lg:grid-cols-2 gap-3 sm:gap-4">
+        <motion.div {...fade()} className="bg-white rounded-2xl border border-navy-100 p-4 sm:p-5">
           <h3 className="text-sm font-bold text-navy-800 mb-3">{t('adSocialMedia', language)}</h3>
           <div className="space-y-2">
             {socialMedia.platforms.map((p, i) => {
@@ -404,7 +511,7 @@ export const AnalyticsDashboard = () => {
             })}
           </div>
         </motion.div>
-        <motion.div {...fade(1)} className="bg-white rounded-2xl border border-navy-100 p-5">
+        <motion.div {...fade(1)} className="bg-white rounded-2xl border border-navy-100 p-4 sm:p-5">
           <h3 className="text-sm font-bold text-navy-800 mb-3">{t('geoInsights', language)}</h3>
           <ResponsiveContainer width="100%" height={180}>
             <BarChart data={geoInsights.topCities} layout="vertical">
@@ -416,65 +523,6 @@ export const AnalyticsDashboard = () => {
             </BarChart>
           </ResponsiveContainer>
         </motion.div>
-      </div>
-
-      {/* Row 6: Gaps + Recommendations (side panel inline) */}
-      <div className="grid lg:grid-cols-2 gap-4">
-        <motion.div {...fade()} className="bg-white rounded-2xl border border-navy-100 p-5">
-          <div className="flex items-center gap-2 mb-3">
-            <AlertTriangle className="w-5 h-5 text-yellow-500" />
-            <h3 className="text-sm font-bold text-navy-800">{t('gapTitle', language)}</h3>
-          </div>
-          <p className="text-[11px] text-navy-400 mb-4 leading-relaxed">{t('gapDesc', language)}</p>
-          <div className="space-y-2.5">
-            {gaps.length > 0 ? gaps.map((gap, i) => (
-              <div key={i} className="flex items-start gap-3 p-3 bg-red-50/60 rounded-lg border border-red-100">
-                <gap.icon className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
-                <div className="flex-1">
-                  <p className="text-[11px] font-semibold text-navy-700">{t(gap.key, language)}</p>
-                  <div className="flex items-center gap-1.5 mt-1">
-                    <div className="flex-1 bg-red-100 rounded-full h-1"><div className="bg-red-400 rounded-full h-1" style={{ width: `${gap.score}%` }} /></div>
-                    <span className="text-[9px] font-bold text-red-500">{gap.score}/100</span>
-                  </div>
-                </div>
-              </div>
-            )) : (
-              <div className="p-3 bg-teal-50 rounded-lg border border-teal-100 text-center">
-                <Check className="w-5 h-5 text-teal-600 mx-auto mb-1" />
-                <p className="text-[11px] font-semibold text-teal-700">{t('adLookingGood', language)}</p>
-              </div>
-            )}
-          </div>
-          {gaps.length > 0 && (
-            <button onClick={() => setShowPlans(true)}
-              className="w-full mt-4 py-2.5 bg-teal-600 text-white text-xs font-semibold rounded-lg hover:bg-teal-700 flex items-center justify-center gap-1.5">
-              {t('letsHelp', language)} <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          )}
-        </motion.div>
-
-        {recommendations && recommendations.length > 0 && (
-          <motion.div {...fade(1)} className="bg-white rounded-2xl border border-navy-100 p-5">
-            <div className="flex items-center gap-1.5 mb-3">
-              <Lightbulb className="w-4 h-4 text-teal-600" />
-              <h3 className="text-sm font-bold text-navy-800">{t('recommendationsTitle', language)}</h3>
-            </div>
-            <div className="space-y-2.5">
-              {recommendations.slice(0, 5).map((rec, i) => {
-                const colors = { critical: 'bg-red-500', high: 'bg-yellow-500', medium: 'bg-navy-400', low: 'bg-teal-500' };
-                return (
-                  <div key={i} className="flex items-start gap-2.5 p-3 bg-navy-50/50 rounded-lg">
-                    <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${colors[rec.priority]}`} />
-                    <div>
-                      <p className="text-[11px] font-semibold text-navy-700">{getLocalizedText(rec.title, language)}</p>
-                      <p className="text-[9px] text-navy-400 mt-0.5">{rec.impact} • {rec.timeline}</p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </motion.div>
-        )}
       </div>
 
       {/* ═══ MARKET OPPORTUNITY — Morphing fade-in section ═══ */}
@@ -563,8 +611,8 @@ export const AnalyticsDashboard = () => {
                 <Target className="w-3.5 h-3.5 text-teal-400" />
                 {t('adMktOppLeadsTitle', language)}
               </h4>
-              <div className="bg-white/5 rounded-xl border border-white/10 overflow-hidden">
-                <table className="w-full">
+              <div className="bg-white/5 rounded-xl border border-white/10 overflow-hidden overflow-x-auto">
+                <table className="w-full min-w-[600px]">
                   <thead>
                     <tr className="border-b border-white/10">
                       {[t('adMktOppLeadName', language), t('adMktOppLeadSource', language), t('adMktOppLeadIntent', language), t('adMktOppLeadValue', language), t('adMktOppLeadStatus', language)].map(h => (
@@ -650,6 +698,72 @@ export const AnalyticsDashboard = () => {
           </div>
         </div>
       </motion.div>
+        </div>
+        {/* End of Center Content */}
+
+        {/* Right Sidebar - Sticky */}
+        <div className="space-y-3 sm:space-y-4 lg:sticky lg:top-5 lg:self-start">
+          {/* Improve Your Presence (Gaps) */}
+          <motion.div {...fade()} className="bg-white rounded-2xl border border-navy-100 p-4 sm:p-5">
+            <div className="flex items-center gap-2 mb-3">
+              <AlertTriangle className="w-5 h-5 text-yellow-500" />
+              <h3 className="text-sm font-bold text-navy-800">{t('gapTitle', language)}</h3>
+            </div>
+            <p className="text-[11px] text-navy-400 mb-4 leading-relaxed">{t('gapDesc', language)}</p>
+            <div className="space-y-2.5">
+              {gaps.length > 0 ? gaps.map((gap, i) => (
+                <div key={i} className="flex items-start gap-3 p-3 bg-red-50/60 rounded-lg border border-red-100">
+                  <gap.icon className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
+                  <div className="flex-1">
+                    <p className="text-[11px] font-semibold text-navy-700">{t(gap.key, language)}</p>
+                    <div className="flex items-center gap-1.5 mt-1">
+                      <div className="flex-1 bg-red-100 rounded-full h-1"><div className="bg-red-400 rounded-full h-1" style={{ width: `${gap.score}%` }} /></div>
+                      <span className="text-[9px] font-bold text-red-500">{gap.score}/100</span>
+                    </div>
+                  </div>
+                </div>
+              )) : (
+                <div className="p-3 bg-teal-50 rounded-lg border border-teal-100 text-center">
+                  <Check className="w-5 h-5 text-teal-600 mx-auto mb-1" />
+                  <p className="text-[11px] font-semibold text-teal-700">{t('adLookingGood', language)}</p>
+                </div>
+              )}
+            </div>
+            {gaps.length > 0 && (
+              <button onClick={() => setShowPlans(true)}
+                className="w-full mt-4 py-2.5 bg-teal-600 text-white text-xs font-semibold rounded-lg hover:bg-teal-700 flex items-center justify-center gap-1.5">
+                {t('letsHelp', language)} <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </motion.div>
+
+          {/* Smart Recommendations */}
+          {recommendations && recommendations.length > 0 && (
+            <motion.div {...fade(1)} className="bg-white rounded-2xl border border-navy-100 p-4 sm:p-5">
+              <div className="flex items-center gap-1.5 mb-3">
+                <Lightbulb className="w-4 h-4 text-teal-600" />
+                <h3 className="text-sm font-bold text-navy-800">{t('recommendationsTitle', language)}</h3>
+              </div>
+              <div className="space-y-2.5">
+                {recommendations.slice(0, 5).map((rec, i) => {
+                  const colors = { critical: 'bg-red-500', high: 'bg-yellow-500', medium: 'bg-navy-400', low: 'bg-teal-500' };
+                  return (
+                    <div key={i} className="flex items-start gap-2.5 p-3 bg-navy-50/50 rounded-lg">
+                      <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${colors[rec.priority]}`} />
+                      <div>
+                        <p className="text-[11px] font-semibold text-navy-700">{getLocalizedText(rec.title, language)}</p>
+                        <p className="text-[9px] text-navy-400 mt-0.5">{rec.impact} • {rec.timeline}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </motion.div>
+          )}
+        </div>
+        {/* End of Right Sidebar */}
+      </div>
+      {/* End of Main Layout Grid */}
     </div>
   );
 };
