@@ -73,9 +73,14 @@ export const LocationPicker = ({ onLocationChange, value }) => {
   const [detecting, setDetecting] = useState(false);
   const [mapType, setMapType] = useState('satellite'); // Default to satellite
   const [showMapMenu, setShowMapMenu] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [loadingSuggestions, setLoadingSuggestions] = useState(false);
   const [zoom] = useState(value?.lat ? 17 : 5);
   const searchRef = useRef(null);
   const menuRef = useRef(null);
+  const suggestionsRef = useRef(null);
+  const debounceTimer = useRef(null);
 
   // Sync with external value changes
   useEffect(() => {
@@ -113,10 +118,57 @@ export const LocationPicker = ({ onLocationChange, value }) => {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setShowMapMenu(false);
       }
+      if (suggestionsRef.current && !suggestionsRef.current.contains(event.target) && 
+          searchRef.current && !searchRef.current.contains(event.target)) {
+        setShowSuggestions(false);
+      }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  // Fetch location suggestions
+  const fetchSuggestions = async (query) => {
+    if (!query || query.length < 3) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+
+    setLoadingSuggestions(true);
+    try {
+      const res = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5&addressdetails=1&countrycodes=in`,
+        { headers: { 'Accept-Language': 'en' } }
+      );
+      const results = await res.json();
+      setSuggestions(results);
+      setShowSuggestions(results.length > 0);
+    } catch (err) {
+      console.error('Suggestions fetch failed:', err);
+      setSuggestions([]);
+    } finally {
+      setLoadingSuggestions(false);
+    }
+  };
+
+  // Debounce search query changes
+  useEffect(() => {
+    if (debounceTimer.current) {
+      clearTimeout(debounceTimer.current);
+    }
+
+    debounceTimer.current = setTimeout(() => {
+      fetchSuggestions(searchQuery);
+    }, 300);
+
+    return () => {
+      if (debounceTimer.current) {
+        clearTimeout(debounceTimer.current);
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery]);
 
   const reverseGeocode = async (lat, lng) => {
     try {
@@ -167,6 +219,7 @@ export const LocationPicker = ({ onLocationChange, value }) => {
   const handleSearch = async () => {
     if (!searchQuery.trim()) return;
     setSearching(true);
+    setShowSuggestions(false);
     try {
       const res = await fetch(
         `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchQuery)}&limit=1&addressdetails=1&countrycodes=in`,
@@ -199,6 +252,28 @@ export const LocationPicker = ({ onLocationChange, value }) => {
     }
   };
 
+  const handleSuggestionSelect = (suggestion) => {
+    const lat = parseFloat(suggestion.lat);
+    const lng = parseFloat(suggestion.lon);
+    const addr = suggestion.address || {};
+    const locationData = {
+      lat, lng,
+      address: suggestion.display_name,
+      street: addr.road || addr.pedestrian || '',
+      area: addr.suburb || addr.neighbourhood || '',
+      city: addr.city || addr.town || addr.village || '',
+      state: addr.state || '',
+      pincode: addr.postcode || '',
+      country: addr.country || ''
+    };
+    setPosition([lat, lng]);
+    setAddress(suggestion.display_name);
+    setSearchQuery(suggestion.display_name);
+    onLocationChange(locationData);
+    setShowSuggestions(false);
+    setSuggestions([]);
+  };
+
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
@@ -218,9 +293,46 @@ export const LocationPicker = ({ onLocationChange, value }) => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyPress={handleKeyPress}
+            onFocus={() => {
+              if (suggestions.length > 0) setShowSuggestions(true);
+            }}
             placeholder="Search address or place name..."
             className="matte-input w-full pl-10 pr-4 py-2.5 rounded-lg text-sm"
+            autoComplete="off"
           />
+          
+          {/* Suggestions Dropdown */}
+          {showSuggestions && (
+            <div 
+              ref={suggestionsRef}
+              className="absolute top-full left-0 right-0 mt-1 bg-white border border-navy-200 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto"
+            >
+              {loadingSuggestions ? (
+                <div className="px-4 py-3 text-sm text-navy-400 text-center">
+                  Searching...
+                </div>
+              ) : suggestions.length > 0 ? (
+                suggestions.map((suggestion, index) => (
+                  <button
+                    key={index}
+                    type="button"
+                    onClick={() => handleSuggestionSelect(suggestion)}
+                    className="w-full px-4 py-2.5 text-left hover:bg-navy-50 transition-colors border-b border-navy-100 last:border-b-0 flex items-start gap-2"
+                  >
+                    <MapPin className="w-4 h-4 text-teal-600 mt-0.5 flex-shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium text-navy-800 truncate">
+                        {suggestion.display_name.split(',')[0]}
+                      </p>
+                      <p className="text-xs text-navy-400 line-clamp-2">
+                        {suggestion.display_name}
+                      </p>
+                    </div>
+                  </button>
+                ))
+              ) : null}
+            </div>
+          )}
         </div>
         <button
           type="button"
