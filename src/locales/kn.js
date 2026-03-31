@@ -828,4 +828,15 @@ export default {
   adMktOppHot: 'Hot',
   adMktOppWarm: 'Warm',
   adMktOppMedium: 'Medium',
+
+  nhHome: 'ಮುಖಪುಟ',
+  nhChats: 'ಚಾಟ್',
+  nhMasthead: 'ವ್ಯಾಪಾರ ಬೆಳವಣಿಗೆ ಟೈಮ್ಸ್',
+  nhTagline: 'ನಿಮ್ಮ ದೈನಿಕ ವ್ಯಾಪಾರ ಬುದ್ಧಿಮತ್ತೆ ವರದಿ',
+  nhEdition: 'ಬೆಳಗಿನ ಆವೃತ್ತಿ',
+  nhBreaking: 'ಬ್ರೇಕಿಂಗ್',
+  nhExclusive: 'ವಿಶೇಷ',
+  nhReadMore: 'ಪೂರ್ಣ ವಿಶ್ಲೇಷಣೆ ಓದಿ →',
+  nhQuoteOfDay: 'ಇಂದಿನ ಉಲ್ಲೇಖ',
+  nhQuote: '"ಮುಂದೆ ಹೋಗುವ ರಹಸ್ಯ ಪ್ರಾರಂಭಿಸುವುದು." — ಮಾರ್ಕ್ ಟ್ವೈನ್',
 };

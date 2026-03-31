@@ -836,4 +836,33 @@ export default {
   adMktOppHot: 'Garam',
   adMktOppWarm: 'Halka Garam',
   adMktOppMedium: 'Madhyam',
+
+  // ══════════════════════════════════════
+  // NEWSPAPER HOME
+  // ══════════════════════════════════════
+  nhHome: 'होम',
+  nhChats: 'चैट',
+  nhMasthead: 'बिज़नेस ग्रोथ टाइम्स',
+  nhTagline: 'आपकी डेली बिज़नेस इंटेलिजेंस ब्रीफ़िंग',
+  nhEdition: 'मॉर्निंग एडिशन',
+  nhVol: 'Vol.',
+  nhIssue: 'अंक',
+  nhHeadlineDigital: 'डिजिटल उपस्थिति रिपोर्ट',
+  nhHeadlineSocial: 'सोशल मीडिया डिस्पैच',
+  nhHeadlineCompetitor: 'कम्पटीटर इंटेलिजेंस',
+  nhHeadlineGrowth: 'ग्रोथ फोरकास्ट',
+  nhHeadlineLeads: 'लीड पाइपलाइन बुलेटिन',
+  nhHeadlineReviews: 'कस्टमर वॉइस कॉलम',
+  nhHeadlineTraffic: 'ट्रैफ़िक एंड एनालिटिक्स',
+  nhHeadlineMarket: 'मार्केट ऑपर्च्यूनिटी गज़ट',
+  nhHeadlineAction: 'एडिटर के एक्शन आइटम',
+  nhHeadlineWeather: 'बिज़नेस वेदर फोरकास्ट',
+  nhBreaking: 'ब्रेकिंग',
+  nhExclusive: 'एक्सक्लूसिव',
+  nhAnalysis: 'एनालिसिस',
+  nhEditorial: 'संपादकीय',
+  nhSpecialReport: 'स्पेशल रिपोर्ट',
+  nhReadMore: 'पूरा एनालिसिस पढ़ें →',
+  nhQuoteOfDay: 'आज का विचार',
+  nhQuote: '"शुरुआत करना सबसे बड़ा कदम है।" — मार्क ट्वेन',
 };

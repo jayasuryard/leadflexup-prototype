@@ -840,4 +840,15 @@ export default {
   adMktOppHot: 'Hot',
   adMktOppWarm: 'Warm',
   adMktOppMedium: 'Medium',
+
+  nhHome: 'హోమ్',
+  nhChats: 'చాట్స్',
+  nhMasthead: 'బిజినెస్ గ్రోత్ టైమ్స్',
+  nhTagline: 'మీ రోజువారీ బిజినెస్ ఇంటెలిజెన్స్ బ్రీఫింగ్',
+  nhEdition: 'మార్నింగ్ ఎడిషన్',
+  nhBreaking: 'బ్రేకింగ్',
+  nhExclusive: 'ప్రత్యేకం',
+  nhReadMore: 'పూర్తి విశ్లేషణ చదవండి →',
+  nhQuoteOfDay: 'ఈ రోజు కోట్',
+  nhQuote: '"ముందుకు సాగే రహస్యం ప్రారంభించడం." — మార్క్ ట్వైన్',
 };

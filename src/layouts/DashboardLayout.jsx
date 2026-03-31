@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import {
-  LayoutDashboard, TrendingUp,
+  LayoutDashboard, TrendingUp, Home, MessageCircle,
   Rocket, Settings, LogOut, Menu, X, Bell, Search, ChevronDown,
   BarChart3, CreditCard, Globe, Palette, Zap, Users, UserPlus, Terminal,
   Workflow
@@ -21,7 +21,8 @@ export const DashboardLayout = () => {
   const handleLogout = () => { logout(); navigate('/'); };
 
   const navItems = [
-    { key: 'overview', icon: LayoutDashboard, path: '/dashboard', label: t('dashboard', language) },
+    { key: 'home', icon: Home, path: '/dashboard', label: t('nhHome', language) },
+    { key: 'chats', icon: MessageCircle, path: '/dashboard/chats', label: t('nhChats', language) },
     { key: 'analytics', icon: BarChart3, path: '/dashboard/analytics', label: t('analytics', language) },
     ...(isAuthenticated ? [
       { key: 'website', icon: Globe, path: '/dashboard/website', label: t('websiteBuilder', language) },
