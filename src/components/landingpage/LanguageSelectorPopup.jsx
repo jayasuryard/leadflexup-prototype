@@ -17,12 +17,16 @@ export const LanguageSelectorPopup = ({ open, onClose, onSelect, currentLanguage
     <AnimatePresence>
       <div className="fixed inset-0 z-[100]" onClick={onClose}>
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, x: position?.x || 0, y: position?.y || 0 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
           transition={{ duration: 0.15 }}
-          className="absolute bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-navy-200/50 p-2 min-w-[220px]"
-          style={{ left: position?.x, top: position?.y }}
+          className="fixed bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl border border-navy-200/50 p-2 min-w-[220px]"
+          style={{ 
+            left: `${position?.x}px`, 
+            top: `${position?.y}px`,
+            transform: 'translateY(0)'
+          }}
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex items-center gap-2 px-3 py-2 border-b border-navy-200/30 mb-1">
