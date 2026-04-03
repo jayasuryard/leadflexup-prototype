@@ -98,10 +98,13 @@ export default {
   lpTerms: 'By signing up you agree to our Terms of Service and Privacy Policy',
 
   // Landing — Navigation
+  lpNavHome: 'Home',
   lpNavFeatures: 'Features',
+  lpNavStories: 'Stories',
   lpNavHowItWorks: 'How It Works',
   lpNavPricing: 'Pricing',
   lpSignUp: 'Sign Up',
+  lpNavContact: 'Contact',
 
   // Landing — Trust Badges
   lpBadgeEnterprise: 'Enterprise Security',

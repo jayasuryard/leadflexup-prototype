@@ -1,0 +1,16 @@
+// Export all landing page components
+export { Navbar } from './Navbar';
+export { Hero } from './Hero';
+export { TrustStrip } from './TrustStrip';
+export { Stories } from './Stories';
+export { Stats } from './Stats';
+export { Features } from './Features';
+export { HowItWorks } from './HowItWorks';
+export { Testimonials } from './Testimonials';
+export { Pricing } from './Pricing';
+export { FAQ } from './FAQ';
+export { CTA } from './CTA';
+export { Footer } from './Footer';
+export { LanguageSelectorPopup } from './LanguageSelectorPopup';
+export { VoiceInputModal } from './VoiceInputModal';
+export { SignUpModal } from './SignUpModal';
