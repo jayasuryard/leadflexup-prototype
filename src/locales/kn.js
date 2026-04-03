@@ -828,4 +828,23 @@ export default {
   adMktOppHot: 'Hot',
   adMktOppWarm: 'Warm',
   adMktOppMedium: 'Medium',
+
+  nhHome: 'ಮುಖಪುಟ',
+  nhChats: 'ಚಾಟ್',
+  nhMasthead: 'ವ್ಯಾಪಾರ ಬೆಳವಣಿಗೆ ಟೈಮ್ಸ್',
+  nhTagline: 'ನಿಮ್ಮ ದೈನಿಕ ವ್ಯಾಪಾರ ಬುದ್ಧಿಮತ್ತೆ ವರದಿ',
+  nhEdition: 'ಬೆಳಗಿನ ಆವೃತ್ತಿ',
+  nhBreaking: 'ಬ್ರೇಕಿಂಗ್',
+  nhExclusive: 'ವಿಶೇಷ',
+  nhReadMore: 'ಪೂರ್ಣ ವಿಶ್ಲೇಷಣೆ ಓದಿ →',
+  nhQuoteOfDay: 'ಇಂದಿನ ಉಲ್ಲೇಖ',
+  nhQuote: '"ಮುಂದೆ ಹೋಗುವ ರಹಸ್ಯ ಪ್ರಾರಂಭಿಸುವುದು." — ಮಾರ್ಕ್ ಟ್ವೈನ್',
+
+  voiceListening: 'ಕೇಳುತ್ತಿದ್ದೇನೆ... ಮಾತನಾಡಿ',
+  voiceSpeaking: 'ಮಾತನಾಡುತ್ತಿದೆ...',
+  voiceSpeak: 'ಓದಿ',
+  voiceAutoSpeak: 'ಉತ್ತರಗಳನ್ನು ಸ್ವಯಂ ಓದಿ',
+  voiceTapToSpeak: 'ಮಾತನಾಡಲು ಟ್ಯಾಪ್ ಮಾಡಿ',
+  voiceInputHint: 'ನಿಮ್ಮ ವ್ಯಾಪಾರದ ಹೆಸರು ಹೇಳಿ',
+  voicePhoneHint: 'ನಿಮ್ಮ ಫೋನ್ ಸಂಖ್ಯೆ ಹೇಳಿ',
 };

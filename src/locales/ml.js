@@ -820,4 +820,23 @@ export default {
   adMktOppHot: 'Hot',
   adMktOppWarm: 'Warm',
   adMktOppMedium: 'Medium',
+
+  nhHome: 'ഹോം',
+  nhChats: 'ചാറ്റ്',
+  nhMasthead: 'ബിസിനസ് ഗ്രോത്ത് ടൈംസ്',
+  nhTagline: 'നിങ്ങളുടെ ദിവസം തോറുമുള്ള ബിസിനസ് ഇന്റലിജൻസ് ബ്രീഫിംഗ്',
+  nhEdition: 'മോർണിംഗ് എഡിഷൻ',
+  nhBreaking: 'ബ്രേക്കിംഗ്',
+  nhExclusive: 'എക്സ്ക്ലൂസീവ്',
+  nhReadMore: 'പൂർണ്ണ വിശകലനം വായിക്കുക →',
+  nhQuoteOfDay: 'ഇന്നത്തെ ഉദ്ധരണി',
+  nhQuote: '"മുന്നോട്ട് പോകാനുള്ള രഹസ്യം ആരംഭിക്കുക എന്നതാണ്." — മാർക്ക് ട്വെയിൻ',
+
+  voiceListening: 'കേൾക്കുന്നു... സംസാരിക്കൂ',
+  voiceSpeaking: 'സംസാരിക്കുന്നു...',
+  voiceSpeak: 'വായിക്കുക',
+  voiceAutoSpeak: 'ഉത്തരങ്ങൾ ഓട്ടോ റീഡ്',
+  voiceTapToSpeak: 'സംസാരിക്കാൻ ടാപ്പ് ചെയ്യുക',
+  voiceInputHint: 'നിങ്ങളുടെ ബിസിനസ് പേര് പറയുക',
+  voicePhoneHint: 'നിങ്ങളുടെ ഫോൺ നമ്പർ പറയുക',
 };

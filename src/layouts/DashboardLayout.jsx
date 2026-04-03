@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import {
-  LayoutDashboard, TrendingUp,
+  LayoutDashboard, TrendingUp, Home, MessageCircle,
   Rocket, Settings, LogOut, Menu, X, Bell, Search, ChevronDown,
   BarChart3, CreditCard, Globe, Palette, Zap, Users, UserPlus, Terminal,
   Workflow
@@ -21,7 +21,8 @@ export const DashboardLayout = () => {
   const handleLogout = () => { logout(); navigate('/'); };
 
   const navItems = [
-    { key: 'overview', icon: LayoutDashboard, path: '/dashboard', label: t('dashboard', language) },
+    { key: 'home', icon: Home, path: '/dashboard', label: t('nhHome', language) },
+    { key: 'chats', icon: MessageCircle, path: '/dashboard/chats', label: t('nhChats', language) },
     { key: 'analytics', icon: BarChart3, path: '/dashboard/analytics', label: t('analytics', language) },
     ...(isAuthenticated ? [
       { key: 'website', icon: Globe, path: '/dashboard/website', label: t('websiteBuilder', language) },
@@ -180,8 +181,6 @@ export const DashboardLayout = () => {
         <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-navy-100">
           <div className="flex items-center justify-between h-14 px-6">
             <div className="flex items-center gap-3 pl-10 lg:pl-0">
-              <h1 className="text-sm font-bold text-navy-800">{t('dashboard', language)}</h1>
-              <ChevronDown className="w-4 h-4 text-navy-400" />
             </div>
             <div className="flex items-center gap-3">
               <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-navy-50 rounded-lg border border-navy-100 w-56">

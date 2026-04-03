@@ -5,6 +5,7 @@ import { AppProvider, useApp } from './context/AppContext';
 import { LandingPage } from './pages/LandingPage';
 import { DashboardLayout } from './layouts/DashboardLayout';
 import { DashboardOverview } from './pages/DashboardOverview';
+import { NewspaperHome } from './pages/NewspaperHome';
 import { AnalyticsDashboard } from './pages/AnalyticsDashboard';
 import { SubscriptionPlans } from './pages/SubscriptionPlans';
 import { GrowthJourney } from './pages/GrowthJourney';
@@ -37,7 +38,8 @@ function AppRoutes() {
           </OnboardedRoute>
         }
       >
-        <Route index element={<DashboardOverview />} />
+        <Route index element={<NewspaperHome />} />
+        <Route path="chats" element={<DashboardOverview />} />
         <Route path="analytics" element={<AnalyticsDashboard />} />
         <Route path="website" element={<AuthRoute><WebsiteBuilder /></AuthRoute>} />
         <Route path="content" element={<AuthRoute><ContentStudio /></AuthRoute>} />
