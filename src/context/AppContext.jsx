@@ -30,6 +30,9 @@ export const AppProvider = ({ children }) => {
   // Activity preview items (right panel)
   const [liveActivities, setLiveActivities] = useState([]);
 
+  // Onboarding tasks (website, social media, google business)
+  const [onboardingTasks, setOnboardingTasks] = useState([]);
+
   useEffect(() => {
     const saved = localStorage.getItem('leadflexup_data');
     if (saved) {
@@ -46,6 +49,7 @@ export const AppProvider = ({ children }) => {
         setLanguage(p.language || 'en');
         setChatHistory(p.chatHistory || []);
         setWorkflows(p.workflows || []);
+        setOnboardingTasks(p.onboardingTasks || []);
       } catch (e) {
         console.error('Error loading saved data:', e);
       }
@@ -57,14 +61,24 @@ export const AppProvider = ({ children }) => {
       localStorage.setItem('leadflexup_data', JSON.stringify({
         currentUser, businessData, analyticsData, recommendations,
         subscription, growthProgress, isAuthenticated, isOnboarded, language,
-        chatHistory, workflows
+        chatHistory, workflows, onboardingTasks
       }));
     }
-  }, [currentUser, businessData, analyticsData, recommendations, subscription, growthProgress, isAuthenticated, isOnboarded, language, chatHistory, workflows]);
+  }, [currentUser, businessData, analyticsData, recommendations, subscription, growthProgress, isAuthenticated, isOnboarded, language, chatHistory, workflows, onboardingTasks]);
 
   const signup = (userData) => {
     setCurrentUser(userData);
     setIsAuthenticated(true);
+  };
+
+  const login = (userData) => {
+    // For OTP login, find existing user or create minimal user
+    setCurrentUser(prev => prev ? { ...prev, ...userData } : userData);
+    setIsAuthenticated(true);
+  };
+
+  const updateOnboardingTasks = (tasks) => {
+    setOnboardingTasks(tasks);
   };
 
   const logout = () => {
@@ -78,6 +92,7 @@ export const AppProvider = ({ children }) => {
     setIsOnboarded(false);
     setChatHistory([]);
     setWorkflows([]);
+    setOnboardingTasks([]);
     setLiveActivities([]);
     localStorage.removeItem('leadflexup_data');
   };
@@ -137,13 +152,14 @@ export const AppProvider = ({ children }) => {
 
   const value = {
     language, changeLanguage,
-    currentUser, isAuthenticated, signup, logout,
+    currentUser, isAuthenticated, signup, login, logout,
     businessData, analyticsData, recommendations,
     subscription, growthProgress, isOnboarded,
     onboardBusiness, selectSubscription, updateGrowthProgress,
     chatHistory, activeChatId, setActiveChatId, saveChat,
     workflows, addWorkflow, updateWorkflowStatus,
     liveActivities, addLiveActivity,
+    onboardingTasks, updateOnboardingTasks,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

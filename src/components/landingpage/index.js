@@ -14,3 +14,4 @@ export { Footer } from './Footer';
 export { LanguageSelectorPopup } from './LanguageSelectorPopup';
 export { VoiceInputModal } from './VoiceInputModal';
 export { SignUpModal } from './SignUpModal';
+export { LoginModal } from './LoginModal';

@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion';
 import { Check, Sparkles, Crown, Rocket } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { useApp } from '../context/AppContext';
 import { t, getLocalizedText } from '../utils/i18n';
 import { subscriptionPlans } from '../data/mockDatabase';
+import { useState } from 'react';
 
 const fade = (i = 0) => ({
   initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 },
@@ -10,8 +12,10 @@ const fade = (i = 0) => ({
 });
 
 export const SubscriptionPlans = () => {
-  const { language, subscription, selectSubscription } = useApp();
+  const navigate = useNavigate();
+  const { language, subscription, selectSubscription, isAuthenticated } = useApp();
   const planIcons = { starter: Sparkles, professional: Crown, enterprise: Rocket };
+  const [isYearly, setIsYearly] = useState(false);
 
   return (
     <div className="space-y-8">
@@ -21,13 +25,31 @@ export const SubscriptionPlans = () => {
         <p className="text-sm text-navy-400 max-w-lg mx-auto">
           {t('subDesc', language)}
         </p>
+        
+        {/* Billing Period Toggle */}
+        <div className="flex items-center justify-center gap-3 mt-6">
+          <span className={`text-sm font-medium ${!isYearly ? 'text-navy-900' : 'text-navy-400'}`}>Monthly</span>
+          <button
+            onClick={() => setIsYearly(!isYearly)}
+            className="relative w-14 h-7 bg-navy-200 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
+            style={{ backgroundColor: isYearly ? '#0d9488' : '#cbd5e1' }}
+          >
+            <span
+              className="absolute top-1 left-1 w-5 h-5 bg-white rounded-full shadow-md transition-transform duration-300"
+              style={{ transform: isYearly ? 'translateX(28px)' : 'translateX(0)' }}
+            />
+          </button>
+          <span className={`text-sm font-medium ${isYearly ? 'text-navy-900' : 'text-navy-400'}`}>
+            Yearly <span className="text-teal-600 text-xs">(Save up to 16%)</span>
+          </span>
+        </div>
       </motion.div>
 
       {/* Pricing Cards */}
       <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto">
         {subscriptionPlans.map((plan, i) => {
           const Icon = planIcons[plan.id];
-          const isCurrent = subscription?.id === plan.id;
+          const isCurrent = isAuthenticated && subscription?.id === plan.id;
 
           return (
             <motion.div key={plan.id} {...fade(i)} className="relative">
@@ -52,10 +74,14 @@ export const SubscriptionPlans = () => {
 
                 <div className="mb-5">
                   <div className="flex items-baseline gap-1">
-                    <span className="text-3xl font-bold text-navy-900">{plan.currency}{(plan.price / 100000).toFixed(2)}L</span>
+                    <span className="text-3xl font-bold text-navy-900">
+                      {plan.currency}{((isYearly ? plan.yearlyPrice : plan.price) / 100).toFixed(0)}
+                    </span>
                     <span className="text-xs text-navy-400">{t('perMonth', language)}</span>
                   </div>
-                  <p className="text-[11px] text-navy-400 mt-0.5">{t('subBilling', language)}</p>
+                  <p className="text-[11px] text-navy-400 mt-0.5">
+                    {isYearly ? 'Billed annually' : t('subBilling', language)}
+                  </p>
                 </div>
 
                 <div className="space-y-2.5 mb-6">
@@ -73,14 +99,14 @@ export const SubscriptionPlans = () => {
                   </button>
                 ) : (
                   <button
-                    onClick={() => selectSubscription(plan)}
+                    onClick={() => navigate('/checkout', { state: { planId: plan.id, isYearly } })}
                     className={`w-full py-2.5 text-xs font-semibold rounded-lg ${
                       plan.recommended
                         ? 'bg-teal-600 text-white hover:bg-teal-700'
                         : 'bg-navy-700 text-white hover:bg-navy-800'
                     }`}
                   >
-                    {t('subscribe', language)}
+                    {isAuthenticated ? t('subscribe', language) : 'Subscribe Now'}
                   </button>
                 )}
               </div>

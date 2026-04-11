@@ -13,6 +13,8 @@ import { WebsiteBuilder } from './pages/WebsiteBuilder';
 import { ContentStudio } from './pages/ContentStudio';
 import { AutomationHub } from './pages/AutomationHub';
 import { LeadManager } from './pages/LeadManager';
+import { CheckoutPage } from './pages/CheckoutPage';
+import { OnboardingPage } from './pages/OnboardingPage';
 
 // Only require onboarded (analysis done), NOT authenticated
 const OnboardedRoute = ({ children }) => {
@@ -30,6 +32,8 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
+      <Route path="/checkout" element={<CheckoutPage />} />
+      <Route path="/onboarding" element={<OnboardingPage />} />
       <Route
         path="/dashboard"
         element={

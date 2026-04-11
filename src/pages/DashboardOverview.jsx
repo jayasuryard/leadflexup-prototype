@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Send, Bot, Sparkles, Zap, Loader2, AlertCircle, Lock, UserPlus,
@@ -188,6 +189,7 @@ const SignupPrompt = ({ open, onClose, language, onSignup }) => {
 /* ─── Subscription Prompt Modal ─── */
 const SubscriptionPrompt = ({ open, onClose, language, selectSubscription }) => {
   const [isYearly, setIsYearly] = useState(false);
+  const nav = useNavigate();
   if (!open) return null;
   const planIcons = { starter: Sparkles, professional: Crown, enterprise: Rocket };
   return (
@@ -245,7 +247,7 @@ const SubscriptionPrompt = ({ open, onClose, language, selectSubscription }) => 
                       </div>
                     ))}
                   </div>
-                  <button onClick={() => { selectSubscription(plan); onClose(); }}
+                  <button onClick={() => { onClose(); nav('/checkout', { state: { planId: plan.id, isYearly } }); }}
                     className={`w-full py-2 text-xs font-semibold rounded-lg ${plan.recommended ? 'bg-teal-600 text-white hover:bg-teal-700' : 'bg-navy-700 text-white hover:bg-navy-800'}`}>
                     Subscribe
                   </button>

@@ -71,7 +71,7 @@ export const Pricing = ({ language, subscriptionPlans, planIcons, onSignUpClick,
                       </div>
                     ))}
                   </div>
-                  <button onClick={onSignUpClick}
+                  <button onClick={() => onSignUpClick(plan.id, isYearly)}
                     className={`w-full py-2.5 text-xs font-semibold rounded-lg ${
                       plan.recommended ? 'bg-teal-600 text-white hover:bg-teal-700' : 'bg-navy-700 text-white hover:bg-navy-800'
                     }`}

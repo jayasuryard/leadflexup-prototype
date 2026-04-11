@@ -18,7 +18,8 @@ import {
   Footer,
   LanguageSelectorPopup,
   VoiceInputModal,
-  SignUpModal
+  SignUpModal,
+  LoginModal
 } from '../components/landingpage';
 
 // Business illustration imports
@@ -39,8 +40,9 @@ import logoGrowbiz from '../assets/logos/logo-growbiz.svg';
 
 export const LandingPage = () => {
   const navigate = useNavigate();
-  const { language, changeLanguage, signup, onboardBusiness } = useApp();
+  const { language, changeLanguage, signup, login, onboardBusiness } = useApp();
   const [showSignUp, setShowSignUp] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
   const [showLanguagePopup, setShowLanguagePopup] = useState(false);
   const [showVoiceInput, setShowVoiceInput] = useState(false);
   const [showLocationPicker, setShowLocationPicker] = useState(false);
@@ -83,6 +85,12 @@ export const LandingPage = () => {
   const handleSignUp = (userData) => {
     signup(userData);
     setShowSignUp(false);
+  };
+
+  const handleLogin = (userData) => {
+    login(userData);
+    setShowLogin(false);
+    navigate('/dashboard');
   };
 
   const handleVoiceTranscript = (transcript) => {
@@ -136,6 +144,7 @@ export const LandingPage = () => {
         <Navbar
           language={language}
           onGetStartedClick={handleGetStarted}
+          onLoginClick={() => setShowLogin(true)}
         />
       </div>
 
@@ -169,7 +178,7 @@ export const LandingPage = () => {
           language={language}
           subscriptionPlans={subscriptionPlans}
           planIcons={planIcons}
-          onSignUpClick={() => setShowSignUp(true)}
+          onSignUpClick={(planId, isYearly) => navigate('/checkout', { state: { planId, isYearly } })}
           cardFade={cardFade}
         />
 
@@ -181,7 +190,7 @@ export const LandingPage = () => {
 
         <CTA
           language={language}
-          onSignUpClick={() => setShowSignUp(true)}
+          onSignUpClick={() => navigate('/checkout')}
           cardFade={cardFade}
         />
 
@@ -212,6 +221,12 @@ export const LandingPage = () => {
         onClose={() => setShowVoiceInput(false)}
         onTranscript={handleVoiceTranscript}
         language={language}
+      />
+
+      <LoginModal
+        open={showLogin}
+        onClose={() => setShowLogin(false)}
+        onLogin={handleLogin}
       />
     </div>
   );

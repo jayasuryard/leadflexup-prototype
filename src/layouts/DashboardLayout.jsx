@@ -38,13 +38,13 @@ export const DashboardLayout = () => {
   const collapsedW = 'w-[60px]';
   const expandedW = 'w-[220px]';
   const sideW = sidebarExpanded ? expandedW : collapsedW;
-  // Hide sidebar if no subscription
-  const showSidebar = !!subscription;
+  // Hide sidebar if user is not authenticated/signed up
+  const showSidebar = isAuthenticated;
   const mlVal = showSidebar ? (sidebarExpanded ? 'lg:ml-[220px]' : 'lg:ml-[60px]') : 'lg:ml-0';
 
   return (
     <div className="min-h-screen bg-navy-50">
-      {/* Mobile hamburger - only show if subscription exists */}
+      {/* Mobile hamburger - only show if user is signed up */}
       {showSidebar && (
         <div className="lg:hidden fixed top-3 left-3 z-50">
           <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 bg-white rounded-lg shadow-md border border-navy-100">
@@ -53,7 +53,7 @@ export const DashboardLayout = () => {
         </div>
       )}
 
-      {/* ─── Main Sidebar - only render if subscription exists ─── */}
+      {/* ─── Main Sidebar - only render if user is signed up ─── */}
       {showSidebar && (
         <aside
           onMouseEnter={() => setSidebarExpanded(true)}
@@ -168,33 +168,27 @@ export const DashboardLayout = () => {
       <div className={`transition-all duration-200 ${mlVal}`}>
         <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-navy-100">
           <div className="flex items-center justify-between h-14 px-6">
-            <div className={`flex items-center gap-3 ${showSidebar ? 'pl-10 lg:pl-0' : ''}`}>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-navy-50 rounded-lg border border-navy-100 w-56">
-                <Search className="w-4 h-4 text-navy-400" />
-                <input placeholder={t('search', language)} className="bg-transparent text-xs outline-none w-full text-navy-700 placeholder:text-navy-300" />
+            {/* LeadFlexUp Logo and Text - Same as Landing Page */}
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-navy-700 rounded-xl flex items-center justify-center">
+                <TrendingUp className="w-4 h-4 text-white" />
               </div>
-              <button className="relative p-2 rounded-lg hover:bg-navy-50">
-                <Bell className="w-4 h-4 text-navy-500" />
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-teal-500 rounded-full" />
-              </button>
-              <div className="flex items-center gap-2 pl-2 border-l border-navy-100">
-                <div className="w-8 h-8 bg-navy-700 rounded-full flex items-center justify-center text-white text-xs font-bold">
-                  {(currentUser?.email || businessData?.businessName || 'U').charAt(0).toUpperCase()}
-                </div>
-                <div className="hidden sm:block">
-                  <p className="text-xs font-semibold text-navy-800 leading-none">{businessData?.businessName || t('dlUser', language)}</p>
-                  <p className="text-[11px] text-navy-400 mt-0.5">{currentUser?.email || (isAuthenticated ? t('dlOwner', language) : t('dlGuest', language))}</p>
-                </div>
-              </div>
+              <span className="text-lg font-bold text-navy-800">LeadFlexUp</span>
             </div>
+            
+            {/* Sign Up Now Button */}
+            <button 
+              onClick={() => navigate('/checkout')}
+              className="px-6 py-2 bg-teal-600 text-white text-sm font-semibold rounded-lg hover:bg-teal-700 transition-colors shadow-sm hover:shadow-md"
+            >
+              Sign Up Now
+            </button>
           </div>
         </header>
         <main className="p-6"><Outlet /></main>
       </div>
 
-      {/* Mobile overlay - only show if subscription exists */}
+      {/* Mobile overlay - only show if user is signed up */}
       {showSidebar && sidebarOpen && <div className="fixed inset-0 bg-navy-950/40 z-30 lg:hidden" onClick={() => setSidebarOpen(false)} />}
     </div>
   );

@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   AreaChart, Area, BarChart, Bar, RadialBarChart, RadialBar,
@@ -63,6 +64,7 @@ const mapLayers = {
 /* ─── Subscription Popup ─── */
 const SubscriptionPopup = ({ open, onClose, language, selectSubscription }) => {
   const [isYearly, setIsYearly] = useState(false);
+  const nav = useNavigate();
   if (!open) return null;
   const planIcons = { starter: Sparkles, professional: Crown, enterprise: Rocket };
   return (
@@ -114,7 +116,7 @@ const SubscriptionPopup = ({ open, onClose, language, selectSubscription }) => {
                       <div key={j} className="flex items-start gap-1.5"><Check className="w-3.5 h-3.5 text-teal-600 flex-shrink-0 mt-0.5" /><span className="text-[11px] text-navy-600">{getLocalizedText(f, language)}</span></div>
                     ))}
                   </div>
-                  <button onClick={() => { selectSubscription(plan); onClose(); }}
+                  <button onClick={() => { onClose(); nav('/checkout', { state: { planId: plan.id, isYearly } }); }}
                     className={`w-full py-2 text-xs font-semibold rounded-lg ${plan.recommended ? 'bg-teal-600 text-white hover:bg-teal-700' : 'bg-navy-700 text-white hover:bg-navy-800'}`}>
                     {t('subscribe', language)}
                   </button>

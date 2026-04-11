@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { TrendingUp } from 'lucide-react';
 import { t } from '../../utils/i18n';
 
-export const Navbar = ({ language, onGetStartedClick }) => {
+export const Navbar = ({ language, onGetStartedClick, onLoginClick }) => {
   return (
     <motion.nav
       initial={{ y: -20, opacity: 0 }}
@@ -51,6 +51,12 @@ export const Navbar = ({ language, onGetStartedClick }) => {
 
           {/* Right Actions */}
           <div className="flex items-center gap-3">
+            <button
+              onClick={onLoginClick}
+              className="px-4 py-2 text-navy-700 text-sm font-semibold rounded-full hover:bg-white/40 transition-all"
+            >
+              Login
+            </button>
             <button
               onClick={onGetStartedClick}
               className="px-4 py-2 bg-navy-900 text-white text-sm font-semibold rounded-full hover:bg-navy-800 transition-all shadow-sm"
