@@ -46,8 +46,11 @@ export const CheckoutPage = () => {
     cardNumber: '',
     expiry: '',
     cvv: '',
-    nameOnCard: ''
+    nameOnCard: '',
+    upiId: ''
   });
+
+  const [paymentMethod, setPaymentMethod] = useState('card'); // 'card' or 'upi'
 
   const plan = subscriptionPlans.find(p => p.id === selectedPlan);
 
@@ -407,69 +410,126 @@ export const CheckoutPage = () => {
                     </div>
                   </div>
 
-                  {/* Card Number */}
-                  <div>
-                    <label className="block text-xs font-semibold text-navy-700 mb-1.5">Card Number</label>
-                    <div className="relative">
-                      <CreditCard className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-navy-400" />
-                      <input
-                        required
-                        value={paymentData.cardNumber}
-                        onChange={e => {
-                          let val = e.target.value.replace(/\D/g, '').slice(0, 16);
-                          val = val.replace(/(.{4})/g, '$1 ').trim();
-                          setPaymentData({ ...paymentData, cardNumber: val });
-                        }}
-                        placeholder="1234 5678 9012 3456"
-                        maxLength={19}
-                        className="w-full pl-10 pr-4 py-2.5 bg-navy-50 border border-navy-100 rounded-lg text-sm text-navy-800 placeholder-navy-400 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 tracking-wider"
-                      />
-                    </div>
+                  {/* Payment Method Tabs */}
+                  <div className="flex gap-2">
+                    <button type="button" onClick={() => setPaymentMethod('card')}
+                      className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-xs font-semibold rounded-lg border-2 transition-all ${
+                        paymentMethod === 'card' ? 'border-teal-500 bg-teal-50 text-teal-700' : 'border-navy-100 text-navy-500 hover:border-navy-200'
+                      }`}>
+                      <CreditCard className="w-4 h-4" /> Card
+                    </button>
+                    <button type="button" onClick={() => setPaymentMethod('upi')}
+                      className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-xs font-semibold rounded-lg border-2 transition-all ${
+                        paymentMethod === 'upi' ? 'border-teal-500 bg-teal-50 text-teal-700' : 'border-navy-100 text-navy-500 hover:border-navy-200'
+                      }`}>
+                      <IndianRupee className="w-4 h-4" /> UPI
+                    </button>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3">
-                    {/* Expiry */}
-                    <div>
-                      <label className="block text-xs font-semibold text-navy-700 mb-1.5">Expiry Date</label>
-                      <input
-                        required
-                        value={paymentData.expiry}
-                        onChange={e => {
-                          let val = e.target.value.replace(/\D/g, '').slice(0, 4);
-                          if (val.length > 2) val = val.slice(0, 2) + '/' + val.slice(2);
-                          setPaymentData({ ...paymentData, expiry: val });
-                        }}
-                        placeholder="MM/YY"
-                        maxLength={5}
-                        className="w-full px-4 py-2.5 bg-navy-50 border border-navy-100 rounded-lg text-sm text-navy-800 placeholder-navy-400 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
-                      />
-                    </div>
-                    {/* CVV */}
-                    <div>
-                      <label className="block text-xs font-semibold text-navy-700 mb-1.5">CVV</label>
-                      <input
-                        required
-                        type="password"
-                        value={paymentData.cvv}
-                        onChange={e => setPaymentData({ ...paymentData, cvv: e.target.value.replace(/\D/g, '').slice(0, 3) })}
-                        placeholder="•••"
-                        maxLength={3}
-                        className="w-full px-4 py-2.5 bg-navy-50 border border-navy-100 rounded-lg text-sm text-navy-800 placeholder-navy-400 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
-                      />
-                    </div>
-                  </div>
+                  {paymentMethod === 'card' ? (
+                    <>
+                      {/* Card Number */}
+                      <div>
+                        <label className="block text-xs font-semibold text-navy-700 mb-1.5">Card Number</label>
+                        <div className="relative">
+                          <CreditCard className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-navy-400" />
+                          <input
+                            required
+                            value={paymentData.cardNumber}
+                            onChange={e => {
+                              let val = e.target.value.replace(/\D/g, '').slice(0, 16);
+                              val = val.replace(/(.{4})/g, '$1 ').trim();
+                              setPaymentData({ ...paymentData, cardNumber: val });
+                            }}
+                            placeholder="1234 5678 9012 3456"
+                            maxLength={19}
+                            className="w-full pl-10 pr-4 py-2.5 bg-navy-50 border border-navy-100 rounded-lg text-sm text-navy-800 placeholder-navy-400 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500 tracking-wider"
+                          />
+                        </div>
+                      </div>
 
-                  {/* Name on Card */}
-                  <div>
-                    <label className="block text-xs font-semibold text-navy-700 mb-1.5">Name on Card</label>
-                    <input
-                      required
-                      value={paymentData.nameOnCard}
-                      onChange={e => setPaymentData({ ...paymentData, nameOnCard: e.target.value })}
-                      placeholder="Full name on card"
-                      className="w-full px-4 py-2.5 bg-navy-50 border border-navy-100 rounded-lg text-sm text-navy-800 placeholder-navy-400 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
-                    />
-                  </div>
+                      <div className="grid grid-cols-2 gap-3">
+                        {/* Expiry */}
+                        <div>
+                          <label className="block text-xs font-semibold text-navy-700 mb-1.5">Expiry Date</label>
+                          <input
+                            required
+                            value={paymentData.expiry}
+                            onChange={e => {
+                              let val = e.target.value.replace(/\D/g, '').slice(0, 4);
+                              if (val.length > 2) val = val.slice(0, 2) + '/' + val.slice(2);
+                              setPaymentData({ ...paymentData, expiry: val });
+                            }}
+                            placeholder="MM/YY"
+                            maxLength={5}
+                            className="w-full px-4 py-2.5 bg-navy-50 border border-navy-100 rounded-lg text-sm text-navy-800 placeholder-navy-400 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
+                          />
+                        </div>
+                        {/* CVV */}
+                        <div>
+                          <label className="block text-xs font-semibold text-navy-700 mb-1.5">CVV</label>
+                          <input
+                            required
+                            type="password"
+                            value={paymentData.cvv}
+                            onChange={e => setPaymentData({ ...paymentData, cvv: e.target.value.replace(/\D/g, '').slice(0, 3) })}
+                            placeholder="•••"
+                            maxLength={3}
+                            className="w-full px-4 py-2.5 bg-navy-50 border border-navy-100 rounded-lg text-sm text-navy-800 placeholder-navy-400 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Name on Card */}
+                      <div>
+                        <label className="block text-xs font-semibold text-navy-700 mb-1.5">Name on Card</label>
+                        <input
+                          required
+                          value={paymentData.nameOnCard}
+                          onChange={e => setPaymentData({ ...paymentData, nameOnCard: e.target.value })}
+                          placeholder="Full name on card"
+                          className="w-full px-4 py-2.5 bg-navy-50 border border-navy-100 rounded-lg text-sm text-navy-800 placeholder-navy-400 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
+                        />
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      {/* UPI ID */}
+                      <div>
+                        <label className="block text-xs font-semibold text-navy-700 mb-1.5">UPI ID</label>
+                        <div className="relative">
+                          <IndianRupee className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-navy-400" />
+                          <input
+                            required
+                            value={paymentData.upiId}
+                            onChange={e => setPaymentData({ ...paymentData, upiId: e.target.value })}
+                            placeholder="yourname@upi"
+                            className="w-full pl-10 pr-4 py-2.5 bg-navy-50 border border-navy-100 rounded-lg text-sm text-navy-800 placeholder-navy-400 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
+                          />
+                        </div>
+                        <p className="text-[10px] text-navy-400 mt-1">Enter your UPI ID (e.g., name@paytm, name@okaxis, 9876543210@ybl)</p>
+                      </div>
+
+                      {/* UPI Apps Quick Select */}
+                      <div>
+                        <p className="text-xs font-semibold text-navy-700 mb-2">Or pay using</p>
+                        <div className="grid grid-cols-4 gap-2">
+                          {[
+                            { name: 'GPay', color: 'bg-white', textColor: 'text-navy-700', suffix: '@okaxis' },
+                            { name: 'PhonePe', color: 'bg-white', textColor: 'text-navy-700', suffix: '@ybl' },
+                            { name: 'Paytm', color: 'bg-white', textColor: 'text-navy-700', suffix: '@paytm' },
+                            { name: 'BHIM', color: 'bg-white', textColor: 'text-navy-700', suffix: '@upi' }
+                          ].map(app => (
+                            <button key={app.name} type="button"
+                              onClick={() => setPaymentData({ ...paymentData, upiId: `${signupData.phone || ''}${app.suffix}` })}
+                              className={`${app.color} ${app.textColor} border border-navy-100 rounded-lg py-2 text-[11px] font-semibold hover:border-teal-400 hover:bg-teal-50 transition-all`}>
+                              {app.name}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    </>
+                  )}
 
                   <div className="flex items-center gap-2 text-[11px] text-navy-400 pt-1">
                     <Shield className="w-3.5 h-3.5" />

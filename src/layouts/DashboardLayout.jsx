@@ -168,21 +168,26 @@ export const DashboardLayout = () => {
       <div className={`transition-all duration-200 ${mlVal}`}>
         <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-navy-100">
           <div className="flex items-center justify-between h-14 px-6">
-            {/* LeadFlexUp Logo and Text - Same as Landing Page */}
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-navy-700 rounded-xl flex items-center justify-center">
-                <TrendingUp className="w-4 h-4 text-white" />
+            {/* LeadFlexUp Logo - only show when sidebar is hidden */}
+            {!showSidebar && (
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 bg-navy-700 rounded-xl flex items-center justify-center">
+                  <TrendingUp className="w-4 h-4 text-white" />
+                </div>
+                <span className="text-lg font-bold text-navy-800">LeadFlexUp</span>
               </div>
-              <span className="text-lg font-bold text-navy-800">LeadFlexUp</span>
-            </div>
+            )}
+            {showSidebar && <div />}
             
-            {/* Sign Up Now Button */}
-            <button 
-              onClick={() => navigate('/checkout')}
-              className="px-6 py-2 bg-teal-600 text-white text-sm font-semibold rounded-lg hover:bg-teal-700 transition-colors shadow-sm hover:shadow-md"
-            >
-              Sign Up Now
-            </button>
+            {/* Sign Up Now Button - only show when not subscribed (no sidebar) */}
+            {!showSidebar && (
+              <button 
+                onClick={() => navigate('/checkout')}
+                className="px-6 py-2 bg-teal-600 text-white text-sm font-semibold rounded-lg hover:bg-teal-700 transition-colors shadow-sm hover:shadow-md"
+              >
+                Sign Up Now
+              </button>
+            )}
           </div>
         </header>
         <main className="p-6"><Outlet /></main>

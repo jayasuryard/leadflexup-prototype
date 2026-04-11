@@ -40,7 +40,7 @@ import logoGrowbiz from '../assets/logos/logo-growbiz.svg';
 
 export const LandingPage = () => {
   const navigate = useNavigate();
-  const { language, changeLanguage, signup, login, onboardBusiness } = useApp();
+  const { language, changeLanguage, signup, login, onboardBusiness, subscription } = useApp();
   const [showSignUp, setShowSignUp] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showLanguagePopup, setShowLanguagePopup] = useState(false);
@@ -145,6 +145,7 @@ export const LandingPage = () => {
           language={language}
           onGetStartedClick={handleGetStarted}
           onLoginClick={() => setShowLogin(true)}
+          hasSubscription={!!subscription}
         />
       </div>
 
