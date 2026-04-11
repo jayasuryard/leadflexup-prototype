@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { TrendingUp } from 'lucide-react';
 import { t } from '../../utils/i18n';
 
-export const Navbar = ({ language, onSignUpClick }) => {
+export const Navbar = ({ language, onGetStartedClick }) => {
   return (
     <motion.nav
       initial={{ y: -20, opacity: 0 }}
@@ -10,7 +10,7 @@ export const Navbar = ({ language, onSignUpClick }) => {
       transition={{ duration: 0.6 }}
       className="sticky top-4 z-50 mx-auto max-w-6xl px-4 relative"
     >
-      <div className="bg-white/60 backdrop-blur-xl rounded-full shadow-lg border border-white/50 px-6 py-3">
+      <div className="bg-white/60 backdrop-blur-xl rounded-full shadow-lg border border-white/50 px-6 py-3 mt-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <motion.div
@@ -52,10 +52,10 @@ export const Navbar = ({ language, onSignUpClick }) => {
           {/* Right Actions */}
           <div className="flex items-center gap-3">
             <button
-              onClick={onSignUpClick}
+              onClick={onGetStartedClick}
               className="px-4 py-2 bg-navy-900 text-white text-sm font-semibold rounded-full hover:bg-navy-800 transition-all shadow-sm"
             >
-              {t('lpSignUp', language)}
+              Get Started
             </button>
           </div>
         </div>

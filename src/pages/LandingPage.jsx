@@ -9,9 +9,6 @@ import { subscriptionPlans } from '../data/mockDatabase';
 import {
   Navbar,
   Hero,
-  TrustStrip,
-  Stories,
-  Stats,
   Features,
   HowItWorks,
   Testimonials,
@@ -50,6 +47,7 @@ export const LandingPage = () => {
   const [languagePopupPosition, setLanguagePopupPosition] = useState({ x: 0, y: 0 });
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [faqOpen, setFaqOpen] = useState(null);
+  const [highlightForm, setHighlightForm] = useState(false);
   
   const planIcons = { starter: Sparkles, professional: Crown, enterprise: Rocket };
   
@@ -63,7 +61,7 @@ export const LandingPage = () => {
   const handleOnboard = async (e) => {
     e.preventDefault();
     setIsAnalyzing(true);
-    await new Promise(r => setTimeout(r, 2000));
+    await new Promise(r => setTimeout(r, 5000));
     onboardBusiness({
       ...formData,
       businessAddress: formData.location?.address || '',
@@ -74,6 +72,12 @@ export const LandingPage = () => {
       lng: formData.location?.lng
     });
     navigate('/dashboard/analytics');
+  };
+
+  const handleGetStarted = () => {
+    setHighlightForm(true);
+    // Smooth scroll to hero section
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleSignUp = (userData) => {
@@ -104,23 +108,7 @@ export const LandingPage = () => {
     { icon: Rocket, title: t('lpFeature6Title', language), desc: t('lpFeature6Desc', language) }
   ];
 
-  const stories = [
-    { img: imgTravel, biz: t('lpStory1Biz', language), quote: t('lpStory1Quote', language), stat: t('lpStory1Stat', language), label: t('lpStory1Label', language), accent: 'from-orange-500/10 to-amber-500/5' },
-    { img: imgHotel, biz: t('lpStory2Biz', language), quote: t('lpStory2Quote', language), stat: t('lpStory2Stat', language), label: t('lpStory2Label', language), accent: 'from-teal-500/10 to-emerald-500/5' },
-    { img: imgToy, biz: t('lpStory3Biz', language), quote: t('lpStory3Quote', language), stat: t('lpStory3Stat', language), label: t('lpStory3Label', language), accent: 'from-yellow-500/10 to-amber-500/5' },
-    { img: imgIron, biz: t('lpStory4Biz', language), quote: t('lpStory4Quote', language), stat: t('lpStory4Stat', language), label: t('lpStory4Label', language), accent: 'from-slate-500/10 to-gray-500/5' },
-    { img: imgRestaurant, biz: t('lpStory5Biz', language), quote: t('lpStory5Quote', language), stat: t('lpStory5Stat', language), label: t('lpStory5Label', language), accent: 'from-red-500/10 to-rose-500/5' },
-    { img: imgSalon, biz: t('lpStory6Biz', language), quote: t('lpStory6Quote', language), stat: t('lpStory6Stat', language), label: t('lpStory6Label', language), accent: 'from-pink-500/10 to-fuchsia-500/5' },
-  ];
-
   const trustLogos = [logoQuickserve, logoPaylocal, logoRideease, logoShopnear, logoCraftmart, logoGrowbiz];
-
-  const stats = [
-    { value: t('lpStat1Value', language), label: t('lpStat1Label', language) },
-    { value: t('lpStat2Value', language), label: t('lpStat2Label', language) },
-    { value: t('lpStat3Value', language), label: t('lpStat3Label', language) },
-    { value: t('lpStat4Value', language), label: t('lpStat4Label', language) }
-  ];
 
   const steps = [
     { n: '01', title: t('lpStep1Title', language), desc: t('lpStep1Desc', language) },
@@ -144,10 +132,12 @@ export const LandingPage = () => {
 
   return (
     <div className="min-h-screen bg-blue-300 relative overflow-hidden">
-      <Navbar
-        language={language}
-        onSignUpClick={() => setShowSignUp(true)}
-      />
+      <div className={`transition-all duration-500 ${highlightForm ? 'grayscale' : ''}`}>
+        <Navbar
+          language={language}
+          onGetStartedClick={handleGetStarted}
+        />
+      </div>
 
       <Hero
         language={language}
@@ -159,66 +149,47 @@ export const LandingPage = () => {
         setShowLocationPicker={setShowLocationPicker}
         onVoiceClick={() => setShowVoiceInput(true)}
         onLanguageClick={handleLanguageClick}
+        highlighted={highlightForm}
+        onFormFocus={() => setHighlightForm(false)}
       />
 
-      <TrustStrip
-        language={language}
-        trustLogos={trustLogos}
-      />
+      <div className={`transition-all duration-500 ${highlightForm ? 'grayscale' : ''}`}>
+        <Features
+          language={language}
+          features={features}
+          cardFade={cardFade}
+        />
 
-      <Stories
-        language={language}
-        stories={stories}
-        cardFade={cardFade}
-      />
+        <HowItWorks
+          language={language}
+          steps={steps}
+        />
 
-      <Stats
-        language={language}
-        stats={stats}
-        cardFade={cardFade}
-      />
+        <Pricing
+          language={language}
+          subscriptionPlans={subscriptionPlans}
+          planIcons={planIcons}
+          onSignUpClick={() => setShowSignUp(true)}
+          cardFade={cardFade}
+        />
 
-      <Features
-        language={language}
-        features={features}
-        cardFade={cardFade}
-      />
+        <FAQ
+          language={language}
+          faqOpen={faqOpen}
+          setFaqOpen={setFaqOpen}
+        />
 
-      <HowItWorks
-        language={language}
-        steps={steps}
-      />
+        <CTA
+          language={language}
+          onSignUpClick={() => setShowSignUp(true)}
+          cardFade={cardFade}
+        />
 
-      <Testimonials
-        language={language}
-        testimonialImages={testimonialImages}
-        cardFade={cardFade}
-      />
-
-      <Pricing
-        language={language}
-        subscriptionPlans={subscriptionPlans}
-        planIcons={planIcons}
-        onSignUpClick={() => setShowSignUp(true)}
-        cardFade={cardFade}
-      />
-
-      <FAQ
-        language={language}
-        faqOpen={faqOpen}
-        setFaqOpen={setFaqOpen}
-      />
-
-      <CTA
-        language={language}
-        onSignUpClick={() => setShowSignUp(true)}
-        cardFade={cardFade}
-      />
-
-      <Footer
-        language={language}
-        changeLanguage={changeLanguage}
-      />
+        <Footer
+          language={language}
+          changeLanguage={changeLanguage}
+        />
+      </div>
 
       {/* Modals */}
       <SignUpModal

@@ -4,7 +4,7 @@ import { t } from '../../utils/i18n';
 
 export const Features = ({ language, features, cardFade }) => {
   return (
-    <section id="features" className="py-20">
+    <section id="features" className="py-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <span className="text-xs font-bold text-teal-600 uppercase tracking-widest">{t('lpPlatformCapabilities', language)}</span>

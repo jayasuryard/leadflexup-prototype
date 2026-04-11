@@ -62,6 +62,7 @@ const mapLayers = {
 
 /* ─── Subscription Popup ─── */
 const SubscriptionPopup = ({ open, onClose, language, selectSubscription }) => {
+  const [isYearly, setIsYearly] = useState(false);
   if (!open) return null;
   const planIcons = { starter: Sparkles, professional: Crown, enterprise: Rocket };
   return (
@@ -70,10 +71,29 @@ const SubscriptionPopup = ({ open, onClose, language, selectSubscription }) => {
         className="fixed inset-0 z-[9999] flex items-center justify-center bg-navy-950/50 backdrop-blur-sm p-4" onClick={onClose}>
         <motion.div initial={{ scale: 0.95, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.95, y: 20 }}
           className="bg-white rounded-2xl p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
-          <div className="flex items-center justify-between mb-5">
+          <div className="flex items-center justify-between mb-3">
             <h2 className="text-lg font-bold text-navy-800">{t('choosePlan', language)}</h2>
             <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-navy-50 text-navy-400"><X className="w-5 h-5" /></button>
           </div>
+          
+          {/* Billing Period Toggle */}
+          <div className="flex items-center justify-center gap-3 mb-5">
+            <span className={`text-xs font-medium ${!isYearly ? 'text-navy-900' : 'text-navy-400'}`}>Monthly</span>
+            <button
+              onClick={() => setIsYearly(!isYearly)}
+              className="relative w-12 h-6 bg-navy-200 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
+              style={{ backgroundColor: isYearly ? '#0d9488' : '#cbd5e1' }}
+            >
+              <span
+                className="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow-md transition-transform duration-300"
+                style={{ transform: isYearly ? 'translateX(24px)' : 'translateX(0)' }}
+              />
+            </button>
+            <span className={`text-xs font-medium ${isYearly ? 'text-navy-900' : 'text-navy-400'}`}>
+              Yearly <span className="text-teal-600 text-[10px]">(Save up to 16%)</span>
+            </span>
+          </div>
+          
           <div className="grid md:grid-cols-3 gap-4">
             {subscriptionPlans.map((plan) => {
               const Icon = planIcons[plan.id];
@@ -84,7 +104,11 @@ const SubscriptionPopup = ({ open, onClose, language, selectSubscription }) => {
                     <Icon className="w-4 h-4 text-white" />
                   </div>
                   <h3 className="text-sm font-bold text-navy-800">{getLocalizedText(plan.name, language)}</h3>
-                  <p className="text-2xl font-bold text-navy-900 mt-1">{plan.currency}{(plan.price / 100000).toFixed(2)}L<span className="text-xs font-normal text-navy-400">{t('perMonth', language)}</span></p>
+                  <p className="text-2xl font-bold text-navy-900 mt-1">
+                    {plan.currency}{((isYearly ? plan.yearlyPrice : plan.price) / 100).toFixed(0)}
+                    <span className="text-xs font-normal text-navy-400">/{t('perMonth', language)}</span>
+                  </p>
+                  <p className="text-[10px] text-navy-400 mb-2">{isYearly ? 'Billed annually' : 'Billed monthly'}</p>
                   <div className="space-y-1.5 mt-3 mb-4">
                     {plan.features.slice(0, 4).map((f, j) => (
                       <div key={j} className="flex items-start gap-1.5"><Check className="w-3.5 h-3.5 text-teal-600 flex-shrink-0 mt-0.5" /><span className="text-[11px] text-navy-600">{getLocalizedText(f, language)}</span></div>
@@ -110,17 +134,39 @@ const fade = (i = 0) => ({
 });
 
 /* ─── Radial gauge mini-component ─── */
-const MiniGauge = ({ value, label, color }) => (
-  <div className="flex flex-col items-center">
-    <div className="relative w-16 h-16">
+const MiniGauge = ({ value, label, color, tooltip }) => (
+  <div className="flex flex-col items-center group relative">
+    <div className="relative w-20 h-20">
       <svg viewBox="0 0 80 80" className="w-full h-full -rotate-90">
         <circle cx="40" cy="40" r="32" fill="none" stroke="#e8ecf3" strokeWidth="6" />
         <circle cx="40" cy="40" r="32" fill="none" stroke={color} strokeWidth="6" strokeLinecap="round"
           strokeDasharray={`${(value / 100) * 201} 201`} />
       </svg>
-      <span className="absolute inset-0 flex items-center justify-center text-xs font-bold text-navy-100">{value}</span>
+      <span className="absolute inset-0 flex items-center justify-center text-base font-bold text-navy-100">{value}</span>
     </div>
-    <span className="text-[9px] text-navy-50 mt-1 text-center leading-tight">{label}</span>
+    <span className="text-[10px] text-navy-50 mt-1.5 text-center leading-tight font-medium">{label}</span>
+    
+    {/* Tooltip - appears below */}
+    <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-50 group-hover:translate-y-1">
+      <div className="relative">
+        {/* Solid navy background matching theme */}
+        <div className="bg-navy-800 text-white text-xs rounded-xl px-3.5 py-2.5 shadow-2xl w-52 border border-navy-700">
+          {/* Icon indicator */}
+          <div className="flex items-start gap-2">
+            <div className="w-4 h-4 rounded-full bg-teal-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <svg className="w-2.5 h-2.5 text-teal-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <p className="leading-relaxed text-white text-xs">{tooltip}</p>
+          </div>
+        </div>
+        {/* Arrow pointer pointing up */}
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-px">
+          <div className="w-3 h-3 bg-navy-800 rotate-45 border-t border-l border-navy-700"></div>
+        </div>
+      </div>
+    </div>
   </div>
 );
 
@@ -153,13 +199,23 @@ export const AnalyticsDashboard = () => {
   const visitDelta = prev && prev.visits > 0 ? Math.round(((last.visits - prev.visits) / prev.visits) * 100) : 0;
   const leadDelta = prev && prev.leads > 0 ? Math.round(((last.leads - prev.leads) / prev.leads) * 100) : 0;
 
-  // Competitor data
+  // Competitor data - Top 10 + User at position 23
   const competitors = competitorDatabase[businessData?.category] || competitorDatabase.restaurant;
   const userScore = digitalPresence.overall;
-  const userEntry = { name: businessData?.businessName || 'Your Business', score: userScore, website: userScore > 50, socialMedia: Math.floor(userScore / 25), reviews: Math.floor(userScore * 3), monthlyVisits: Math.floor(userScore * 80), isUser: true };
-  const leaderboard = [...competitors, userEntry].sort((a, b) => b.score - a.score);
-  const userPosition = leaderboard.findIndex(i => i.isUser) + 1;
-  const avgCompScore = Math.round(competitors.reduce((a, c) => a + c.score, 0) / competitors.length);
+  const userEntry = { name: businessData?.businessName || 'Your Business', score: 0, website: false, socialMedia: 0, reviews: 0, monthlyVisits: 0, isUser: true };
+  
+  // Get top 10 competitors (excluding user) + add user at rank 23
+  const sortedCompetitors = [...competitors].sort((a, b) => b.score - a.score);
+  const top10Competitors = sortedCompetitors.slice(0, 10);
+  const userPosition = 23; // User is at rank 23
+  
+  // Show only top 10 competitors + user row (11 total)
+  const leaderboard = [
+    ...top10Competitors,
+    userEntry
+  ];
+  
+  const avgCompScore = Math.round(top10Competitors.reduce((a, c) => a + c.score, 0) / 10);
 
   // Map
   const bizLat = businessData?.lat || 12.9716;
@@ -244,24 +300,73 @@ export const AnalyticsDashboard = () => {
       {/* Row 1: Score Hero (full width) */}
       <motion.div {...fade()} className="bg-navy-700 text-white rounded-2xl p-4 sm:p-5">
         <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-5">
-          <div className="relative w-24 h-24 sm:w-28 sm:h-28 flex-shrink-0">
+          <div className="relative w-32 h-32 sm:w-36 sm:h-36 flex-shrink-0 group">
             <svg viewBox="0 0 120 120" className="w-full h-full -rotate-90">
               <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,.12)" strokeWidth="10" />
               <circle cx="60" cy="60" r="52" fill="none" stroke={scoreColor(digitalPresence.overall)} strokeWidth="10" strokeLinecap="round"
                 strokeDasharray={`${(digitalPresence.overall / 100) * 327} 327`} />
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-3xl font-bold">{digitalPresence.overall}</span>
-              <span className="text-[9px] text-navy-200">{t('dlScoreOf', language)}</span>
+              <span className="text-4xl sm:text-5xl font-bold">{digitalPresence.overall}</span>
+              <span className="text-[10px] text-navy-200 mt-0.5">{t('dlScoreOf', language)}</span>
+            </div>
+            
+            {/* Main Score Tooltip - appears below */}
+            <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none z-50 group-hover:translate-y-1">
+              <div className="relative">
+                {/* Solid navy background matching theme */}
+                <div className="bg-navy-800 text-white rounded-xl px-4 py-3 shadow-2xl w-64 border border-navy-700">
+                  {/* Header with icon */}
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-5 h-5 rounded-lg bg-teal-500/20 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-3 h-3 text-teal-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                        <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <p className="font-bold text-sm text-white">Digital Presence Score</p>
+                  </div>
+                  {/* Description */}
+                  <p className="text-xs leading-relaxed text-navy-100">Your overall online visibility combining website, social media, search, and reviews.</p>
+                  {/* Decorative bar */}
+                  <div className="mt-2.5 h-1 w-full bg-navy-700 rounded-full overflow-hidden">
+                    <div className="h-full bg-teal-500 rounded-full" style={{width: '70%'}}></div>
+                  </div>
+                </div>
+                {/* Arrow pointer pointing up */}
+                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-px">
+                  <div className="w-3 h-3 bg-navy-800 rotate-45 border-t border-l border-navy-700"></div>
+                </div>
+              </div>
             </div>
           </div>
           <div className="flex-1 w-full">
-            <h2 className="text-sm font-bold mb-3 text-center sm:text-left">{t('digitalPresence', language)}</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
-              <MiniGauge value={digitalPresence.website} label={t('websiteHealth', language)} color="#ffffff" />
-              <MiniGauge value={digitalPresence.socialMedia} label={t('socialMediaScore', language)} color="#5eead4" />
-              <MiniGauge value={digitalPresence.searchVisibility} label={t('searchVisibility', language)} color="#a5b4fc" />
-              <MiniGauge value={digitalPresence.onlineReviews} label={t('onlineReviews', language)} color="#fbbf24" />
+            <h2 className="text-base font-bold mb-4 text-center sm:text-left">{t('digitalPresence', language)}</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+              <MiniGauge 
+                value={digitalPresence.website} 
+                label={t('websiteHealth', language)} 
+                color="#ffffff" 
+                tooltip="Measures your website's performance, speed, mobile-friendliness, and SEO optimization. A strong website is your 24/7 digital storefront."
+              />
+              <MiniGauge 
+                value={digitalPresence.socialMedia} 
+                label={t('socialMediaScore', language)} 
+                color="#5eead4" 
+                tooltip="Tracks your social media presence, engagement, and follower growth across platforms. Active social profiles help you connect with customers."
+              />
+              <MiniGauge 
+                value={digitalPresence.searchVisibility} 
+                label={t('searchVisibility', language)} 
+                color="#a5b4fc" 
+                tooltip="Shows how easily customers can find you on Google and other search engines. Better visibility means more organic traffic to your business."
+              />
+              <MiniGauge 
+                value={digitalPresence.onlineReviews} 
+                label={t('onlineReviews', language)} 
+                color="#fbbf24" 
+                tooltip="Reflects your online reputation through customer reviews and ratings. Positive reviews build trust and influence purchase decisions."
+              />
             </div>
           </div>
         </div>
@@ -281,118 +386,11 @@ export const AnalyticsDashboard = () => {
         </div>
       </motion.div>
 
-      {/* Row 2: Map (left 2/3) + KPI Cards (right 1/3 stacked) */}
-      <div className="grid lg:grid-cols-[1fr_320px] gap-3 sm:gap-4">
-        {/* Map */}
-        <motion.div {...fade()} className="bg-white rounded-2xl border border-navy-100 overflow-hidden">
-          <div className="px-4 sm:px-5 py-3 border-b border-navy-100 flex items-center justify-between">
-            <div>
-              <h3 className="text-sm font-bold text-navy-800">{t('competitorMap', language)}</h3>
-              <p className="text-[10px] text-navy-400">
-                <span className="inline-block w-2 h-2 bg-red-500 rounded-full mr-1" /> {t('yourBusiness', language)}
-                <span className="inline-block w-2 h-2 bg-blue-500 rounded-full ml-3 mr-1" /> {t('competitorPin', language)}
-              </p>
-            </div>
-          </div>
-          <div className="relative" style={{ height: '280px' }}>
-            <MapContainer center={[bizLat, bizLng]} zoom={14} style={{ height: '100%', width: '100%' }} scrollWheelZoom={false} attributionControl={false}>
-              {/* Render tile layers based on map type */}
-              {mapType === 'hybrid' ? (
-                <>
-                  <TileLayer
-                    attribution={mapLayers.hybrid.attribution}
-                    url={mapLayers.hybrid.url[0]}
-                  />
-                  <TileLayer
-                    attribution={mapLayers.hybrid.attribution}
-                    url={mapLayers.hybrid.url[1]}
-                  />
-                </>
-              ) : (
-                <TileLayer
-                  attribution={mapLayers[mapType].attribution}
-                  url={mapLayers[mapType].url}
-                />
-              )}
-              <Marker position={[bizLat, bizLng]} icon={redIcon}>
-                <Popup><strong>{businessData?.businessName || t('yourBusiness', language)}</strong><br />{t('adScore', language)} {userScore}</Popup>
-              </Marker>
-              {competitorPositions.map((c, i) => (
-                <Marker key={i} position={[c.lat, c.lng]} icon={blueIcon}>
-                  <Popup><strong>{c.name}</strong><br />{t('adScore', language)} {c.score}<br />{t('adReviews', language)} {c.reviews}</Popup>
-                </Marker>
-              ))}
-            </MapContainer>
-            
-            {/* Map Type Switcher - Compact Dropdown */}
-            <div ref={mapMenuRef} className="absolute top-3 right-3 z-[1000]">
-              <button
-                type="button"
-                onClick={() => setShowMapMenu(!showMapMenu)}
-                className="bg-white/95 backdrop-blur-sm p-2 rounded-lg shadow-lg border border-navy-200/50 hover:bg-white transition-all"
-                title={mapLayers[mapType].name}
-              >
-                {(() => {
-                  const Icon = mapLayers[mapType].icon;
-                  return <Icon className="w-4 h-4 text-navy-700" />;
-                })()}
-              </button>
-              
-              {showMapMenu && (
-                <div className="absolute top-full right-0 mt-2 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-navy-200/50 overflow-hidden min-w-[140px]">
-                  {Object.entries(mapLayers).map(([key, layer]) => {
-                    const Icon = layer.icon;
-                    return (
-                      <button
-                        key={key}
-                        type="button"
-                        onClick={() => {
-                          setMapType(key);
-                          setShowMapMenu(false);
-                        }}
-                        className={`w-full flex items-center gap-2 px-3 py-2 text-xs font-medium transition-all ${
-                          mapType === key
-                            ? 'bg-navy-700 text-white'
-                            : 'text-navy-600 hover:bg-navy-50'
-                        }`}
-                      >
-                        <Icon className="w-3.5 h-3.5" />
-                        <span>{layer.name}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              )}
-            </div>
-          </div>
-        </motion.div>
-
-        {/* 4 KPI Cards stacked in 2x2 - matching map height */}
-        <div className="grid grid-cols-2 gap-2 sm:gap-3">
-          {[
-            { icon: Eye, label: t('monthlyVisits', language), value: last?.visits?.toLocaleString(), delta: `${visitDelta > 0 ? '+' : ''}${visitDelta}%`, up: visitDelta >= 0, accent: 'bg-navy-700' },
-            { icon: MousePointer, label: t('leadsGenerated', language), value: last?.leads, delta: `${leadDelta > 0 ? '+' : ''}${leadDelta}%`, up: leadDelta >= 0, accent: 'bg-teal-600' },
-            { icon: Activity, label: t('adConversionRate', language), value: `${convRate}%`, delta: '', up: true, accent: 'bg-indigo-600' },
-            { icon: Users, label: t('totalFollowers', language), value: socialMedia.platforms.reduce((a, p) => a + p.followers, 0).toLocaleString(), delta: '+16%', up: true, accent: 'bg-amber-500' },
-          ].map((s, i) => (
-            <motion.div key={i} {...fade(i)} className="bg-white rounded-2xl border border-navy-100 p-3 sm:p-4 flex flex-col justify-between" style={{ minHeight: '130px' }}>
-              <div className="flex items-center justify-between">
-                <div className={`w-8 h-8 sm:w-9 sm:h-9 ${s.accent} rounded-xl flex items-center justify-center`}><s.icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" /></div>
-                {s.delta && <span className={`text-[9px] sm:text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${s.up ? 'text-teal-600 bg-teal-50' : 'text-red-600 bg-red-50'}`}>{s.delta}</span>}
-              </div>
-              <div className="mt-auto">
-                <p className="text-xl sm:text-2xl font-bold text-navy-900">{s.value}</p>
-                <p className="text-[9px] sm:text-[10px] text-navy-400 mt-0.5">{s.label}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-
-      {/* Row 3: Leaderboard (full width) */}
+      {/* Row 2: Leaderboard (full width) */}
       <motion.div {...fade()} className="bg-white rounded-2xl border border-navy-100 overflow-hidden">
         <div className="px-4 sm:px-5 py-3 border-b border-navy-100">
           <h3 className="text-sm font-bold text-navy-800">{t('competitorLeaderboard', language)}</h3>
+          <p className="text-[10px] text-navy-400 mt-0.5">Within 5km radius • Top 10 businesses</p>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full min-w-[600px]">
@@ -404,12 +402,14 @@ export const AnalyticsDashboard = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-navy-100">
-              {leaderboard.map((it, i) => (
+              {leaderboard.map((it, i) => {
+                const displayRank = it.isUser ? userPosition : i + 1;
+                return (
                 <tr key={i} className={it.isUser ? 'bg-teal-50/50' : 'hover:bg-navy-50/50'}>
                   <td className="px-4 py-2.5">
                     <div className="flex items-center gap-1">
-                      {i < 3 && <Trophy className={`w-3 h-3 ${i === 0 ? 'text-yellow-500' : i === 1 ? 'text-gray-400' : 'text-orange-500'}`} />}
-                      <span className="text-[11px] font-bold text-navy-800">{i + 1}</span>
+                      {!it.isUser && i < 3 && <Trophy className={`w-3 h-3 ${i === 0 ? 'text-yellow-500' : i === 1 ? 'text-gray-400' : 'text-orange-500'}`} />}
+                      <span className="text-[11px] font-bold text-navy-800">{displayRank}</span>
                     </div>
                   </td>
                   <td className="px-4 py-2.5">
@@ -437,13 +437,13 @@ export const AnalyticsDashboard = () => {
                   <td className="px-4 py-2.5 text-[11px] font-medium text-navy-700">{it.reviews}</td>
                   <td className="px-4 py-2.5 text-[11px] font-medium text-navy-700">{it.monthlyVisits?.toLocaleString()}</td>
                 </tr>
-              ))}
+              )})}
             </tbody>
           </table>
         </div>
       </motion.div>
 
-      {/* Row 4: Traffic & Leads (2/3) + Traffic Sources (1/3) */}
+      {/* Row 3: Traffic & Leads (2/3) + Traffic Sources (1/3) */}
       <div className="grid lg:grid-cols-3 gap-3 sm:gap-4">
         <motion.div {...fade()} className="lg:col-span-2 bg-white rounded-2xl border border-navy-100 p-4 sm:p-5">
           <div className="flex items-center justify-between mb-3">
@@ -486,7 +486,7 @@ export const AnalyticsDashboard = () => {
         </motion.div>
       </div>
 
-      {/* Row 5: Social Media (1/2) + Geographic Insights (1/2) */}
+      {/* Row 4: Social Media + Geographic Insights */}
       <div className="grid lg:grid-cols-2 gap-3 sm:gap-4">
         <motion.div {...fade()} className="bg-white rounded-2xl border border-navy-100 p-4 sm:p-5">
           <h3 className="text-sm font-bold text-navy-800 mb-3">{t('adSocialMedia', language)}</h3>
@@ -523,6 +523,107 @@ export const AnalyticsDashboard = () => {
             </BarChart>
           </ResponsiveContainer>
         </motion.div>
+      </div>
+
+      {/* Row 5: Market Map (full width) */}
+      <motion.div {...fade(2)} className="bg-white rounded-2xl border border-navy-100 overflow-hidden">
+          <div className="px-4 sm:px-5 py-3 border-b border-navy-100">
+            <h3 className="text-sm font-bold text-navy-800">{t('competitorMap', language)}</h3>
+            <p className="text-[10px] text-navy-400">
+              <span className="inline-block w-2 h-2 bg-red-500 rounded-full mr-1" /> {t('yourBusiness', language)}
+              <span className="inline-block w-2 h-2 bg-blue-500 rounded-full ml-3 mr-1" /> {t('competitorPin', language)}
+            </p>
+          </div>
+          <div className="relative" style={{ height: '320px' }}>
+            <MapContainer center={[bizLat, bizLng]} zoom={14} style={{ height: '100%', width: '100%' }} scrollWheelZoom={false} attributionControl={false}>
+              {mapType === 'hybrid' ? (
+                <>
+                  <TileLayer
+                    attribution={mapLayers.hybrid.attribution}
+                    url={mapLayers.hybrid.url[0]}
+                  />
+                  <TileLayer
+                    attribution={mapLayers.hybrid.attribution}
+                    url={mapLayers.hybrid.url[1]}
+                  />
+                </>
+              ) : (
+                <TileLayer
+                  attribution={mapLayers[mapType].attribution}
+                  url={mapLayers[mapType].url}
+                />
+              )}
+              <Marker position={[bizLat, bizLng]} icon={redIcon}>
+                <Popup><strong>{businessData?.businessName || t('yourBusiness', language)}</strong><br />{t('adScore', language)} {userScore}</Popup>
+              </Marker>
+              {competitorPositions.map((c, i) => (
+                <Marker key={i} position={[c.lat, c.lng]} icon={blueIcon}>
+                  <Popup><strong>{c.name}</strong><br />{t('adScore', language)} {c.score}<br />{t('adReviews', language)} {c.reviews}</Popup>
+                </Marker>
+              ))}
+            </MapContainer>
+            
+            <div ref={mapMenuRef} className="absolute top-3 right-3 z-[1000]">
+              <button
+                type="button"
+                onClick={() => setShowMapMenu(!showMapMenu)}
+                className="bg-white/95 backdrop-blur-sm p-2 rounded-lg shadow-lg border border-navy-200/50 hover:bg-white transition-all"
+                title={mapLayers[mapType].name}
+              >
+                {(() => {
+                  const Icon = mapLayers[mapType].icon;
+                  return <Icon className="w-4 h-4 text-navy-700" />;
+                })()}
+              </button>
+              
+              {showMapMenu && (
+                <div className="absolute top-full right-0 mt-2 bg-white/95 backdrop-blur-sm rounded-lg shadow-lg border border-navy-200/50 overflow-hidden min-w-[140px]">
+                  {Object.entries(mapLayers).map(([key, layer]) => {
+                    const Icon = layer.icon;
+                    return (
+                      <button
+                        key={key}
+                        type="button"
+                        onClick={() => {
+                          setMapType(key);
+                          setShowMapMenu(false);
+                        }}
+                        className={`w-full flex items-center gap-2 px-3 py-2 text-xs font-medium transition-all ${
+                          mapType === key
+                            ? 'bg-navy-700 text-white'
+                            : 'text-navy-600 hover:bg-navy-50'
+                        }`}
+                      >
+                        <Icon className="w-3.5 h-3.5" />
+                        <span>{layer.name}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+        </motion.div>
+
+      {/* Row 6: KPI Cards (4 cards in a row) */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        {[
+          { icon: Eye, label: t('monthlyVisits', language), value: last?.visits?.toLocaleString(), delta: `${visitDelta > 0 ? '+' : ''}${visitDelta}%`, up: visitDelta >= 0, accent: 'bg-navy-700' },
+          { icon: MousePointer, label: t('leadsGenerated', language), value: last?.leads, delta: `${leadDelta > 0 ? '+' : ''}${leadDelta}%`, up: leadDelta >= 0, accent: 'bg-teal-600' },
+          { icon: Activity, label: t('adConversionRate', language), value: `${convRate}%`, delta: '', up: true, accent: 'bg-indigo-600' },
+          { icon: Users, label: t('totalFollowers', language), value: socialMedia.platforms.reduce((a, p) => a + p.followers, 0).toLocaleString(), delta: '+16%', up: true, accent: 'bg-amber-500' },
+        ].map((s, i) => (
+          <motion.div key={i} {...fade(i)} className="bg-white rounded-2xl border border-navy-100 p-3 sm:p-4 flex flex-col justify-between" style={{ minHeight: '120px' }}>
+            <div className="flex items-center justify-between">
+              <div className={`w-8 h-8 sm:w-9 sm:h-9 ${s.accent} rounded-xl flex items-center justify-center`}><s.icon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white" /></div>
+              {s.delta && <span className={`text-[9px] sm:text-[10px] font-semibold px-1.5 py-0.5 rounded-full ${s.up ? 'text-teal-600 bg-teal-50' : 'text-red-600 bg-red-50'}`}>{s.delta}</span>}
+            </div>
+            <div className="mt-auto">
+              <p className="text-xl sm:text-2xl font-bold text-navy-900">{s.value}</p>
+              <p className="text-[9px] sm:text-[10px] text-navy-400 mt-0.5">{s.label}</p>
+            </div>
+          </motion.div>
+        ))}
       </div>
 
       {/* ═══ MARKET OPPORTUNITY — Morphing fade-in section ═══ */}
@@ -650,6 +751,81 @@ export const AnalyticsDashboard = () => {
                               </div>
                               <span className="text-[9px] font-medium text-teal-300">{t('adMktOppAvailable', language)}</span>
                             </div>
+                          </td>
+                        </motion.tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </motion.div>
+
+            {/* Possible Leads Details table — new section */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }} transition={{ delay: 1.15, duration: 0.5 }}
+              className="mb-6"
+            >
+              <h4 className="text-xs font-bold text-navy-100 mb-3 flex items-center gap-2">
+                <Users className="w-3.5 h-3.5 text-indigo-400" />
+                Possible Leads Details
+              </h4>
+              <div className="bg-white/5 rounded-xl border border-white/10 overflow-hidden overflow-x-auto">
+                <table className="w-full min-w-[700px]">
+                  <thead>
+                    <tr className="border-b border-white/10">
+                      <th className="px-4 py-2.5 text-left text-[9px] font-semibold text-navy-300 uppercase tracking-wider">Contact Name</th>
+                      <th className="px-4 py-2.5 text-left text-[9px] font-semibold text-navy-300 uppercase tracking-wider">Business</th>
+                      <th className="px-4 py-2.5 text-left text-[9px] font-semibold text-navy-300 uppercase tracking-wider">Phone</th>
+                      <th className="px-4 py-2.5 text-left text-[9px] font-semibold text-navy-300 uppercase tracking-wider">Email</th>
+                      <th className="px-4 py-2.5 text-left text-[9px] font-semibold text-navy-300 uppercase tracking-wider">Location</th>
+                      <th className="px-4 py-2.5 text-left text-[9px] font-semibold text-navy-300 uppercase tracking-wider">Interest</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/5">
+                    {[
+                      { name: 'Rahul Sharma', business: 'Tech Startup', phone: '+91 98765 43210', email: 'rahul.s@techstart.in', location: 'Koramangala, 2.4km', interest: 'High' },
+                      { name: 'Priya Menon', business: 'Fashion Boutique', phone: '+91 98234 56789', email: 'priya.m@fashion.com', location: 'Indiranagar, 3.1km', interest: 'Medium' },
+                      { name: 'Amit Patel', business: 'Organic Foods', phone: '+91 97654 32108', email: 'amit@organicfoods.co', location: 'JP Nagar, 4.2km', interest: 'High' },
+                      { name: 'Sneha Reddy', business: 'Yoga Studio', phone: '+91 96543 21098', email: 'sneha@yogastudio.in', location: 'HSR Layout, 1.8km', interest: 'High' },
+                      { name: 'Vikram Singh', business: 'Coffee Shop', phone: '+91 95432 10987', email: 'vikram@coffeeshop.in', location: 'Jayanagar, 3.5km', interest: 'Medium' },
+                      { name: 'Anjali Gupta', business: 'Pet Store', phone: '+91 94321 09876', email: 'anjali@petstore.com', location: 'Whitefield, 4.8km', interest: 'Low' },
+                      { name: 'Karthik Iyer', business: 'Car Wash', phone: '+91 93210 98765', email: 'karthik@carwash.in', location: 'BTM Layout, 2.9km', interest: 'High' },
+                      { name: 'Divya Krishnan', business: 'Bakery', phone: '+91 92109 87654', email: 'divya@bakery.co.in', location: 'Malleshwaram, 3.7km', interest: 'Medium' },
+                      { name: 'Arjun Nair', business: 'Gym & Fitness', phone: '+91 91098 76543', email: 'arjun@gymfit.com', location: 'Electronic City, 4.5km', interest: 'High' },
+                      { name: 'Pooja Desai', business: 'Event Planning', phone: '+91 90987 65432', email: 'pooja@events.co', location: 'Yelahanka, 4.1km', interest: 'Medium' }
+                    ].map((contact, i) => {
+                      const interestColors = { High: 'bg-green-400/20 text-green-300', Medium: 'bg-yellow-400/20 text-yellow-300', Low: 'bg-gray-400/20 text-gray-300' };
+                      return (
+                        <motion.tr key={i}
+                          initial={{ opacity: 0, x: -10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ delay: 1.2 + i * 0.05 }}
+                          className="hover:bg-white/5 transition-colors"
+                        >
+                          <td className="px-4 py-3">
+                            <span className="text-[10px] font-semibold text-navy-100">{contact.name}</span>
+                          </td>
+                          <td className="px-4 py-3">
+                            <span className="text-[10px] text-navy-200">{contact.business}</span>
+                          </td>
+                          <td className="px-4 py-3">
+                            <span className="text-[10px] text-navy-200 font-mono">{contact.phone}</span>
+                          </td>
+                          <td className="px-4 py-3">
+                            <span className="text-[10px] text-navy-200">{contact.email}</span>
+                          </td>
+                          <td className="px-4 py-3">
+                            <div className="flex items-center gap-1">
+                              <MapPin className="w-3 h-3 text-indigo-400" />
+                              <span className="text-[10px] text-navy-200">{contact.location}</span>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3">
+                            <span className={`text-[9px] font-bold px-2 py-0.5 rounded-full ${interestColors[contact.interest]}`}>
+                              {contact.interest}
+                            </span>
                           </td>
                         </motion.tr>
                       );

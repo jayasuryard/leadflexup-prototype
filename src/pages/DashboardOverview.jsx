@@ -3,11 +3,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   Send, Bot, Sparkles, Zap, Loader2, AlertCircle, Lock, UserPlus,
   X, MessageCircle, Paperclip, ChevronRight, ArrowLeft, Clock,
-  Mic, MicOff, Eye, CheckCircle2, Activity, Volume2, VolumeX
+  Mic, MicOff, Eye, CheckCircle2, Activity, Volume2, VolumeX,
+  Check, Crown, Rocket
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { t } from '../utils/i18n';
 import { sendGroqMessage, groqClient } from '../config/groq';
+import { VoiceAgent } from '../components/VoiceAgent';
+import { subscriptionPlans } from '../data/mockDatabase';
 
 const fade = (i = 0) => ({
   initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 },
@@ -182,6 +185,80 @@ const SignupPrompt = ({ open, onClose, language, onSignup }) => {
   );
 };
 
+/* ─── Subscription Prompt Modal ─── */
+const SubscriptionPrompt = ({ open, onClose, language, selectSubscription }) => {
+  const [isYearly, setIsYearly] = useState(false);
+  if (!open) return null;
+  const planIcons = { starter: Sparkles, professional: Crown, enterprise: Rocket };
+  return (
+    <AnimatePresence>
+      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+        className="fixed inset-0 z-[9999] flex items-center justify-center bg-navy-950/70 backdrop-blur-md p-4" onClick={onClose}>
+        <motion.div initial={{ scale: 0.95, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.95, y: 20 }}
+          className="bg-white rounded-2xl p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+          <div className="flex items-center justify-between mb-3">
+            <div>
+              <h2 className="text-lg font-bold text-navy-800">You have 5 free questions remaining</h2>
+              <p className="text-sm text-navy-500 mt-1">Sign up for unlimited access + voice mode!</p>
+            </div>
+            <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-navy-50 text-navy-400"><X className="w-5 h-5" /></button>
+          </div>
+          
+          {/* Billing Period Toggle */}
+          <div className="flex items-center justify-center gap-3 mb-5 mt-6">
+            <span className={`text-xs font-medium ${!isYearly ? 'text-navy-900' : 'text-navy-400'}`}>Monthly</span>
+            <button
+              onClick={() => setIsYearly(!isYearly)}
+              className="relative w-12 h-6 bg-navy-200 rounded-full transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
+              style={{ backgroundColor: isYearly ? '#0d9488' : '#cbd5e1' }}
+            >
+              <span
+                className="absolute top-1 left-1 w-4 h-4 bg-white rounded-full shadow-md transition-transform duration-300"
+                style={{ transform: isYearly ? 'translateX(24px)' : 'translateX(0)' }}
+              />
+            </button>
+            <span className={`text-xs font-medium ${isYearly ? 'text-navy-900' : 'text-navy-400'}`}>
+              Yearly <span className="text-teal-600 text-[10px]">(Save up to 16%)</span>
+            </span>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-4">
+            {subscriptionPlans.map((plan) => {
+              const Icon = planIcons[plan.id];
+              return (
+                <div key={plan.id} className={`rounded-xl border-2 p-5 ${plan.recommended ? 'border-teal-500' : 'border-navy-100'}`}>
+                  {plan.recommended && <span className="text-[10px] font-bold bg-teal-600 text-white px-2 py-0.5 rounded-full">Most Popular</span>}
+                  <div className={`w-9 h-9 rounded-lg flex items-center justify-center mt-2 mb-3 ${plan.recommended ? 'bg-teal-600' : 'bg-navy-700'}`}>
+                    <Icon className="w-4 h-4 text-white" />
+                  </div>
+                  <h3 className="text-sm font-bold text-navy-800">{plan.name.en}</h3>
+                  <p className="text-2xl font-bold text-navy-900 mt-1">
+                    {plan.currency}{((isYearly ? plan.yearlyPrice : plan.price) / 100).toFixed(0)}
+                    <span className="text-xs font-normal text-navy-400">/month</span>
+                  </p>
+                  <p className="text-[10px] text-navy-400 mb-2">{isYearly ? 'Billed annually' : 'Billed monthly'}</p>
+                  <div className="space-y-1.5 mt-3 mb-4">
+                    {plan.features.slice(0, 4).map((f, j) => (
+                      <div key={j} className="flex items-start gap-1.5">
+                        <Check className="w-3.5 h-3.5 text-teal-600 flex-shrink-0 mt-0.5" />
+                        <span className="text-[11px] text-navy-600">{f.en}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <button onClick={() => { selectSubscription(plan); onClose(); }}
+                    className={`w-full py-2 text-xs font-semibold rounded-lg ${plan.recommended ? 'bg-teal-600 text-white hover:bg-teal-700' : 'bg-navy-700 text-white hover:bg-navy-800'}`}>
+                    Subscribe
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
+};
+
 /* ─── Activity Preview Panel (Right Side — Lovable-style) ─── */
 const ActivityPreviewPanel = ({ activities, workflows, language }) => {
   const [expandedAct, setExpandedAct] = useState(null);
@@ -286,14 +363,12 @@ const ActivityPreviewPanel = ({ activities, workflows, language }) => {
 
 /* ─── Chat View ─── */
 const ChatView = ({ messages, loading, input, setInput, handleSend, mode, setMode, isAuthenticated,
-  onRequestSignup, language, onBack, activities, workflows, onVoiceResult, guestCreditsLeft }) => {
+  onRequestSignup, language, onBack, activities, workflows, guestCreditsLeft }) => {
   const endRef = useRef(null);
   const [autoSpeak, setAutoSpeak] = useState(false);
   const lastMsgCountRef = useRef(messages.length);
   useEffect(() => { endRef.current?.scrollIntoView({ behavior: 'smooth' }); }, [messages]);
   const handleAgentClick = () => { if (!isAuthenticated) { onRequestSignup(); return; } setMode('agent'); };
-  const voiceCallback = useCallback((transcript) => { onVoiceResult(transcript); }, [onVoiceResult]);
-  const { listening, supported, toggle: toggleVoice } = useVoiceInput(voiceCallback, language);
   const tts = useTTS(language);
 
   // Auto-speak new bot messages
@@ -333,6 +408,12 @@ const ChatView = ({ messages, loading, input, setInput, handleSend, mode, setMod
                 {autoSpeak ? <Volume2 className="w-3.5 h-3.5" /> : <VolumeX className="w-3.5 h-3.5" />}
               </button>
             )}
+            {/* Voice Agent button */}
+            <button onClick={onOpenVoiceAgent}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold bg-gradient-to-r from-purple-600 to-teal-600 text-white hover:from-purple-700 hover:to-teal-700 shadow-sm"
+              title={t('voiceTapToSpeak', language)}>
+              <Mic className="w-3 h-3" /> Voice
+            </button>
           </div>
         </div>
 
@@ -376,28 +457,15 @@ const ChatView = ({ messages, loading, input, setInput, handleSend, mode, setMod
 
         <div className="px-5 pb-4 pt-2">
           <div className="flex items-center gap-3 bg-navy-50 border border-navy-100 rounded-xl px-4 py-3 focus-within:ring-2 focus-within:ring-teal-500/20 focus-within:border-teal-500/40">
-            {supported && (
-              <button onClick={toggleVoice} className={`p-1.5 rounded-lg transition-all ${listening ? 'bg-red-500 text-white animate-pulse' : 'hover:bg-navy-100 text-navy-400'}`}>
-                {listening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
-              </button>
-            )}
             <input value={input} onChange={e => setInput(e.target.value)}
               onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) handleSend(); }} disabled={loading}
-              placeholder={listening ? t('doListening', language) : t('copilotPlaceholder', language)}
+              placeholder={t('copilotPlaceholder', language)}
               className="flex-1 bg-transparent text-[13px] text-navy-700 placeholder:text-navy-300 focus:outline-none disabled:opacity-50" />
             <button onClick={() => handleSend()} disabled={loading || !input.trim()}
               className={`w-9 h-9 rounded-lg flex items-center justify-center disabled:opacity-40 ${mode === 'agent' ? 'bg-teal-600 hover:bg-teal-700' : 'bg-navy-700 hover:bg-navy-800'}`}>
               <Send className="w-4 h-4 text-white" />
             </button>
           </div>
-          {listening && (
-            <motion.div initial={{ opacity: 0, y: 5 }} animate={{ opacity: 1, y: 0 }} className="mt-2 flex items-center gap-2 px-3 py-2 bg-red-50 rounded-lg border border-red-200">
-              <div className="flex items-center gap-0.5">{[1,2,3,4,5].map(i => (
-                <motion.div key={i} className="w-0.5 bg-red-400 rounded-full" animate={{ height: [4, 12, 4] }} transition={{ repeat: Infinity, duration: 0.6, delay: i * 0.1 }} />
-              ))}</div>
-              <span className="text-[11px] text-red-600 font-medium">{t('doListening', language)}</span>
-            </motion.div>
-          )}
         </div>
       </div>
 
@@ -417,40 +485,18 @@ const ChatView = ({ messages, loading, input, setInput, handleSend, mode, setMod
   );
 };
 
-/* ─── Hero Input with Voice ─── */
+/* ─── Hero Input ─── */
 const HeroInput = ({ input, setInput, handleSend, mode, handleAgentToggle, isAuthenticated, language, loading }) => {
-  const voiceCallback = useCallback((transcript) => {
-    setInput(transcript);
-    setTimeout(() => handleSend(transcript, true), 300);
-  }, [setInput, handleSend]);
-  const { listening, supported, toggle: toggleVoice } = useVoiceInput(voiceCallback, language);
-
   return (
     <div className="bg-white rounded-2xl border border-navy-100 shadow-sm overflow-hidden">
       <div className="p-4">
         <textarea value={input} onChange={e => setInput(e.target.value)}
           onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
-          placeholder={listening ? t('doListening', language) : t('doAskAnything', language)}
+          placeholder={t('doAskAnything', language)}
           rows={3} className="w-full bg-transparent text-[14px] text-navy-700 placeholder:text-navy-300 focus:outline-none resize-none leading-relaxed" />
       </div>
-      {listening && (
-        <div className="px-4 pb-2">
-          <div className="flex items-center gap-2 px-3 py-2 bg-red-50 rounded-lg border border-red-200">
-            <div className="flex items-center gap-0.5">{[1,2,3,4,5].map(i => (
-              <motion.div key={i} className="w-0.5 bg-red-400 rounded-full" animate={{ height: [4, 14, 4] }} transition={{ repeat: Infinity, duration: 0.5, delay: i * 0.08 }} />
-            ))}</div>
-            <span className="text-[11px] text-red-600 font-medium">{t('doListening', language)}</span>
-          </div>
-        </div>
-      )}
       <div className="px-4 pb-3 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          {supported && (
-            <button onClick={toggleVoice} className={`p-2 rounded-lg transition-all ${listening ? 'bg-red-500 text-white animate-pulse shadow-lg shadow-red-200' : 'hover:bg-navy-50 text-navy-400'}`}
-              title={listening ? 'Stop' : 'Voice input'}>
-              {listening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
-            </button>
-          )}
           <button className="p-2 rounded-lg hover:bg-navy-50" title="Attach"><Paperclip className="w-4 h-4 text-navy-400" /></button>
           <div className="h-5 w-px bg-navy-100 mx-1" />
           <button onClick={handleAgentToggle}
@@ -474,8 +520,9 @@ const HeroInput = ({ input, setInput, handleSend, mode, handleAgentToggle, isAut
    ══════════════════════════════════════════ */
 export const DashboardOverview = () => {
   const { language, businessData, analyticsData, isAuthenticated, signup,
-    saveChat, addWorkflow, chatHistory, addLiveActivity } = useApp();
+    saveChat, addWorkflow, chatHistory, addLiveActivity, selectSubscription } = useApp();
   const [showSignup, setShowSignup] = useState(false);
+  const [showSubscription, setShowSubscription] = useState(false);
   const [activeCategory, setActiveCategory] = useState('All');
   const [input, setInput] = useState('');
   const [mode, setMode] = useState('chat');
@@ -491,12 +538,10 @@ export const DashboardOverview = () => {
   const filteredTemplates = activeCategory === 'All' ? templateCards : templateCards.filter(c => c.category === activeCategory);
   const guestCreditsLeft = Math.max(0, GUEST_CREDITS - guestMsgCount);
 
-  const voiceResultHandler = useCallback((transcript) => { setInput(transcript); }, []);
-
   const handleSend = async (text, isVoice = false) => {
     const userMsg = text || input.trim();
     if (!userMsg || loading) return;
-    if (!isAuthenticated && guestMsgCount >= GUEST_CREDITS) { setShowSignup(true); return; }
+    if (!isAuthenticated && guestMsgCount >= GUEST_CREDITS) { setShowSubscription(true); return; }
     if (!isAuthenticated) setGuestMsgCount(prev => prev + 1);
 
     const greeting = t('copilotGreeting', language).replace('{name}', businessData?.businessName || '');
@@ -546,23 +591,19 @@ export const DashboardOverview = () => {
           isAuthenticated={isAuthenticated} onRequestSignup={() => setShowSignup(true)}
           language={language} onBack={handleBack}
           activities={sessionActivities} workflows={sessionWorkflows}
-          onVoiceResult={voiceResultHandler} guestCreditsLeft={guestCreditsLeft} />
+          guestCreditsLeft={guestCreditsLeft} />
       </div>
     );
   }
 
+  const creditsExceeded = !isAuthenticated && guestMsgCount >= GUEST_CREDITS;
+
   return (
     <div className="max-w-4xl mx-auto pt-4 pb-8">
       <SignupPrompt open={showSignup} onClose={() => setShowSignup(false)} language={language} onSignup={(data) => signup(data)} />
+      <SubscriptionPrompt open={showSubscription} onClose={() => setShowSubscription(false)} language={language} selectSubscription={selectSubscription} />
 
-      {!isAuthenticated && (
-        <motion.div {...fade(0)} className="mb-4 flex items-center gap-3 px-4 py-2.5 bg-navy-700 rounded-xl">
-          <Sparkles className="w-4 h-4 text-teal-400" />
-          <p className="text-[11px] text-navy-100 flex-1">{t('doGuestBanner', language).replace('{n}', guestCreditsLeft)}</p>
-          <button onClick={() => setShowSignup(true)} className="px-3 py-1.5 bg-teal-600 text-white text-[10px] font-semibold rounded-lg hover:bg-teal-700">{t('signUpFree', language)}</button>
-        </motion.div>
-      )}
-
+      <div className={creditsExceeded ? 'grayscale pointer-events-none' : ''}>
       <motion.div {...fade(0)} className="text-center mb-8">
         <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-teal-50 border border-teal-200 rounded-full mb-5">
           <Sparkles className="w-3.5 h-3.5 text-teal-600" /><span className="text-[11px] font-semibold text-teal-700">{t('doHeroBadge', language)}</span>
@@ -637,6 +678,7 @@ export const DashboardOverview = () => {
           </div>
         </motion.div>
       )}
+      </div>
     </div>
   );
 };

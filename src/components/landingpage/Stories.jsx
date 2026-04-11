@@ -3,7 +3,7 @@ import { t } from '../../utils/i18n';
 
 export const Stories = ({ language, stories, cardFade }) => {
   return (
-    <section id="stories" className="py-20">
+    <section id="stories" className="py-48">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <span className="text-xs font-bold text-teal-600 uppercase tracking-widest">{t('lpBentoBadge', language)}</span>

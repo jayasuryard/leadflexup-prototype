@@ -13,7 +13,7 @@ export const DashboardLayout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { language, changeLanguage, businessData, logout, currentUser, analyticsData, isAuthenticated, signup,
-    workflows } = useApp();
+    workflows, subscription } = useApp();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
@@ -38,29 +38,34 @@ export const DashboardLayout = () => {
   const collapsedW = 'w-[60px]';
   const expandedW = 'w-[220px]';
   const sideW = sidebarExpanded ? expandedW : collapsedW;
-  const mlVal = sidebarExpanded ? 'lg:ml-[220px]' : 'lg:ml-[60px]';
+  // Hide sidebar if no subscription
+  const showSidebar = !!subscription;
+  const mlVal = showSidebar ? (sidebarExpanded ? 'lg:ml-[220px]' : 'lg:ml-[60px]') : 'lg:ml-0';
 
   return (
     <div className="min-h-screen bg-navy-50">
-      {/* Mobile hamburger */}
-      <div className="lg:hidden fixed top-3 left-3 z-50">
-        <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 bg-white rounded-lg shadow-md border border-navy-100">
-          {sidebarOpen ? <X className="w-5 h-5 text-navy-700" /> : <Menu className="w-5 h-5 text-navy-700" />}
-        </button>
-      </div>
+      {/* Mobile hamburger - only show if subscription exists */}
+      {showSidebar && (
+        <div className="lg:hidden fixed top-3 left-3 z-50">
+          <button onClick={() => setSidebarOpen(!sidebarOpen)} className="p-2 bg-white rounded-lg shadow-md border border-navy-100">
+            {sidebarOpen ? <X className="w-5 h-5 text-navy-700" /> : <Menu className="w-5 h-5 text-navy-700" />}
+          </button>
+        </div>
+      )}
 
-      {/* ─── Main Sidebar ─── */}
-      <aside
-        onMouseEnter={() => setSidebarExpanded(true)}
-        onMouseLeave={() => setSidebarExpanded(false)}
-        className={`
-          fixed top-0 left-0 h-full bg-white border-r border-navy-100 z-40
-          transition-all duration-200 overflow-hidden
-          ${sidebarOpen ? 'w-[220px] translate-x-0' : '-translate-x-full'}
-          lg:translate-x-0 lg:${sideW}
-        `}
-        style={{ width: sidebarOpen ? 220 : undefined }}
-      >
+      {/* ─── Main Sidebar - only render if subscription exists ─── */}
+      {showSidebar && (
+        <aside
+          onMouseEnter={() => setSidebarExpanded(true)}
+          onMouseLeave={() => setSidebarExpanded(false)}
+          className={`
+            fixed top-0 left-0 h-full bg-white border-r border-navy-100 z-40
+            transition-all duration-200 overflow-hidden
+            ${sidebarOpen ? 'w-[220px] translate-x-0' : '-translate-x-full'}
+            lg:translate-x-0 lg:${sideW}
+          `}
+          style={{ width: sidebarOpen ? 220 : undefined }}
+        >
         <div className="flex flex-col h-full" style={{ width: sidebarExpanded || sidebarOpen ? 220 : 60 }}>
           {/* Logo */}
           <div className={`flex items-center gap-2.5 py-5 ${sidebarExpanded || sidebarOpen ? 'px-5' : 'px-0 justify-center'}`}>
@@ -100,24 +105,6 @@ export const DashboardLayout = () => {
                   {workflows.filter(w => w.status === 'running').length}
                 </span>
               </NavLink>
-            )}
-
-            {/* Signup button for guests */}
-            {!isAuthenticated && (sidebarExpanded || sidebarOpen) && (
-              <button onClick={() => {
-                const email = prompt('Enter email to sign up:');
-                if (email) signup({ email, password: 'demo' });
-              }}
-                className="mx-1 mt-2 flex items-center gap-2 px-3 py-2.5 bg-teal-600 text-white rounded-lg text-[12px] font-semibold hover:bg-teal-700 transition-colors">
-                <UserPlus className="w-[18px] h-[18px] flex-shrink-0" />
-                <span className="whitespace-nowrap">{t('signUpFree', language)}</span>
-              </button>
-            )}
-            {!isAuthenticated && !(sidebarExpanded || sidebarOpen) && (
-              <button onClick={() => setSidebarExpanded(true)}
-                className="mx-auto mt-2 w-9 h-9 flex items-center justify-center bg-teal-600 text-white rounded-lg hover:bg-teal-700">
-                <UserPlus className="w-4 h-4" />
-              </button>
             )}
           </nav>
 
@@ -175,12 +162,13 @@ export const DashboardLayout = () => {
           </div>
         </div>
       </aside>
+      )}
 
       {/* ─── Top bar ─── */}
       <div className={`transition-all duration-200 ${mlVal}`}>
         <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-navy-100">
           <div className="flex items-center justify-between h-14 px-6">
-            <div className="flex items-center gap-3 pl-10 lg:pl-0">
+            <div className={`flex items-center gap-3 ${showSidebar ? 'pl-10 lg:pl-0' : ''}`}>
             </div>
             <div className="flex items-center gap-3">
               <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-navy-50 rounded-lg border border-navy-100 w-56">
@@ -206,8 +194,8 @@ export const DashboardLayout = () => {
         <main className="p-6"><Outlet /></main>
       </div>
 
-      {/* Mobile overlay */}
-      {sidebarOpen && <div className="fixed inset-0 bg-navy-950/40 z-30 lg:hidden" onClick={() => setSidebarOpen(false)} />}
+      {/* Mobile overlay - only show if subscription exists */}
+      {showSidebar && sidebarOpen && <div className="fixed inset-0 bg-navy-950/40 z-30 lg:hidden" onClick={() => setSidebarOpen(false)} />}
     </div>
   );
 };

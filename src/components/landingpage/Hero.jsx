@@ -14,10 +14,12 @@ export const Hero = ({
     showLocationPicker,
     setShowLocationPicker,
     onVoiceClick,
-    onLanguageClick
+    onLanguageClick,
+    highlighted = false,
+    onFormFocus
 }) => {
     return (
-        <section className="relative min-h-[120vh] flex items-center justify-center px-4 text-center">
+        <section className={`relative min-h-[120vh] flex items-center justify-center px-4 text-center transition-all duration-500 ${highlighted ? 'grayscale' : ''}`}>
             {/* Hero Background Image */}
             <div className="absolute inset-0 -top-32 -bottom-32 pointer-events-none overflow-hidden blur-[3px]">
                 <div
@@ -57,8 +59,12 @@ export const Hero = ({
                     className="max-w-4xl mx-auto"
                 >
                     {!isAnalyzing ? (
-                        <form onSubmit={onSubmit} className="relative">
-                            <div className="bg-white/70 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/50 p-2">
+                        <form onSubmit={onSubmit} className="relative" onClick={onFormFocus}>
+                            <div className={`bg-white/70 backdrop-blur-xl rounded-3xl shadow-2xl p-2 transition-all duration-500 ${
+                                highlighted 
+                                    ? 'border-4 border-teal-500 ring-8 ring-teal-500/30 bg-white scale-105 shadow-[0_0_60px_rgba(20,184,166,0.5)]' 
+                                    : 'border border-white/50'
+                            }`}>
                                 <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
                                     {/* Column 1: Business Name */}
                                     <div className="relative">
@@ -162,9 +168,46 @@ export const Hero = ({
                         </form>
                     ) : (
                         <div className="bg-white/70 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/50 p-12 text-center">
-                            <div className="w-16 h-16 border-4 border-navy-200 border-t-navy-700 rounded-full mx-auto mb-4 animate-spin" />
+                            {/* Custom Loader Animation */}
+                            <div className="analyzing-loader mx-auto mb-6"></div>
                             <p className="text-lg font-semibold text-navy-800">{t('analyzing', language)}</p>
                             <p className="text-sm text-navy-500 mt-2">{t('lpAnalyzingDesc', language)}</p>
+                            
+                            {/* Loader CSS */}
+                            <style>{`
+                                .analyzing-loader {
+                                    height: 15px;
+                                    aspect-ratio: 4;
+                                    --_g: no-repeat radial-gradient(farthest-side, #1e293b 90%, #0000);
+                                    background: 
+                                        var(--_g) left, 
+                                        var(--_g) right;
+                                    background-size: 25% 100%;
+                                    display: grid;
+                                }
+                                .analyzing-loader:before,
+                                .analyzing-loader:after {
+                                    content: "";
+                                    height: inherit;
+                                    aspect-ratio: 1;
+                                    grid-area: 1/1;
+                                    margin: auto;
+                                    border-radius: 50%;
+                                    transform-origin: -100% 50%;
+                                    background: #1e293b;
+                                    animation: loader-spin 1s infinite linear;
+                                }
+                                .analyzing-loader:after {
+                                    transform-origin: 200% 50%;
+                                    --s: -1;
+                                    animation-delay: -0.5s;
+                                }
+
+                                @keyframes loader-spin {
+                                    58%,
+                                    100% { transform: rotate(calc(var(--s, 1) * 1turn)); }
+                                }
+                            `}</style>
                         </div>
                     )}
                 </motion.div>

@@ -16,7 +16,8 @@ export const subscriptionPlans = [
   {
     id: 'starter',
     name: { en: 'Starter Growth', hi: 'स्टार्टर ग्रोथ', ta: 'தொடக்க வளர்ச்சி', kn: 'ಸ್ಟಾರ್ಟರ್ ಬೆಳವಣಿಗೆ', te: 'స్టార్టర్ గ్రోత్', ml: 'സ്റ്റാർട്ടർ ഗ്രോത്ത്' },
-    price: 149999,
+    price: 499900,
+    yearlyPrice: 459900,
     currency: '₹',
     period: { en: 'month', hi: 'महीना', ta: 'மாதம்', kn: 'ತಿಂಗಳು', te: 'నెల', ml: 'മാസം' },
     features: [
@@ -31,7 +32,8 @@ export const subscriptionPlans = [
   {
     id: 'professional',
     name: { en: 'Professional Scale', hi: 'प्रोफेशनल स्केल', ta: 'தொழில்முறை அளவு', kn: 'ವೃತ್ತಿಪರ ಸ್ಕೇಲ್', te: 'ప్రొఫెషనల్ స్కేల్', ml: 'പ്രൊഫഷണൽ സ്കെയിൽ' },
-    price: 349999,
+    price: 899900,
+    yearlyPrice: 799900,
     currency: '₹',
     period: { en: 'month', hi: 'महीना', ta: 'மாதம்', kn: 'ತಿಂಗಳು', te: 'నెల', ml: 'മാസം' },
     features: [
@@ -47,7 +49,8 @@ export const subscriptionPlans = [
   {
     id: 'enterprise',
     name: { en: 'Enterprise Domination', hi: 'एंटरप्राइज डोमिनेशन', ta: 'நிறுவன ஆதிக்கம்', kn: 'ಎಂಟರ್‌ಪ್ರೈಸ್ ಡಾಮಿನೇಶನ್', te: 'ఎంటర్‌ప్రైజ్ డామినేషన్', ml: 'എന്റർപ്രൈസ് ഡോമിനേഷൻ' },
-    price: 499999,
+    price: 1499900,
+    yearlyPrice: 1259900,
     currency: '₹',
     period: { en: 'month', hi: 'महीना', ta: 'மாதம்', kn: 'ತಿಂಗಳು', te: 'నెల', ml: 'മാസം' },
     features: [
@@ -69,21 +72,96 @@ export const competitorDatabase = {
     { name: 'Spice Garden', score: 82, website: true, socialMedia: 3, reviews: 320, monthlyVisits: 8500 },
     { name: 'Royal Biryani House', score: 78, website: false, socialMedia: 2, reviews: 180, monthlyVisits: 5200 },
     { name: 'Curry Express', score: 75, website: true, socialMedia: 3, reviews: 250, monthlyVisits: 6800 },
-    { name: 'Mumbai Masala', score: 71, website: false, socialMedia: 1, reviews: 95, monthlyVisits: 3100 }
+    { name: 'Mumbai Masala', score: 71, website: false, socialMedia: 1, reviews: 95, monthlyVisits: 3100 },
+    { name: 'Flavors of India', score: 68, website: true, socialMedia: 2, reviews: 210, monthlyVisits: 5800 },
+    { name: 'Saffron Kitchen', score: 65, website: true, socialMedia: 2, reviews: 180, monthlyVisits: 4900 },
+    { name: 'Golden Spoon', score: 62, website: false, socialMedia: 1, reviews: 140, monthlyVisits: 3800 },
+    { name: 'Spice Route', score: 58, website: true, socialMedia: 2, reviews: 165, monthlyVisits: 4200 },
+    { name: 'Tasty Bites', score: 55, website: false, socialMedia: 1, reviews: 110, monthlyVisits: 2900 }
   ],
   retail: [
     { name: 'Fashion Hub', score: 85, website: true, socialMedia: 4, reviews: 380, monthlyVisits: 15000 },
     { name: 'Style Point', score: 79, website: true, socialMedia: 3, reviews: 290, monthlyVisits: 9200 },
     { name: 'Trendy Boutique', score: 73, website: false, socialMedia: 2, reviews: 145, monthlyVisits: 4500 },
     { name: 'Metro Store', score: 68, website: true, socialMedia: 2, reviews: 180, monthlyVisits: 5800 },
-    { name: 'Local Market', score: 62, website: false, socialMedia: 1, reviews: 67, monthlyVisits: 2100 }
+    { name: 'Local Market', score: 62, website: false, socialMedia: 1, reviews: 67, monthlyVisits: 2100 },
+    { name: 'Fashion Fiesta', score: 59, website: true, socialMedia: 2, reviews: 155, monthlyVisits: 4100 },
+    { name: 'Urban Style', score: 56, website: true, socialMedia: 2, reviews: 130, monthlyVisits: 3600 },
+    { name: 'Chic Boutique', score: 52, website: false, socialMedia: 1, reviews: 95, monthlyVisits: 2800 },
+    { name: 'Style Studio', score: 48, website: true, socialMedia: 1, reviews: 110, monthlyVisits: 3200 },
+    { name: 'Fashion Corner', score: 45, website: false, socialMedia: 1, reviews: 75, monthlyVisits: 2400 }
   ],
   salon: [
     { name: 'Glamour Studio', score: 88, website: true, socialMedia: 4, reviews: 520, monthlyVisits: 18000 },
     { name: 'Beauty Lounge', score: 81, website: true, socialMedia: 3, reviews: 340, monthlyVisits: 11000 },
     { name: 'Shine & Glow', score: 76, website: false, socialMedia: 2, reviews: 210, monthlyVisits: 6500 },
     { name: 'Quick Cuts', score: 70, website: false, socialMedia: 1, reviews: 125, monthlyVisits: 3800 },
-    { name: 'Style Bar', score: 66, website: true, socialMedia: 2, reviews: 155, monthlyVisits: 4200 }
+    { name: 'Style Bar', score: 66, website: true, socialMedia: 2, reviews: 155, monthlyVisits: 4200 },
+    { name: 'Elegance Salon', score: 63, website: true, socialMedia: 2, reviews: 190, monthlyVisits: 5200 },
+    { name: 'Hair & Beauty Hub', score: 59, website: true, socialMedia: 2, reviews: 145, monthlyVisits: 4600 },
+    { name: 'Makeover Studio', score: 56, website: false, socialMedia: 1, reviews: 120, monthlyVisits: 3500 },
+    { name: 'Salon Express', score: 52, website: true, socialMedia: 1, reviews: 135, monthlyVisits: 3900 },
+    { name: 'Beauty Paradise', score: 48, website: false, socialMedia: 1, reviews: 90, monthlyVisits: 2700 }
+  ],
+  gym: [
+    { name: 'PowerHouse Gym', score: 86, website: true, socialMedia: 4, reviews: 480, monthlyVisits: 16000 },
+    { name: 'FitZone', score: 80, website: true, socialMedia: 3, reviews: 350, monthlyVisits: 12000 },
+    { name: 'Elite Fitness', score: 75, website: true, socialMedia: 3, reviews: 290, monthlyVisits: 9500 },
+    { name: 'Body Sculpt Gym', score: 71, website: false, socialMedia: 2, reviews: 220, monthlyVisits: 7200 },
+    { name: 'Iron Paradise', score: 67, website: true, socialMedia: 2, reviews: 195, monthlyVisits: 6100 },
+    { name: 'Strength Zone', score: 63, website: true, socialMedia: 2, reviews: 165, monthlyVisits: 5400 },
+    { name: 'Peak Performance', score: 59, website: false, socialMedia: 1, reviews: 140, monthlyVisits: 4700 },
+    { name: 'Active Gym', score: 55, website: true, socialMedia: 2, reviews: 125, monthlyVisits: 4100 },
+    { name: 'Fitness Factory', score: 51, website: false, socialMedia: 1, reviews: 100, monthlyVisits: 3300 },
+    { name: 'Local Gym', score: 47, website: false, socialMedia: 1, reviews: 75, monthlyVisits: 2600 }
+  ],
+  medical: [
+    { name: 'City Health Clinic', score: 89, website: true, socialMedia: 3, reviews: 560, monthlyVisits: 20000 },
+    { name: 'MediCare Center', score: 83, website: true, socialMedia: 3, reviews: 410, monthlyVisits: 15000 },
+    { name: 'Wellness Clinic', score: 78, website: true, socialMedia: 2, reviews: 320, monthlyVisits: 11000 },
+    { name: 'Prime Healthcare', score: 73, website: true, socialMedia: 2, reviews: 270, monthlyVisits: 8800 },
+    { name: 'Family Clinic', score: 68, website: false, socialMedia: 2, reviews: 210, monthlyVisits: 7100 },
+    { name: 'HealthFirst Clinic', score: 64, website: true, socialMedia: 2, reviews: 185, monthlyVisits: 6200 },
+    { name: 'Apollo Diagnostics', score: 60, website: true, socialMedia: 1, reviews: 155, monthlyVisits: 5400 },
+    { name: 'Care Plus Clinic', score: 56, website: false, socialMedia: 1, reviews: 130, monthlyVisits: 4600 },
+    { name: 'Quick Care', score: 52, website: true, socialMedia: 1, reviews: 110, monthlyVisits: 3900 },
+    { name: 'Local Medical', score: 48, website: false, socialMedia: 1, reviews: 85, monthlyVisits: 3100 }
+  ],
+  education: [
+    { name: 'Bright Future Academy', score: 84, website: true, socialMedia: 4, reviews: 430, monthlyVisits: 14000 },
+    { name: 'Knowledge Hub', score: 78, website: true, socialMedia: 3, reviews: 320, monthlyVisits: 10500 },
+    { name: 'Genius Classes', score: 73, website: true, socialMedia: 3, reviews: 260, monthlyVisits: 8700 },
+    { name: 'Success Academy', score: 69, website: false, socialMedia: 2, reviews: 210, monthlyVisits: 7200 },
+    { name: 'Study Point', score: 65, website: true, socialMedia: 2, reviews: 185, monthlyVisits: 6400 },
+    { name: 'Excel Institute', score: 61, website: true, socialMedia: 2, reviews: 155, monthlyVisits: 5600 },
+    { name: 'Learning Center', score: 57, website: false, socialMedia: 1, reviews: 130, monthlyVisits: 4800 },
+    { name: 'Scholars Academy', score: 53, website: true, socialMedia: 1, reviews: 110, monthlyVisits: 4100 },
+    { name: 'Tutorial Hub', score: 49, website: false, socialMedia: 1, reviews: 90, monthlyVisits: 3400 },
+    { name: 'Basic Classes', score: 45, website: false, socialMedia: 1, reviews: 70, monthlyVisits: 2700 }
+  ],
+  professional: [
+    { name: 'Elite Consultants', score: 87, website: true, socialMedia: 4, reviews: 490, monthlyVisits: 17000 },
+    { name: 'Business Pro Services', score: 81, website: true, socialMedia: 3, reviews: 370, monthlyVisits: 13000 },
+    { name: 'Prime Solutions', score: 76, website: true, socialMedia: 3, reviews: 300, monthlyVisits: 10000 },
+    { name: 'Corporate Experts', score: 72, website: true, socialMedia: 2, reviews: 240, monthlyVisits: 8200 },
+    { name: 'Strategy Partners', score: 68, website: false, socialMedia: 2, reviews: 200, monthlyVisits: 6900 },
+    { name: 'Skill Builders', score: 64, website: true, socialMedia: 2, reviews: 175, monthlyVisits: 5900 },
+    { name: 'Growth Advisors', score: 60, website: true, socialMedia: 2, reviews: 145, monthlyVisits: 5100 },
+    { name: 'Business Hub', score: 56, website: false, socialMedia: 1, reviews: 120, monthlyVisits: 4400 },
+    { name: 'Pro Services', score: 52, website: true, socialMedia: 1, reviews: 100, monthlyVisits: 3700 },
+    { name: 'Local Consultancy', score: 48, website: false, socialMedia: 1, reviews: 75, monthlyVisits: 2900 }
+  ],
+  automotive: [
+    { name: 'Premium Auto Care', score: 85, website: true, socialMedia: 4, reviews: 460, monthlyVisits: 15500 },
+    { name: 'Speed Service Center', score: 79, website: true, socialMedia: 3, reviews: 340, monthlyVisits: 11500 },
+    { name: 'Auto Works', score: 74, website: true, socialMedia: 3, reviews: 280, monthlyVisits: 9200 },
+    { name: 'Car Care Pro', score: 70, website: false, socialMedia: 2, reviews: 220, monthlyVisits: 7500 },
+    { name: 'Quick Fix Garage', score: 66, website: true, socialMedia: 2, reviews: 190, monthlyVisits: 6300 },
+    { name: 'Master Mechanics', score: 62, website: true, socialMedia: 2, reviews: 160, monthlyVisits: 5500 },
+    { name: 'Auto Solutions', score: 58, website: false, socialMedia: 1, reviews: 135, monthlyVisits: 4700 },
+    { name: 'Repair Hub', score: 54, website: true, socialMedia: 1, reviews: 115, monthlyVisits: 4000 },
+    { name: 'Service Station', score: 50, website: false, socialMedia: 1, reviews: 95, monthlyVisits: 3300 },
+    { name: 'Local Garage', score: 46, website: false, socialMedia: 1, reviews: 70, monthlyVisits: 2600 }
   ],
   hotel: [
     { name: 'The Grand Palace Hotel', score: 95, website: true, socialMedia: 4, reviews: 2840, monthlyVisits: 85000, latOffset: 0.008, lngOffset: -0.012 },
@@ -158,11 +236,11 @@ export const generateAnalyticsData = (userScore) => {
       },
       geoInsights: {
         topCities: [
-          { city: 'Local Area', percentage: 0, leads: 0 },
-          { city: 'Nearby District', percentage: 0, leads: 0 },
-          { city: 'City Center', percentage: 0, leads: 0 },
-          { city: 'Metro Region', percentage: 0, leads: 0 },
-          { city: 'State', percentage: 0, leads: 0 }
+          { city: 'Within 1 km', percentage: 0, leads: 0 },
+          { city: '1-3 km', percentage: 0, leads: 0 },
+          { city: '3-5 km', percentage: 0, leads: 0 },
+          { city: '5-10 km', percentage: 0, leads: 0 },
+          { city: '10+ km', percentage: 0, leads: 0 }
         ],
         radius: { '5km': 0, '10km': 0, '15km': 0, '20km+': 0 }
       }

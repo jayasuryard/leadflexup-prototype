@@ -84,7 +84,8 @@ export const AppProvider = ({ children }) => {
 
   const onboardBusiness = (data) => {
     setBusinessData(data);
-    const initialScore = data.category === 'hotel' ? 3 : 45;
+    // All businesses start with zero online presence to show the gap
+    const initialScore = 3;
     const analytics = generateAnalyticsData(initialScore);
     setAnalyticsData(analytics);
     const recs = generateRecommendations(data, analytics);

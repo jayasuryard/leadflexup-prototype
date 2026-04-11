@@ -22,7 +22,8 @@
     "react-leaflet": "^5.0.0",
     "react-router-dom": "^7.13.2",
     "recharts": "^3.8.1",
-    "tailwindcss": "^4.2.2"
+    "tailwindcss": "^4.2.2",
+    "uipro-cli": "^2.2.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
