@@ -19,6 +19,7 @@ export const AppProvider = ({ children }) => {
   const [growthProgress, setGrowthProgress] = useState({});
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isOnboarded, setIsOnboarded] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
 
   // Chat history (persisted for signed-up users)
   const [chatHistory, setChatHistory] = useState([]);
@@ -47,6 +48,7 @@ export const AppProvider = ({ children }) => {
         setIsAuthenticated(p.isAuthenticated || false);
         setIsOnboarded(p.isOnboarded || false);
         setLanguage(p.language || 'en');
+        setDarkMode(p.darkMode || false);
         setChatHistory(p.chatHistory || []);
         setWorkflows(p.workflows || []);
         setOnboardingTasks(p.onboardingTasks || []);
@@ -60,11 +62,14 @@ export const AppProvider = ({ children }) => {
     if (currentUser || businessData || subscription) {
       localStorage.setItem('leadflexup_data', JSON.stringify({
         currentUser, businessData, analyticsData, recommendations,
-        subscription, growthProgress, isAuthenticated, isOnboarded, language,
+        subscription, growthProgress, isAuthenticated, isOnboarded, language, darkMode,
         chatHistory, workflows, onboardingTasks
       }));
     }
-  }, [currentUser, businessData, analyticsData, recommendations, subscription, growthProgress, isAuthenticated, isOnboarded, language, chatHistory, workflows, onboardingTasks]);
+  }, [currentUser, businessData, analyticsData, recommendations, subscription, growthProgress, isAuthenticated, isOnboarded, language, darkMode, chatHistory, workflows, onboardingTasks]);
+
+  // Dark mode state kept for UI toggle but not applied
+  const toggleDarkMode = (val) => setDarkMode(val);
 
   const signup = (userData) => {
     setCurrentUser(userData);
@@ -160,6 +165,7 @@ export const AppProvider = ({ children }) => {
     workflows, addWorkflow, updateWorkflowStatus,
     liveActivities, addLiveActivity,
     onboardingTasks, updateOnboardingTasks,
+    darkMode, toggleDarkMode,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

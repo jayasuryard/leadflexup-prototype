@@ -8,11 +8,11 @@ import { DashboardOverview } from './pages/DashboardOverview';
 import { NewspaperHome } from './pages/NewspaperHome';
 import { AnalyticsDashboard } from './pages/AnalyticsDashboard';
 import { SubscriptionPlans } from './pages/SubscriptionPlans';
-import { GrowthJourney } from './pages/GrowthJourney';
 import { WebsiteBuilder } from './pages/WebsiteBuilder';
 import { ContentStudio } from './pages/ContentStudio';
 import { AutomationHub } from './pages/AutomationHub';
 import { LeadManager } from './pages/LeadManager';
+import { SettingsPage } from './pages/SettingsPage';
 import { CheckoutPage } from './pages/CheckoutPage';
 import { OnboardingPage } from './pages/OnboardingPage';
 
@@ -50,8 +50,7 @@ function AppRoutes() {
         <Route path="automation" element={<AuthRoute><AutomationHub /></AuthRoute>} />
         <Route path="leads" element={<AuthRoute><LeadManager /></AuthRoute>} />
         <Route path="subscription" element={<SubscriptionPlans />} />
-        <Route path="journey" element={<AuthRoute><GrowthJourney /></AuthRoute>} />
-        <Route path="settings" element={<AuthRoute><div className="text-center py-20 text-navy-400">Settings coming soon...</div></AuthRoute>} />
+        <Route path="settings" element={<AuthRoute><SettingsPage /></AuthRoute>} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

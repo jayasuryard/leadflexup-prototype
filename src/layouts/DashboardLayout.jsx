@@ -30,7 +30,6 @@ export const DashboardLayout = () => {
       { key: 'automation', icon: Zap, path: '/dashboard/automation', label: t('automationHub', language) },
       { key: 'leads', icon: Users, path: '/dashboard/leads', label: t('leadManager', language) },
       { key: 'subscription', icon: CreditCard, path: '/dashboard/subscription', label: t('subscription', language) },
-      { key: 'growthJourney', icon: Rocket, path: '/dashboard/journey', label: t('growthJourney', language) },
       { key: 'settings', icon: Settings, path: '/dashboard/settings', label: t('settings', language) },
     ] : [])
   ];

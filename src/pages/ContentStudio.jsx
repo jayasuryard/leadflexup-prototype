@@ -1,579 +1,361 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Image, Video, Layout, Type, Download, Eye, Filter, Search,
-  Grid3X3, Rows3, Heart, Share2, Sparkles, Palette, Plus, X,
-  Bold, Italic, AlignLeft, AlignCenter, AlignRight, Undo2, Redo2,
-  Layers, Move, ZoomIn, ZoomOut, Copy, Link, Check,
-  ChevronDown, Trash2
+  Image, Layout, Download, Eye, Search, Sparkles, Plus, X, Check,
+  ChevronDown, Share2, Clock, CheckCircle2, XCircle, RefreshCw,
+  MessageCircle, Send, Calendar, Filter, MoreHorizontal, Bell,
+  ThumbsUp, ThumbsDown
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { t } from '../utils/i18n';
-import { contentTemplates } from '../data/mockDatabase';
 
 const fade = (i = 0) => ({ initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, transition: { delay: i * 0.06, duration: 0.35 } });
 
-const typeIcons = { poster: Image, story: Image, banner: Layout, video: Video, carousel: Grid3X3 };
-const typeColors = { poster: 'bg-blue-500', story: 'bg-purple-500', banner: 'bg-orange-500', video: 'bg-red-500', carousel: 'bg-teal-500' };
+/* ─── Mock AI-generated content queue ─── */
+const generateMockContent = () => [
+  {
+    id: 1, type: 'post', platform: 'instagram', status: 'pending_approval',
+    title: 'Weekend Special Offer 🎉',
+    caption: 'This weekend only! Get 20% off on all services. Book now and save big! #WeekendDeal #LocalBusiness',
+    image: null, scheduledAt: 'Today, 6:00 PM',
+    whatsappNotified: true, generatedAt: '2 hours ago',
+  },
+  {
+    id: 2, type: 'post', platform: 'facebook', status: 'approved',
+    title: 'Customer Testimonial',
+    caption: '"Best service in town!" — Priya S. ⭐⭐⭐⭐⭐ Thank you for the love! We strive to give our best every day.',
+    image: null, scheduledAt: 'Tomorrow, 10:00 AM',
+    whatsappNotified: true, generatedAt: '5 hours ago',
+  },
+  {
+    id: 3, type: 'story', platform: 'instagram', status: 'posted',
+    title: 'Behind the Scenes',
+    caption: 'A sneak peek into our workspace! See how the magic happens 🔧✨',
+    image: null, scheduledAt: 'Yesterday, 4:00 PM',
+    whatsappNotified: true, generatedAt: '1 day ago', postedAt: 'Yesterday, 4:02 PM',
+  },
+  {
+    id: 4, type: 'post', platform: 'linkedin', status: 'rejected',
+    title: 'Business Growth Tips',
+    caption: 'Top 5 ways to grow your local business in 2026...',
+    image: null, scheduledAt: 'Tomorrow, 2:00 PM',
+    whatsappNotified: true, generatedAt: '3 hours ago',
+    rejectionReason: 'Tone too formal, make it casual',
+  },
+  {
+    id: 5, type: 'post', platform: 'x', status: 'regenerating',
+    title: 'Industry Trend Alert',
+    caption: 'The future of local businesses is digital. Are you ready? 🚀',
+    image: null, scheduledAt: 'Tomorrow, 11:00 AM',
+    whatsappNotified: true, generatedAt: '1 hour ago',
+  },
+  {
+    id: 6, type: 'reel', platform: 'instagram', status: 'pending_approval',
+    title: 'Quick Service Demo',
+    caption: 'Watch how we deliver perfection in 60 seconds! 🎬',
+    image: null, scheduledAt: 'Today, 8:00 PM',
+    whatsappNotified: false, generatedAt: '30 min ago',
+  },
+  {
+    id: 7, type: 'post', platform: 'youtube', status: 'approved',
+    title: 'Monthly Recap Video',
+    caption: 'Our best moments from this month! Thanks for being part of our journey.',
+    image: null, scheduledAt: 'Friday, 12:00 PM',
+    whatsappNotified: true, generatedAt: '6 hours ago',
+  },
+  {
+    id: 8, type: 'post', platform: 'facebook', status: 'posted',
+    title: 'New Arrival Announcement',
+    caption: 'Something exciting is here! Check out our latest addition. 🆕',
+    image: null, scheduledAt: '2 days ago',
+    whatsappNotified: true, generatedAt: '2 days ago', postedAt: '2 days ago, 5:01 PM',
+  },
+];
 
-/* ─── Share Dialog ─── */
-const ShareDialog = ({ template, onClose }) => {
-  const { language } = useApp();
-  const [copied, setCopied] = useState(false);
-  const shareUrl = `https://leadflexup.app/content/${template.id}`;
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(shareUrl).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
-  };
-
-  const channels = [
-    { name: t('csWhatsApp', language), icon: '💬', color: 'bg-green-500', url: `https://wa.me/?text=${encodeURIComponent(`Check out this design: ${shareUrl}`)}` },
-    { name: t('csFacebook', language), icon: '📘', color: 'bg-blue-600', url: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}` },
-    { name: t('csTwitter', language), icon: '🐦', color: 'bg-sky-500', url: `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(template.name)}` },
-    { name: t('csLinkedIn', language), icon: '💼', color: 'bg-blue-700', url: `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}` },
-    { name: t('csEmail', language), icon: '📧', color: 'bg-navy-600', url: `mailto:?subject=${encodeURIComponent(template.name)}&body=${encodeURIComponent(shareUrl)}` },
-    { name: t('csInstagram', language), icon: '📸', color: 'bg-pink-500', url: '#' },
-  ];
-
-  return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[99999] flex items-center justify-center bg-navy-950/60 backdrop-blur-sm p-4" onClick={onClose}>
-      <motion.div initial={{ scale: 0.95, y: 20 }} animate={{ scale: 1, y: 0 }}
-        className="bg-white rounded-2xl w-full max-w-sm p-5" onClick={e => e.stopPropagation()}>
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-bold text-navy-800">{t('csShareDesign', language)}</h3>
-          <button onClick={onClose} className="p-1 rounded-lg hover:bg-navy-50"><X className="w-4 h-4 text-navy-400" /></button>
-        </div>
-        <div className="flex items-center gap-2 p-2 bg-navy-50 rounded-lg mb-4">
-          <Link className="w-3.5 h-3.5 text-navy-400 flex-shrink-0" />
-          <span className="text-[10px] text-navy-500 flex-1 truncate">{shareUrl}</span>
-          <button onClick={handleCopy} className={`px-2.5 py-1 rounded-md text-[10px] font-semibold flex items-center gap-1 transition-colors ${copied ? 'bg-teal-500 text-white' : 'bg-navy-700 text-white hover:bg-navy-800'}`}>
-            {copied ? <><Check className="w-3 h-3" /> {t('copied', language)}</> : <><Copy className="w-3 h-3" /> {t('copy', language)}</>}
-          </button>
-        </div>
-        <p className="text-[10px] text-navy-400 font-semibold mb-2">{t('csShareTo', language)}</p>
-        <div className="grid grid-cols-3 gap-2">
-          {channels.map(ch => (
-            <a key={ch.name} href={ch.url} target="_blank" rel="noopener noreferrer"
-              className="flex flex-col items-center gap-1.5 p-3 rounded-xl hover:bg-navy-50 transition-colors">
-              <span className={`w-10 h-10 ${ch.color} rounded-full flex items-center justify-center text-lg`}>{ch.icon}</span>
-              <span className="text-[9px] font-medium text-navy-600">{ch.name}</span>
-            </a>
-          ))}
-        </div>
-      </motion.div>
-    </motion.div>
-  );
+const platformIcons = {
+  instagram: { icon: '📸', color: 'bg-teal-600', text: 'text-teal-700', light: 'bg-teal-50', label: 'Instagram' },
+  facebook: { icon: '📘', color: 'bg-blue-600', text: 'text-blue-700', light: 'bg-blue-50', label: 'Facebook' },
+  x: { icon: '🐦', color: 'bg-gray-800', text: 'text-gray-700', light: 'bg-gray-50', label: 'X (Twitter)' },
+  linkedin: { icon: '💼', color: 'bg-sky-700', text: 'text-sky-700', light: 'bg-sky-50', label: 'LinkedIn' },
+  youtube: { icon: '🎬', color: 'bg-red-600', text: 'text-red-700', light: 'bg-red-50', label: 'YouTube' },
 };
 
-/* ─── Canvas Editor ─── */
-const CanvasEditor = ({ template, onClose }) => {
-  const { language } = useApp();
-  const canvasRef = useRef(null);
-  const [zoom, setZoom] = useState(100);
-  const [showShare, setShowShare] = useState(false);
-  const [layers, setLayers] = useState([
-    { id: 1, type: 'image', name: t('csBackground', language), visible: true, locked: false },
-    { id: 2, type: 'text', name: t('csHeadline', language), visible: true, locked: false, content: template.name, x: 50, y: 40, fontSize: 28, fontWeight: 'bold', color: '#ffffff', align: 'center' },
-    { id: 3, type: 'text', name: t('csSubtext', language), visible: true, locked: false, content: t('csYourTagline', language), x: 50, y: 55, fontSize: 14, fontWeight: 'normal', color: '#ffffff', align: 'center' },
-    { id: 4, type: 'shape', name: t('csCtaButton', language), visible: true, locked: false, x: 50, y: 72, width: 160, height: 40, color: template.colors?.[0] || '#14b8a6', radius: 20 },
-    { id: 5, type: 'text', name: t('csCtaText', language), visible: true, locked: false, content: t('csLearnMore', language), x: 50, y: 72, fontSize: 13, fontWeight: 'bold', color: '#ffffff', align: 'center' },
-  ]);
-  const [selectedLayer, setSelectedLayer] = useState(2);
-  const [activePanel, setActivePanel] = useState('layers');
-
-  const selectedObj = layers.find(l => l.id === selectedLayer);
-
-  const updateLayer = (id, updates) => {
-    setLayers(prev => prev.map(l => l.id === id ? { ...l, ...updates } : l));
-  };
-
-  const addTextLayer = () => {
-    const newId = Math.max(...layers.map(l => l.id)) + 1;
-    setLayers(prev => [...prev, {
-      id: newId, type: 'text', name: `Text ${newId}`, visible: true, locked: false,
-      content: t('csNewText', language), x: 50, y: 50, fontSize: 18, fontWeight: 'normal', color: '#ffffff', align: 'center'
-    }]);
-    setSelectedLayer(newId);
-  };
-
-  const deleteLayer = (id) => {
-    if (id === 1) return; // can't delete background
-    setLayers(prev => prev.filter(l => l.id !== id));
-    if (selectedLayer === id) setSelectedLayer(1);
-  };
-
-  return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-      className="fixed inset-0 z-[9999] bg-navy-950 flex flex-col">
-      <AnimatePresence>{showShare && <ShareDialog template={template} onClose={() => setShowShare(false)} />}</AnimatePresence>
-
-      {/* Top Toolbar */}
-      <div className="h-12 bg-navy-900 border-b border-navy-700 flex items-center px-4 gap-3 flex-shrink-0">
-        <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-navy-700 text-navy-300 hover:text-white">
-          <X className="w-4 h-4" />
-        </button>
-        <div className="h-5 w-px bg-navy-700" />
-        <span className="text-[11px] font-bold text-white">{template.name}</span>
-        <span className="text-[9px] text-navy-400 font-mono">{template.aspect}</span>
-        <div className="flex-1" />
-        {/* Zoom */}
-        <div className="flex items-center gap-1.5 bg-navy-800 rounded-lg px-2 py-1">
-          <button onClick={() => setZoom(z => Math.max(50, z - 10))} className="text-navy-300 hover:text-white"><ZoomOut className="w-3.5 h-3.5" /></button>
-          <span className="text-[10px] text-navy-300 w-8 text-center">{zoom}%</span>
-          <button onClick={() => setZoom(z => Math.min(200, z + 10))} className="text-navy-300 hover:text-white"><ZoomIn className="w-3.5 h-3.5" /></button>
-        </div>
-        <div className="h-5 w-px bg-navy-700" />
-        <button onClick={() => setShowShare(true)} className="px-3 py-1.5 bg-navy-700 text-white text-[10px] font-semibold rounded-lg hover:bg-navy-600 flex items-center gap-1.5">
-          <Share2 className="w-3 h-3" /> {t('share', language)}
-        </button>
-        <button className="px-3 py-1.5 bg-navy-700 text-white text-[10px] font-semibold rounded-lg hover:bg-navy-600 flex items-center gap-1.5">
-          <Download className="w-3 h-3" /> {t('csExport', language)}
-        </button>
-        <button className="px-3 py-1.5 bg-teal-600 text-white text-[10px] font-semibold rounded-lg hover:bg-teal-700 flex items-center gap-1.5">
-          <Check className="w-3 h-3" /> {t('save', language)}
-        </button>
-      </div>
-
-      <div className="flex flex-1 overflow-hidden">
-        {/* Left: Layer & Properties Panel */}
-        <div className="w-56 bg-navy-900 border-r border-navy-700 flex flex-col flex-shrink-0">
-          <div className="flex">
-            {['layers', 'properties'].map(tab => (
-              <button key={tab} onClick={() => setActivePanel(tab)}
-                className={`flex-1 py-2.5 text-[10px] font-semibold capitalize border-b-2 transition-colors ${
-                  activePanel === tab ? 'text-teal-400 border-teal-400 bg-navy-800/50' : 'text-navy-400 border-transparent hover:text-navy-300'
-                }`}>{tab === 'layers' ? t('csLayers', language) : t('csProperties', language)}</button>
-            ))}
-          </div>
-
-          {activePanel === 'layers' ? (
-            <div className="flex-1 overflow-y-auto p-2 space-y-1">
-              {[...layers].reverse().map(layer => (
-                <div key={layer.id}
-                  onClick={() => setSelectedLayer(layer.id)}
-                  className={`flex items-center gap-2 px-2.5 py-2 rounded-lg cursor-pointer transition-colors ${
-                    selectedLayer === layer.id ? 'bg-teal-500/10 border border-teal-500/30' : 'hover:bg-navy-800'
-                  }`}>
-                  <span className="text-[10px]">
-                    {layer.type === 'image' ? '🖼' : layer.type === 'text' ? '📝' : '◼️'}
-                  </span>
-                  <span className={`text-[10px] flex-1 ${selectedLayer === layer.id ? 'text-teal-400 font-semibold' : 'text-navy-300'}`}>{layer.name}</span>
-                  <button onClick={(e) => { e.stopPropagation(); updateLayer(layer.id, { visible: !layer.visible }); }}
-                    className={`${layer.visible ? 'text-navy-400' : 'text-navy-600'}`}>
-                    <Eye className="w-3 h-3" />
-                  </button>
-                  {layer.id !== 1 && (
-                    <button onClick={(e) => { e.stopPropagation(); deleteLayer(layer.id); }} className="text-navy-500 hover:text-red-400">
-                      <Trash2 className="w-3 h-3" />
-                    </button>
-                  )}
-                </div>
-              ))}
-              <button onClick={addTextLayer}
-                className="w-full mt-2 py-2 border border-dashed border-navy-600 rounded-lg text-[10px] text-navy-400 hover:text-teal-400 hover:border-teal-500 transition-colors flex items-center justify-center gap-1">
-                <Plus className="w-3 h-3" /> {t('csAddTextLayer', language)}
-              </button>
-            </div>
-          ) : (
-            <div className="flex-1 overflow-y-auto p-3 space-y-3">
-              {selectedObj && selectedObj.type === 'text' && (
-                <>
-                  <div>
-                    <label className="text-[9px] text-navy-400 font-semibold mb-1 block">{t('csTextContent', language)}</label>
-                    <textarea value={selectedObj.content} onChange={e => updateLayer(selectedObj.id, { content: e.target.value })}
-                      className="w-full bg-navy-800 border border-navy-600 rounded-lg p-2 text-[11px] text-white resize-none h-16 focus:border-teal-500 outline-none" />
-                  </div>
-                  <div>
-                    <label className="text-[9px] text-navy-400 font-semibold mb-1 block">{t('csFontSize', language)}</label>
-                    <input type="range" min="8" max="72" value={selectedObj.fontSize}
-                      onChange={e => updateLayer(selectedObj.id, { fontSize: parseInt(e.target.value) })}
-                      className="w-full accent-teal-500" />
-                    <span className="text-[10px] text-navy-400">{selectedObj.fontSize}px</span>
-                  </div>
-                  <div>
-                    <label className="text-[9px] text-navy-400 font-semibold mb-1 block">{t('csStyle', language)}</label>
-                    <div className="flex gap-1.5">
-                      <button onClick={() => updateLayer(selectedObj.id, { fontWeight: selectedObj.fontWeight === 'bold' ? 'normal' : 'bold' })}
-                        className={`p-1.5 rounded-lg ${selectedObj.fontWeight === 'bold' ? 'bg-teal-500 text-white' : 'bg-navy-800 text-navy-300'}`}>
-                        <Bold className="w-3.5 h-3.5" />
-                      </button>
-                      {['left', 'center', 'right'].map(align => (
-                        <button key={align} onClick={() => updateLayer(selectedObj.id, { align })}
-                          className={`p-1.5 rounded-lg ${selectedObj.align === align ? 'bg-teal-500 text-white' : 'bg-navy-800 text-navy-300'}`}>
-                          {align === 'left' ? <AlignLeft className="w-3.5 h-3.5" /> : align === 'center' ? <AlignCenter className="w-3.5 h-3.5" /> : <AlignRight className="w-3.5 h-3.5" />}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                  <div>
-                    <label className="text-[9px] text-navy-400 font-semibold mb-1 block">{t('csColor', language)}</label>
-                    <div className="flex items-center gap-2">
-                      <input type="color" value={selectedObj.color} onChange={e => updateLayer(selectedObj.id, { color: e.target.value })}
-                        className="w-8 h-8 rounded-lg border-2 border-navy-600 cursor-pointer" />
-                      <div className="flex gap-1">
-                        {['#ffffff', '#000000', '#14b8a6', '#f59e0b', '#ef4444', '#8b5cf6'].map(c => (
-                          <button key={c} onClick={() => updateLayer(selectedObj.id, { color: c })}
-                            className="w-6 h-6 rounded-full border-2 border-navy-600 hover:border-teal-400 transition-colors"
-                            style={{ backgroundColor: c }} />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <label className="text-[9px] text-navy-400 font-semibold mb-1 block">{t('csPosition', language)}</label>
-                    <div className="grid grid-cols-2 gap-2">
-                      <div className="bg-navy-800 rounded-lg p-2">
-                        <span className="text-[8px] text-navy-500">X</span>
-                        <input type="number" value={selectedObj.x} onChange={e => updateLayer(selectedObj.id, { x: parseInt(e.target.value) })}
-                          className="w-full bg-transparent text-[11px] text-white outline-none" />
-                      </div>
-                      <div className="bg-navy-800 rounded-lg p-2">
-                        <span className="text-[8px] text-navy-500">Y</span>
-                        <input type="number" value={selectedObj.y} onChange={e => updateLayer(selectedObj.id, { y: parseInt(e.target.value) })}
-                          className="w-full bg-transparent text-[11px] text-white outline-none" />
-                      </div>
-                    </div>
-                  </div>
-                </>
-              )}
-              {selectedObj && selectedObj.type === 'shape' && (
-                <>
-                  <div>
-                    <label className="text-[9px] text-navy-400 font-semibold mb-1 block">{t('csFillColor', language)}</label>
-                    <input type="color" value={selectedObj.color} onChange={e => updateLayer(selectedObj.id, { color: e.target.value })}
-                      className="w-8 h-8 rounded-lg border-2 border-navy-600 cursor-pointer" />
-                  </div>
-                  <div>
-                    <label className="text-[9px] text-navy-400 font-semibold mb-1 block">{t('csCornerRadius', language)}</label>
-                    <input type="range" min="0" max="40" value={selectedObj.radius || 0}
-                      onChange={e => updateLayer(selectedObj.id, { radius: parseInt(e.target.value) })}
-                      className="w-full accent-teal-500" />
-                  </div>
-                </>
-              )}
-              {selectedObj && selectedObj.type === 'image' && (
-                <p className="text-[10px] text-navy-400 italic">{t('csBgDragHint', language)}</p>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* Center: Canvas */}
-        <div className="flex-1 bg-navy-950 flex items-center justify-center overflow-hidden p-8" style={{ backgroundImage: 'radial-gradient(circle, #1e293b 1px, transparent 1px)', backgroundSize: '20px 20px' }}>
-          <div ref={canvasRef} className="relative bg-navy-800 rounded-lg overflow-hidden shadow-2xl" style={{
-            width: template.aspect === '9:16' ? 270 * (zoom / 100) : template.aspect === '16:9' ? 480 * (zoom / 100) : 360 * (zoom / 100),
-            height: template.aspect === '9:16' ? 480 * (zoom / 100) : template.aspect === '16:9' ? 270 * (zoom / 100) : template.aspect === '4:5' ? 450 * (zoom / 100) : 360 * (zoom / 100),
-          }}>
-            {/* Background image */}
-            <img src={template.thumb} alt="" className="absolute inset-0 w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-navy-900/30" />
-
-            {/* Render layers */}
-            {layers.filter(l => l.visible && l.type !== 'image').map(layer => {
-              if (layer.type === 'shape') {
-                return (
-                  <div key={layer.id} onClick={() => setSelectedLayer(layer.id)}
-                    className={`absolute cursor-pointer transition-all ${selectedLayer === layer.id ? 'ring-2 ring-teal-400 ring-offset-1' : ''}`}
-                    style={{
-                      left: `${layer.x - 12}%`, top: `${layer.y - 4}%`,
-                      width: layer.width * (zoom / 100), height: layer.height * (zoom / 100),
-                      backgroundColor: layer.color, borderRadius: layer.radius,
-                    }}
-                  />
-                );
-              }
-              if (layer.type === 'text') {
-                return (
-                  <div key={layer.id} onClick={() => setSelectedLayer(layer.id)}
-                    className={`absolute cursor-pointer transition-all px-2 ${selectedLayer === layer.id ? 'ring-2 ring-teal-400 ring-offset-1 ring-offset-transparent' : ''}`}
-                    style={{
-                      left: layer.align === 'center' ? '50%' : layer.align === 'right' ? 'auto' : `${layer.x - 30}%`,
-                      right: layer.align === 'right' ? '5%' : 'auto',
-                      top: `${layer.y}%`,
-                      transform: layer.align === 'center' ? 'translateX(-50%)' : 'none',
-                      fontSize: layer.fontSize * (zoom / 100), fontWeight: layer.fontWeight, color: layer.color,
-                      textAlign: layer.align, whiteSpace: 'nowrap', textShadow: '0 2px 8px rgba(0,0,0,0.4)',
-                    }}>
-                    {layer.content}
-                  </div>
-                );
-              }
-              return null;
-            })}
-          </div>
-        </div>
-
-        {/* Right: Color Palette & Quick Actions */}
-        <div className="w-48 bg-navy-900 border-l border-navy-700 flex flex-col flex-shrink-0 p-3 space-y-4">
-          <div>
-            <p className="text-[9px] text-navy-400 font-semibold uppercase tracking-wider mb-2">{t('csTemplateColors', language)}</p>
-            <div className="grid grid-cols-4 gap-1.5">
-              {(template.colors || []).map((c, j) => (
-                <button key={j} className="w-full aspect-square rounded-lg border-2 border-navy-700 hover:border-teal-400 transition-colors" style={{ backgroundColor: c }} />
-              ))}
-            </div>
-          </div>
-          <div>
-            <p className="text-[9px] text-navy-400 font-semibold uppercase tracking-wider mb-2">{t('csQuickActions', language)}</p>
-            <div className="space-y-1.5">
-              {[
-                { icon: Sparkles, label: t('csAiGenerate', language), color: 'text-purple-400' },
-                { icon: Image, label: t('csReplaceImage', language), color: 'text-blue-400' },
-                { icon: Layers, label: t('csDuplicate', language), color: 'text-teal-400' },
-                { icon: Palette, label: t('csChangeTheme', language), color: 'text-orange-400' },
-              ].map(({ icon: Ic, label, color }) => (
-                <button key={label} className="w-full flex items-center gap-2 px-2.5 py-2 rounded-lg hover:bg-navy-800 transition-colors">
-                  <Ic className={`w-3.5 h-3.5 ${color}`} />
-                  <span className="text-[10px] text-navy-300">{label}</span>
-                </button>
-              ))}
-            </div>
-          </div>
-          <div>
-            <p className="text-[9px] text-navy-400 font-semibold uppercase tracking-wider mb-2">{t('csTags', language)}</p>
-            <div className="flex flex-wrap gap-1">
-              {(template.tags || []).map((tag, j) => (
-                <span key={j} className="text-[8px] bg-navy-800 text-navy-300 px-1.5 py-0.5 rounded-full">#{tag}</span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </motion.div>
-  );
+const statusConfig = {
+  pending_approval: { label: 'Awaiting Approval', color: 'bg-amber-100 text-amber-700', icon: Clock },
+  approved: { label: 'Approved', color: 'bg-teal-100 text-teal-700', icon: CheckCircle2 },
+  posted: { label: 'Posted', color: 'bg-green-100 text-green-700', icon: Check },
+  rejected: { label: 'Rejected', color: 'bg-red-100 text-red-700', icon: XCircle },
+  regenerating: { label: 'Regenerating', color: 'bg-navy-100 text-navy-700', icon: RefreshCw },
 };
+
+const filters = ['all', 'pending_approval', 'approved', 'posted', 'rejected', 'regenerating'];
+const platformFilters = ['all', 'instagram', 'facebook', 'x', 'linkedin', 'youtube'];
 
 export const ContentStudio = () => {
   const { language, businessData } = useApp();
+  const [content, setContent] = useState(generateMockContent);
   const [activeFilter, setActiveFilter] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedTemplate, setSelectedTemplate] = useState(null);
-  const [editingTemplate, setEditingTemplate] = useState(null);
-  const [sharingTemplate, setSharingTemplate] = useState(null);
-  const [viewMode, setViewMode] = useState('bento');
+  const [platformFilter, setPlatformFilter] = useState('all');
+  const [selectedContent, setSelectedContent] = useState(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [rejectionModal, setRejectionModal] = useState(null);
+  const [rejectionText, setRejectionText] = useState('');
 
-  const categories = ['all', 'promotion', 'social', 'product', 'restaurant', 'education', 'business'];
-  const types = ['all', 'poster', 'story', 'banner', 'video', 'carousel'];
-  const [activeType, setActiveType] = useState('all');
-
-  const filtered = contentTemplates.filter(ct => {
-    if (activeFilter !== 'all' && ct.category !== activeFilter) return false;
-    if (activeType !== 'all' && ct.type !== activeType) return false;
-    if (searchQuery && !ct.name.toLowerCase().includes(searchQuery.toLowerCase()) && !ct.tags.some(tag => tag.includes(searchQuery.toLowerCase()))) return false;
+  const filtered = content.filter(c => {
+    if (activeFilter !== 'all' && c.status !== activeFilter) return false;
+    if (platformFilter !== 'all' && c.platform !== platformFilter) return false;
     return true;
   });
 
-  // If canvas editor is open, render it fullscreen
-  if (editingTemplate) {
-    return <CanvasEditor template={editingTemplate} onClose={() => setEditingTemplate(null)} />;
-  }
+  const statusCounts = {
+    all: content.length,
+    pending_approval: content.filter(c => c.status === 'pending_approval').length,
+    approved: content.filter(c => c.status === 'approved').length,
+    posted: content.filter(c => c.status === 'posted').length,
+    rejected: content.filter(c => c.status === 'rejected').length,
+    regenerating: content.filter(c => c.status === 'regenerating').length,
+  };
+
+  const handleApprove = (id) => {
+    setContent(prev => prev.map(c => c.id === id ? { ...c, status: 'approved' } : c));
+  };
+
+  const handleReject = (id) => {
+    setRejectionModal(id);
+  };
+
+  const submitRejection = () => {
+    setContent(prev => prev.map(c => c.id === rejectionModal ? { ...c, status: 'rejected', rejectionReason: rejectionText || 'Not suitable' } : c));
+    setRejectionModal(null);
+    setRejectionText('');
+  };
+
+  const handleRegenerate = (id) => {
+    setContent(prev => prev.map(c => c.id === id ? { ...c, status: 'regenerating' } : c));
+    setTimeout(() => {
+      setContent(prev => prev.map(c => c.id === id ? { ...c, status: 'pending_approval', generatedAt: 'Just now', rejectionReason: undefined } : c));
+    }, 3000);
+  };
+
+  const handleGenerateNew = () => {
+    setIsGenerating(true);
+    setTimeout(() => {
+      const platforms = ['instagram', 'facebook', 'x', 'linkedin', 'youtube'];
+      const types = ['post', 'story', 'reel'];
+      const newPost = {
+        id: Date.now(),
+        type: types[Math.floor(Math.random() * types.length)],
+        platform: platforms[Math.floor(Math.random() * platforms.length)],
+        status: 'pending_approval',
+        title: 'AI-Generated Fresh Content',
+        caption: 'This content was just created by AI based on trending topics in your business area! 🤖✨',
+        image: null,
+        scheduledAt: 'Tomorrow, 9:00 AM',
+        whatsappNotified: false,
+        generatedAt: 'Just now',
+      };
+      setContent(prev => [newPost, ...prev]);
+      setIsGenerating(false);
+    }, 2500);
+  };
 
   return (
     <div className="space-y-5">
-      <AnimatePresence>
-        {sharingTemplate && <ShareDialog template={sharingTemplate} onClose={() => setSharingTemplate(null)} />}
-      </AnimatePresence>
-
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-navy-900">{t('contentStudio', language)}</h1>
-          <p className="text-sm text-navy-400 mt-0.5">{t('contentStudioDesc', language)}</p>
+          <p className="text-sm text-navy-400 mt-0.5">AI generates content → You approve on WhatsApp → Auto-posted</p>
         </div>
-        <button className="px-4 py-2 bg-teal-600 text-white text-xs font-semibold rounded-lg hover:bg-teal-700 flex items-center gap-1.5">
-          <Plus className="w-3.5 h-3.5" /> {t('csCreateNew', language)}
+        <button onClick={handleGenerateNew} disabled={isGenerating}
+          className={`flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-lg transition-all ${
+            isGenerating ? 'bg-navy-200 text-navy-500 cursor-not-allowed' : 'bg-teal-600 text-white hover:bg-teal-700'
+          }`}>
+          {isGenerating ? <><RefreshCw className="w-3.5 h-3.5 animate-spin" /> Generating...</> : <><Sparkles className="w-3.5 h-3.5" /> Generate New Content</>}
         </button>
       </div>
 
-      {/* Filters Bar */}
-      <div className="bg-white rounded-xl border border-navy-100 p-4">
-        <div className="flex items-center gap-3 flex-wrap">
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-navy-50 rounded-lg border border-navy-100 w-48">
-            <Search className="w-3.5 h-3.5 text-navy-400" />
-            <input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder={t('csSearchPlaceholder', language)}
-              className="bg-transparent text-[11px] outline-none w-full text-navy-700 placeholder:text-navy-300" />
+      {/* Flow Summary Banner */}
+      <motion.div {...fade(0)} className="bg-navy-700 rounded-xl p-4 text-white">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Sparkles className="w-6 h-6" />
+            <div>
+              <p className="text-sm font-bold">Content Auto-Pipeline Active</p>
+              <p className="text-[10px] text-white/70">AI creates → WhatsApp notifies → You approve → Auto-posted</p>
+            </div>
           </div>
-          <div className="flex gap-1.5 flex-1 flex-wrap">
-            {categories.map(cat => (
-              <button key={cat} onClick={() => setActiveFilter(cat)}
-                className={`px-2.5 py-1 rounded-full text-[10px] font-semibold capitalize transition-colors ${
-                  activeFilter === cat ? 'bg-navy-700 text-white' : 'bg-navy-50 text-navy-500 hover:bg-navy-100'
-                }`}>{cat}</button>
-            ))}
-          </div>
-          <div className="flex items-center gap-1">
-            <button onClick={() => setViewMode('bento')} className={`p-1.5 rounded-lg ${viewMode === 'bento' ? 'bg-navy-700 text-white' : 'bg-navy-50 text-navy-400'}`}>
-              <Grid3X3 className="w-3.5 h-3.5" />
-            </button>
-            <button onClick={() => setViewMode('list')} className={`p-1.5 rounded-lg ${viewMode === 'list' ? 'bg-navy-700 text-white' : 'bg-navy-50 text-navy-400'}`}>
-              <Rows3 className="w-3.5 h-3.5" />
-            </button>
+          <div className="flex items-center gap-4 text-[11px]">
+            <span className="bg-white/20 px-3 py-1 rounded-lg">{statusCounts.pending_approval} Pending</span>
+            <span className="bg-white/20 px-3 py-1 rounded-lg">{statusCounts.posted} Posted</span>
           </div>
         </div>
-        <div className="flex gap-1.5 mt-2.5">
-          {types.map(tp => {
-            const Icon = typeIcons[tp] || Filter;
-            return (
-              <button key={tp} onClick={() => setActiveType(tp)}
-                className={`flex items-center gap-1 px-2 py-1 rounded-full text-[9px] font-semibold capitalize transition-colors ${
-                  activeType === tp ? 'bg-teal-600 text-white' : 'bg-navy-50 text-navy-500 hover:bg-navy-100'
-                }`}>
-                {tp !== 'all' && <Icon className="w-2.5 h-2.5" />}
-                {tp}
-              </button>
-            );
-          })}
-        </div>
+      </motion.div>
+
+      {/* Status Filter Tabs */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1">
+        {filters.map(f => {
+          const cfg = f === 'all' ? null : statusConfig[f];
+          return (
+            <button key={f} onClick={() => setActiveFilter(f)}
+              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[11px] font-semibold whitespace-nowrap transition-all ${
+                activeFilter === f ? 'bg-navy-700 text-white' : 'bg-white text-navy-500 border border-navy-100 hover:bg-navy-50'
+              }`}>
+              {f === 'all' ? 'All' : cfg?.label}
+              <span className={`text-[9px] px-1.5 py-0.5 rounded-full ${activeFilter === f ? 'bg-white/20' : 'bg-navy-100'}`}>
+                {statusCounts[f]}
+              </span>
+            </button>
+          );
+        })}
       </div>
 
-      {/* Bento Grid / List */}
-      {viewMode === 'bento' ? (
-        <div className="columns-2 md:columns-3 lg:columns-4 gap-3 space-y-3">
-          {filtered.map((tmpl, i) => {
-            const Icon = typeIcons[tmpl.type] || Image;
-            const aspectH = tmpl.aspect === '9:16' ? 'h-72' : tmpl.aspect === '16:9' ? 'h-40' : tmpl.aspect === '4:5' ? 'h-64' : 'h-52';
-            return (
-              <motion.div key={tmpl.id} {...fade(i % 8)} className="break-inside-avoid"
-                onClick={() => setSelectedTemplate(tmpl)}>
-                <div className="group relative rounded-xl overflow-hidden cursor-pointer border border-navy-100 hover:border-teal-300 hover:shadow-lg transition-all">
-                  <img src={tmpl.thumb} alt={tmpl.name} className={`w-full ${aspectH} object-cover`} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-navy-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-                    <div className="absolute bottom-0 left-0 right-0 p-3">
-                      <div className="flex items-center gap-1.5 mb-1">
-                        <span className={`w-4 h-4 rounded flex items-center justify-center ${typeColors[tmpl.type]}`}>
-                          <Icon className="w-2.5 h-2.5 text-white" />
-                        </span>
-                        <span className="text-[10px] font-bold text-white">{tmpl.name}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <button onClick={e => { e.stopPropagation(); setEditingTemplate(tmpl); }}
-                          className="px-2 py-1 bg-white text-navy-800 text-[9px] font-semibold rounded-md hover:bg-teal-50 flex items-center gap-1">
-                          <Palette className="w-2.5 h-2.5" /> {t('edit', language)}
-                        </button>
-                        <button onClick={e => { e.stopPropagation(); setSharingTemplate(tmpl); }} className="p-1 bg-white/20 rounded-md hover:bg-white/30"><Share2 className="w-3 h-3 text-white" /></button>
-                        <button className="p-1 bg-white/20 rounded-md hover:bg-white/30"><Download className="w-3 h-3 text-white" /></button>
-                        <button className="p-1 bg-white/20 rounded-md hover:bg-white/30"><Heart className="w-3 h-3 text-white" /></button>
-                      </div>
-                    </div>
-                  </div>
-                  <span className={`absolute top-2 left-2 px-1.5 py-0.5 rounded text-[8px] font-bold text-white capitalize ${typeColors[tmpl.type]}`}>
-                    {tmpl.type}
+      {/* Platform Filter */}
+      <div className="flex items-center gap-2">
+        {platformFilters.map(p => {
+          const cfg = p === 'all' ? null : platformIcons[p];
+          return (
+            <button key={p} onClick={() => setPlatformFilter(p)}
+              className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-[11px] font-semibold transition-all ${
+                platformFilter === p ? 'bg-navy-700 text-white' : 'bg-white text-navy-500 border border-navy-100 hover:bg-navy-50'
+              }`}>
+              {p === 'all' ? '🌐 All' : `${cfg?.icon} ${cfg?.label}`}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* Content Grid */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
+        {filtered.map((item, i) => {
+          const plat = platformIcons[item.platform];
+          const stat = statusConfig[item.status];
+          const StatIcon = stat.icon;
+
+          return (
+            <motion.div key={item.id} {...fade(i)}
+              className="bg-white rounded-xl border border-navy-100 overflow-hidden hover:shadow-md transition-all">
+              {/* Content Preview */}
+              <div className="h-36 bg-navy-100 relative flex items-center justify-center">
+                <div className="text-center px-4">
+                  <span className="text-3xl mb-2 block">{plat.icon}</span>
+                  <p className="text-xs font-semibold text-navy-600">{item.title}</p>
+                </div>
+                {/* Platform badge */}
+                <div className={`absolute top-2 left-2 ${plat.color} text-white text-[9px] font-bold px-2 py-0.5 rounded-full`}>
+                  {plat.label}
+                </div>
+                {/* Type badge */}
+                <div className="absolute top-2 right-2 bg-white/90 text-navy-600 text-[9px] font-bold px-2 py-0.5 rounded-full capitalize">
+                  {item.type}
+                </div>
+              </div>
+
+              {/* Content Info */}
+              <div className="p-3 space-y-2">
+                <p className="text-[11px] text-navy-500 line-clamp-2">{item.caption}</p>
+
+                {/* Status */}
+                <div className="flex items-center justify-between">
+                  <span className={`flex items-center gap-1 text-[10px] font-semibold px-2 py-0.5 rounded-full ${stat.color}`}>
+                    <StatIcon className="w-3 h-3" /> {stat.label}
                   </span>
-                  {tmpl.type === 'video' && (
-                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <div className="w-10 h-10 bg-white/30 rounded-full flex items-center justify-center backdrop-blur-sm">
-                        <Video className="w-4 h-4 text-white ml-0.5" />
-                      </div>
+                  <span className="text-[9px] text-navy-400">{item.generatedAt}</span>
+                </div>
+
+                {/* WhatsApp notification status */}
+                <div className="flex items-center gap-1.5 text-[10px]">
+                  <MessageCircle className="w-3 h-3 text-green-600" />
+                  <span className={item.whatsappNotified ? 'text-green-600 font-semibold' : 'text-navy-400'}>
+                    {item.whatsappNotified ? 'WhatsApp notified' : 'Notification pending'}
+                  </span>
+                </div>
+
+                {/* Schedule */}
+                <div className="flex items-center gap-1.5 text-[10px] text-navy-400">
+                  <Calendar className="w-3 h-3" /> {item.status === 'posted' ? `Posted: ${item.postedAt}` : `Scheduled: ${item.scheduledAt}`}
+                </div>
+
+                {/* Rejection reason */}
+                {item.status === 'rejected' && item.rejectionReason && (
+                  <div className="bg-red-50 border border-red-200 rounded-lg p-2">
+                    <p className="text-[10px] text-red-600 font-semibold">Reason: {item.rejectionReason}</p>
+                  </div>
+                )}
+
+                {/* Actions */}
+                <div className="flex items-center gap-1.5 pt-1">
+                  {item.status === 'pending_approval' && (
+                    <>
+                      <button onClick={() => handleApprove(item.id)}
+                        className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 bg-teal-600 text-white text-[10px] font-semibold rounded-lg hover:bg-teal-700 transition-colors">
+                        <ThumbsUp className="w-3 h-3" /> Approve
+                      </button>
+                      <button onClick={() => handleReject(item.id)}
+                        className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 bg-red-100 text-red-600 text-[10px] font-semibold rounded-lg hover:bg-red-200 transition-colors">
+                        <ThumbsDown className="w-3 h-3" /> Reject
+                      </button>
+                    </>
+                  )}
+                  {item.status === 'rejected' && (
+                    <button onClick={() => handleRegenerate(item.id)}
+                      className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 bg-navy-100 text-navy-700 text-[10px] font-semibold rounded-lg hover:bg-navy-200 transition-colors">
+                      <RefreshCw className="w-3 h-3" /> Regenerate
+                    </button>
+                  )}
+                  {item.status === 'regenerating' && (
+                    <div className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 bg-navy-50 text-navy-600 text-[10px] font-semibold rounded-lg">
+                      <RefreshCw className="w-3 h-3 animate-spin" /> AI Regenerating...
+                    </div>
+                  )}
+                  {item.status === 'approved' && (
+                    <div className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 bg-teal-50 text-teal-600 text-[10px] font-semibold rounded-lg">
+                      <Clock className="w-3 h-3" /> Will post at {item.scheduledAt}
+                    </div>
+                  )}
+                  {item.status === 'posted' && (
+                    <div className="flex-1 flex items-center justify-center gap-1 px-2 py-1.5 bg-green-50 text-green-600 text-[10px] font-semibold rounded-lg">
+                      <Check className="w-3 h-3" /> Published successfully
                     </div>
                   )}
                 </div>
-              </motion.div>
-            );
-          })}
-        </div>
-      ) : (
-        <div className="space-y-2">
-          {filtered.map((tmpl, i) => {
-            const Icon = typeIcons[tmpl.type] || Image;
-            return (
-              <motion.div key={tmpl.id} {...fade(i % 8)}
-                className="flex items-center gap-4 p-3 bg-white rounded-xl border border-navy-100 hover:border-teal-300 hover:shadow-sm transition-all cursor-pointer"
-                onClick={() => setSelectedTemplate(tmpl)}>
-                <img src={tmpl.thumb} alt={tmpl.name} className="w-16 h-16 rounded-lg object-cover" />
-                <div className="flex-1">
-                  <div className="flex items-center gap-2">
-                    <span className={`w-5 h-5 rounded flex items-center justify-center ${typeColors[tmpl.type]}`}>
-                      <Icon className="w-3 h-3 text-white" />
-                    </span>
-                    <h4 className="text-[12px] font-bold text-navy-800">{tmpl.name}</h4>
-                    <span className="text-[9px] bg-navy-50 text-navy-500 px-1.5 py-0.5 rounded capitalize">{tmpl.category}</span>
-                  </div>
-                  <div className="flex items-center gap-1.5 mt-1">
-                    {tmpl.tags.map((tag, j) => (
-                      <span key={j} className="text-[8px] bg-navy-50 text-navy-400 px-1 py-0.5 rounded">#{tag}</span>
-                    ))}
-                  </div>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  {tmpl.colors.map((c, j) => <div key={j} className="w-4 h-4 rounded-full border border-white shadow-sm" style={{ backgroundColor: c }} />)}
-                </div>
-                <span className="text-[10px] font-mono text-navy-400">{tmpl.aspect}</span>
-                <div className="flex items-center gap-1.5">
-                  <button onClick={e => { e.stopPropagation(); setSharingTemplate(tmpl); }}
-                    className="p-1.5 rounded-lg bg-navy-50 text-navy-400 hover:text-teal-600 hover:bg-teal-50">
-                    <Share2 className="w-3.5 h-3.5" />
-                  </button>
-                  <button onClick={e => { e.stopPropagation(); setEditingTemplate(tmpl); }}
-                    className="px-3 py-1.5 bg-navy-700 text-white text-[10px] font-semibold rounded-lg hover:bg-navy-800">
-                    {t('edit', language)}
-                  </button>
-                </div>
-              </motion.div>
-            );
-          })}
-        </div>
-      )}
+              </div>
+            </motion.div>
+          );
+        })}
+      </div>
 
       {filtered.length === 0 && (
-        <div className="text-center py-16">
-          <Image className="w-10 h-10 text-navy-200 mx-auto mb-3" />
-          <p className="text-sm text-navy-400">{t('csNoTemplates', language)}</p>
+        <div className="text-center py-12">
+          <Sparkles className="w-10 h-10 text-navy-200 mx-auto mb-3" />
+          <p className="text-sm font-semibold text-navy-500">No content matches your filter</p>
+          <p className="text-xs text-navy-400 mt-1">Try a different filter or generate new content</p>
         </div>
       )}
 
-      {/* Template Quick Preview Modal */}
-      {selectedTemplate && (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          className="fixed inset-0 z-[9999] flex items-center justify-center bg-navy-950/60 backdrop-blur-sm p-4"
-          onClick={() => setSelectedTemplate(null)}>
-          <motion.div initial={{ scale: 0.95 }} animate={{ scale: 1 }}
-            className="bg-white rounded-2xl overflow-hidden max-w-lg w-full max-h-[85vh] overflow-y-auto"
-            onClick={e => e.stopPropagation()}>
-            <div className="relative">
-              <img src={selectedTemplate.thumb} alt="" className="w-full h-64 object-cover" />
-              <button onClick={() => setSelectedTemplate(null)}
-                className="absolute top-3 right-3 p-1.5 bg-white/80 rounded-full backdrop-blur-sm hover:bg-white">
-                <X className="w-4 h-4 text-navy-700" />
-              </button>
-              <span className={`absolute top-3 left-3 px-2 py-1 rounded-lg text-[9px] font-bold text-white capitalize ${typeColors[selectedTemplate.type]}`}>
-                {selectedTemplate.type}
-              </span>
-            </div>
-            <div className="p-5">
-              <h3 className="text-lg font-bold text-navy-800">{selectedTemplate.name}</h3>
-              <div className="flex items-center gap-2 mt-2">
-                <span className="text-[10px] bg-navy-50 text-navy-500 px-2 py-0.5 rounded capitalize">{selectedTemplate.category}</span>
-                <span className="text-[10px] text-navy-400 font-mono">{selectedTemplate.aspect}</span>
+      {/* Rejection Modal */}
+      <AnimatePresence>
+        {rejectionModal && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[9999] flex items-center justify-center bg-navy-950/50 backdrop-blur-sm p-4"
+            onClick={() => setRejectionModal(null)}>
+            <motion.div initial={{ scale: 0.95, y: 20 }} animate={{ scale: 1, y: 0 }}
+              className="bg-white rounded-2xl w-full max-w-sm p-5" onClick={e => e.stopPropagation()}>
+              <h3 className="text-sm font-bold text-navy-900 mb-1">Reject Content</h3>
+              <p className="text-[11px] text-navy-400 mb-3">Tell us why so AI can regenerate better content</p>
+              <textarea value={rejectionText} onChange={e => setRejectionText(e.target.value)}
+                placeholder="e.g., Too formal, make it casual and fun..."
+                rows={3} className="w-full px-3 py-2 bg-navy-50 border border-navy-100 rounded-lg text-xs text-navy-800 placeholder-navy-400 focus:outline-none focus:border-red-400 focus:ring-1 focus:ring-red-400 resize-none mb-3" />
+              <div className="flex gap-2">
+                <button onClick={() => { setRejectionModal(null); setRejectionText(''); }}
+                  className="flex-1 px-3 py-2 border border-navy-200 text-navy-600 text-xs font-semibold rounded-lg hover:bg-navy-50">Cancel</button>
+                <button onClick={submitRejection}
+                  className="flex-1 px-3 py-2 bg-red-600 text-white text-xs font-semibold rounded-lg hover:bg-red-700">Reject & Regenerate</button>
               </div>
-              <div className="flex items-center gap-1.5 mt-3">
-                {selectedTemplate.colors.map((c, j) => <div key={j} className="w-8 h-8 rounded-lg border-2 border-white shadow-md" style={{ backgroundColor: c }} />)}
-              </div>
-              <div className="flex flex-wrap gap-1.5 mt-3">
-                {selectedTemplate.tags.map((tag, j) => (
-                  <span key={j} className="text-[9px] bg-teal-50 text-teal-700 px-2 py-0.5 rounded-full font-medium">#{tag}</span>
-                ))}
-              </div>
-              <div className="flex gap-2 mt-5">
-                <button onClick={() => { setSelectedTemplate(null); setEditingTemplate(selectedTemplate); }}
-                  className="flex-1 py-2.5 bg-teal-600 text-white text-xs font-semibold rounded-lg hover:bg-teal-700 flex items-center justify-center gap-1.5">
-                  <Palette className="w-3.5 h-3.5" /> {t('csOpenEditor', language)}
-                </button>
-                <button onClick={() => setSharingTemplate(selectedTemplate)}
-                  className="px-4 py-2.5 bg-navy-700 text-white text-xs font-semibold rounded-lg hover:bg-navy-800 flex items-center gap-1.5">
-                  <Share2 className="w-3.5 h-3.5" /> {t('share', language)}
-                </button>
-                <button className="px-4 py-2.5 bg-navy-50 text-navy-700 text-xs font-semibold rounded-lg hover:bg-navy-100 flex items-center gap-1.5">
-                  <Download className="w-3.5 h-3.5" /> {t('download', language)}
-                </button>
-              </div>
-            </div>
+            </motion.div>
           </motion.div>
-        </motion.div>
-      )}
+        )}
+      </AnimatePresence>
     </div>
   );
 };
