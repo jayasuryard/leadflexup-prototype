@@ -291,7 +291,6 @@ const socialPlatforms = [
   { id: 'x', name: 'X (Twitter)', icon: '🐦', color: 'bg-gray-50 border-gray-300', textColor: 'text-gray-800', videoId: 'PD3bIZc_9lE', videoTitle: 'How to Create X (Twitter) Account' },
   { id: 'linkedin', name: 'LinkedIn', icon: '💼', color: 'bg-sky-50 border-sky-200', textColor: 'text-sky-700', videoId: 'ZgPgI0YLMEw', videoTitle: 'How to Create LinkedIn Business Page' },
   { id: 'youtube', name: 'YouTube', icon: '🎬', color: 'bg-red-50 border-red-200', textColor: 'text-red-700', videoId: 'dx2LzTkd_6w', videoTitle: 'How to Create YouTube Channel' },
-  { id: 'whatsapp', name: 'WhatsApp Business', icon: '💬', color: 'bg-green-50 border-green-200', textColor: 'text-green-700', videoId: null, videoTitle: null },
 ];
 
 /* ─── AI Build animation steps ─── */
@@ -858,7 +857,12 @@ const DomainPurchasePopup = ({ open, onClose, onPurchase, businessName, category
 const SocialMediaPopup = ({ open, onClose, onDone }) => {
   // Phase: 'mark' = mark which you have, 'action' = connect/create
   const [phase, setPhase] = useState('mark');
-  const [ownership, setOwnership] = useState({}); // platformId → true (has) / false (doesn't have)
+  const [ownership, setOwnership] = useState(() => {
+    // Default all platforms to false (Don't Have)
+    const init = {};
+    socialPlatforms.forEach(p => { init[p.id] = false; });
+    return init;
+  });
   const [statuses, setStatuses] = useState({}); // platformId → 'connected' | 'team_help' | 'creating'
   const [connecting, setConnecting] = useState(null);
   const [expandedVideo, setExpandedVideo] = useState(null);
@@ -911,7 +915,7 @@ const SocialMediaPopup = ({ open, onClose, onDone }) => {
               /* ── PHASE 1: Mark ownership ── */
               <div className="space-y-2">
                 <p className="text-xs text-navy-600 font-medium mb-3">
-                  Do you have accounts on these platforms? Toggle the ones you already have.
+                  Toggle ON the platforms you already have an account on.
                 </p>
                 {socialPlatforms.map(p => (
                   <div key={p.id} className={`flex items-center justify-between p-3 rounded-xl border ${p.color}`}>
@@ -919,19 +923,13 @@ const SocialMediaPopup = ({ open, onClose, onDone }) => {
                       <span className="text-xl">{p.icon}</span>
                       <p className={`text-sm font-bold ${p.textColor}`}>{p.name}</p>
                     </div>
-                    <button onClick={() => setOwnership(prev => {
-                      const n = { ...prev };
-                      if (n[p.id] === true) { n[p.id] = false; }
-                      else if (n[p.id] === false) { delete n[p.id]; }
-                      else { n[p.id] = true; }
-                      return n;
-                    })}
-                      className={`px-3 py-1.5 rounded-lg text-[11px] font-semibold transition-all ${
-                        ownership[p.id] === true ? 'bg-teal-600 text-white' :
-                        ownership[p.id] === false ? 'bg-red-100 text-red-600 border border-red-200' :
-                        'bg-white text-navy-500 border border-navy-200'
+                    <button onClick={() => setOwnership(prev => ({ ...prev, [p.id]: !prev[p.id] }))}
+                      className={`relative w-11 h-6 rounded-full transition-colors ${
+                        ownership[p.id] ? 'bg-teal-600' : 'bg-navy-200'
                       }`}>
-                      {ownership[p.id] === true ? '✓ I Have This' : ownership[p.id] === false ? '✗ Don\'t Have' : 'Tap to Mark'}
+                      <span className={`absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow transition-transform ${
+                        ownership[p.id] ? 'translate-x-5' : 'translate-x-0'
+                      }`} />
                     </button>
                   </div>
                 ))}
@@ -979,23 +977,16 @@ const SocialMediaPopup = ({ open, onClose, onDone }) => {
                               <span className="text-xl">{p.icon}</span>
                               <div>
                                 <p className={`text-sm font-bold ${p.textColor}`}>{p.name}</p>
-                                {statuses[p.id] === 'team_help' && (
-                                  <p className="text-[10px] font-semibold text-amber-600">📞 Our executive will reach out for setup</p>
-                                )}
-                                {statuses[p.id] === 'creating' && (
-                                  <p className="text-[10px] font-semibold text-blue-600">📝 Pending — added to your TODO list</p>
+                                {(statuses[p.id] === 'team_help' || statuses[p.id] === 'creating') && (
+                                  <p className="text-[10px] font-semibold text-amber-600">📞 Our executive will reach out & added to your TODO</p>
                                 )}
                               </div>
                             </div>
                             {!statuses[p.id] && (
                               <div className="flex gap-1.5">
-                                <button onClick={() => handleTeamHelp(p.id)}
-                                  className="px-2.5 py-1.5 bg-amber-100 text-amber-700 text-[10px] font-semibold rounded-lg border border-amber-200 hover:bg-amber-200 transition-colors">
-                                  Get Team Help
-                                </button>
-                                <button onClick={() => handleCreateSelf(p.id)}
-                                  className="px-2.5 py-1.5 bg-blue-100 text-blue-700 text-[10px] font-semibold rounded-lg border border-blue-200 hover:bg-blue-200 transition-colors">
-                                  Create Myself
+                                <button onClick={() => { handleTeamHelp(p.id); handleCreateSelf(p.id); }}
+                                  className="px-3 py-1.5 bg-amber-100 text-amber-700 text-[10px] font-semibold rounded-lg border border-amber-200 hover:bg-amber-200 transition-colors">
+                                  Contact Support & Create New
                                 </button>
                               </div>
                             )}
@@ -1025,14 +1016,6 @@ const SocialMediaPopup = ({ open, onClose, onDone }) => {
                               <Video className="w-3 h-3" /> Watch Tutorial
                             </button>
                           )}
-                          {/* WhatsApp - no video, just guide */}
-                          {!p.videoId && statuses[p.id] === 'creating' && (
-                            <div className="mt-2 pt-2 border-t border-navy-200/50">
-                              <p className="text-[10px] text-navy-500">
-                                Download WhatsApp Business from Play Store / App Store and set up with your business phone number.
-                              </p>
-                            </div>
-                          )}
                         </div>
                       ))}
                     </div>
@@ -1045,11 +1028,9 @@ const SocialMediaPopup = ({ open, onClose, onDone }) => {
           {/* Footer */}
           <div className="p-4 border-t border-navy-100">
             {phase === 'mark' ? (
-              <button onClick={() => allMarked && setPhase('action')} disabled={!allMarked}
-                className={`w-full py-2.5 text-xs font-semibold rounded-lg transition-colors ${
-                  allMarked ? 'bg-teal-600 text-white hover:bg-teal-700' : 'bg-navy-200 text-navy-400 cursor-not-allowed'
-                }`}>
-                {allMarked ? 'Continue' : `Mark all platforms (${markCount}/${socialPlatforms.length})`}
+              <button onClick={() => setPhase('action')}
+                className="w-full py-2.5 text-xs font-semibold rounded-lg transition-colors bg-teal-600 text-white hover:bg-teal-700">
+                Continue
               </button>
             ) : (
               <button onClick={() => onDone(statuses)} disabled={!allResolved}
