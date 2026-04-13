@@ -589,8 +589,9 @@ export default {
   // ══════════════════════════════════════
   // WEBSITE BUILDER
   // ══════════════════════════════════════
-  websiteBuilder: 'వెబ్‌సైట్ బిల్డర్',
-  websiteBuilderDesc: 'మీ బిజినెస్‌కి ప్రొఫెషనల్ వెబ్‌సైట్ క్రియేట్ చేయండి',
+  websiteBuilder: 'మీ వెబ్‌సైట్',
+  yourWebsite: 'మీ వెబ్‌సైట్',
+  websiteBuilderDesc: 'మీ బిజినెస్ వెబ్‌సైట్ చూడండి మరియు నిర్వహించండి',
   wbWelcomeMsg: 'ఊర్లో అత్యుత్తమ అనుభవానికి స్వాగతం',
   wbGetStarted: 'మొదలుపెట్టండి',
   wbStepTemplate: 'టెంప్లేట్',

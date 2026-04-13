@@ -40,7 +40,7 @@ import logoGrowbiz from '../assets/logos/logo-growbiz.svg';
 
 export const LandingPage = () => {
   const navigate = useNavigate();
-  const { language, changeLanguage, signup, login, onboardBusiness, subscription } = useApp();
+  const { language, changeLanguage, signup, login, onboardBusiness, subscription, tempFormData, setTempFormData } = useApp();
   const [showSignUp, setShowSignUp] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
   const [showLanguagePopup, setShowLanguagePopup] = useState(false);
@@ -59,6 +59,12 @@ export const LandingPage = () => {
     category: '',
     location: null
   });
+
+  // Wrapper to also update context
+  const updateFormData = (newData) => {
+    setFormData(newData);
+    setTempFormData(newData);
+  };
 
   const handleOnboard = async (e) => {
     e.preventDefault();
@@ -94,7 +100,7 @@ export const LandingPage = () => {
   };
 
   const handleVoiceTranscript = (transcript) => {
-    setFormData({ ...formData, businessName: transcript });
+    updateFormData({ ...formData, businessName: transcript });
   };
 
   const handleLanguageClick = (e) => {
@@ -152,7 +158,7 @@ export const LandingPage = () => {
       <Hero
         language={language}
         formData={formData}
-        setFormData={setFormData}
+        setFormData={updateFormData}
         isAnalyzing={isAnalyzing}
         onSubmit={handleOnboard}
         showLocationPicker={showLocationPicker}
@@ -207,6 +213,7 @@ export const LandingPage = () => {
         onClose={() => setShowSignUp(false)}
         onSignUp={handleSignUp}
         language={language}
+        initialPhone={formData.phone}
       />
 
       <LanguageSelectorPopup

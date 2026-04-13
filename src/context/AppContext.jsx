@@ -20,6 +20,7 @@ export const AppProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isOnboarded, setIsOnboarded] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const [tempFormData, setTempFormData] = useState({ phone: '', businessName: '', category: '', location: null });
 
   // Chat history (persisted for signed-up users)
   const [chatHistory, setChatHistory] = useState([]);
@@ -166,6 +167,7 @@ export const AppProvider = ({ children }) => {
     liveActivities, addLiveActivity,
     onboardingTasks, updateOnboardingTasks,
     darkMode, toggleDarkMode,
+    tempFormData, setTempFormData,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

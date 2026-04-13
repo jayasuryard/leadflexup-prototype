@@ -25,7 +25,7 @@ export const DashboardLayout = () => {
     { key: 'chats', icon: MessageCircle, path: '/dashboard/chats', label: t('nhChats', language) },
     { key: 'analytics', icon: BarChart3, path: '/dashboard/analytics', label: t('analytics', language) },
     ...(isAuthenticated ? [
-      { key: 'website', icon: Globe, path: '/dashboard/website', label: t('websiteBuilder', language) },
+      { key: 'website', icon: Globe, path: '/dashboard/website', label: t('yourWebsite', language) || t('websiteBuilder', language) },
       { key: 'content', icon: Palette, path: '/dashboard/content', label: t('contentStudio', language) },
       { key: 'automation', icon: Zap, path: '/dashboard/automation', label: t('automationHub', language) },
       { key: 'leads', icon: Users, path: '/dashboard/leads', label: t('leadManager', language) },

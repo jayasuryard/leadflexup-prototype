@@ -1,15 +1,15 @@
 // Mock Database - Simulating enriched data intelligence
 
 export const businessCategories = [
-  { id: 'restaurant', label: { en: 'Restaurant', hi: 'u0930u0947u0938u094du0924u0930u093eu0902', ta: 'u0b89u0ba3u0bb5u0b95u0baeu0bcd', kn: 'u0cb0u0cc6u0cb8u0ccdu0c9fu0ccbu0cb0u0cc6u0c82u0c9fu0ccd', te: 'u0c30u0c46u0c38u0c4du0c1fu0c3eu0c30u0c46u0c02u0c1fu0c4d', ml: 'u0d31u0d46u0d38u0d4du0d31u0d4du0d31u0d4bu0d31u0d28u0d4du0d31u0d4d' , icon: '🍽️' }, icon: 'U0001F37DUFE0F' },
-  { id: 'retail', label: { en: 'Retail Shop', hi: 'खुदरा दुकान', ta: 'சில்லறை கடை', kn: 'ಚಿಲ್ಲರೆ ಅಂಗಡಿ', te: 'రిటైల్ షాప్', ml: 'റീട്ടെയിൽ ഷോപ്പ്' , icon: '🛍️' } },
-  { id: 'salon', label: { en: 'Salon & Spa', hi: 'सैलून और स्पा', ta: 'அழகு நிலையம்', kn: 'ಸಲೂನ್ ಮತ್ತು ಸ್ಪಾ', te: 'సెలూన్ & స్పా', ml: 'സലൂൺ & സ്പാ' , icon: '💇' } },
-  { id: 'gym', label: { en: 'Gym & Fitness', hi: 'जिम और फिटनेस', ta: 'உடற்பயிற்சி', kn: 'ಜಿಮ್ ಮತ್ತು ಫಿಟ್ನೆಸ್', te: 'జిమ్ & ఫిట్‌నెస్', ml: 'ജിം & ഫിറ്റ്നസ്' , icon: '💪' } },
-  { id: 'medical', label: { en: 'Medical Clinic', hi: 'चिकित्सा क्लिनिक', ta: 'மருத்துவ நிலையம்', kn: 'ವೈದ್ಯಕೀಯ ಕ್ಲಿನಿಕ್', te: 'మెడికల్ క్లినిక్', ml: 'മെഡിക്കൽ ക്ലിനിക്' , icon: '🏥' } },
-  { id: 'education', label: { en: 'Education & Training', hi: 'शिक्षा और प्रशिक्षण', ta: 'கல்வி', kn: 'ಶಿಕ್ಷಣ ಮತ್ತು ತರಬೇತಿ', te: 'విద్య & శిక్షణ', ml: 'വിദ്യാഭ്യാസം & പരിശീലനം' , icon: '📚' } },
-  { id: 'professional', label: { en: 'Professional Services', hi: 'व्यावसायिक सेवाएं', ta: 'தொழில்முறை சேவைகள்', kn: 'ವೃತ್ತಿಪರ ಸೇವೆಗಳು', te: 'ప్రొఫెషనల్ సేవలు', ml: 'പ്രൊഫഷണൽ സേവനങ്ങൾ' , icon: '💼' } },
-  { id: 'automotive', label: { en: 'Automotive', hi: 'ऑटोमोटिव', ta: 'வாகனம்', kn: 'ಆಟೋಮೋಟಿವ್', te: 'ఆటోమోటివ్', ml: 'ഓട്ടോമോട്ടീವ്' , icon: '🚗' } },
-  { id: 'hotel', label: { en: 'Hotel & Hospitality', hi: 'होटल और आतिथ्य', ta: 'ஹோட்டல் & விருந்தோம்பல்', kn: 'ಹೋಟೆಲ್ & ಆತಿಥ್ಯ', te: 'హోటల్ & హాస్పిటాలిటీ', ml: 'ഹോട്ടൽ & ഹോസ്പിറ്റാലിറ്റി' , icon: '🏨' } }
+  { id: 'restaurant', label: { en: 'Restaurant', hi: 'रेस्तरां', ta: 'உணவகம்', kn: 'ರೆಸ್ಟೊರೆಂಟ್', te: 'రెస్టారెంట్', ml: 'റെസ്റ്റോറന്റ്' }, icon: '🍽️' },
+  { id: 'retail', label: { en: 'Retail Shop', hi: 'खुदरा दुकान', ta: 'சில்லறை கடை', kn: 'ಚಿಲ್ಲರೆ ಅಂಗಡಿ', te: 'రిటైల్ షాప్', ml: 'റീട്ടെയിൽ ഷോപ്പ്' }, icon: '🛍️' },
+  { id: 'salon', label: { en: 'Salon & Spa', hi: 'सैलून और स्पा', ta: 'அழகு நிலையம்', kn: 'ಸಲೂನ್ ಮತ್ತು ಸ್ಪಾ', te: 'సెలూన్ & స్పా', ml: 'സലൂൺ & സ്പാ' }, icon: '💇' },
+  { id: 'gym', label: { en: 'Gym & Fitness', hi: 'जिम और फिटनेस', ta: 'உடற்பயிற்சி', kn: 'ಜಿಮ್ ಮತ್ತು ಫಿಟ್ನೆಸ್', te: 'జిమ్ & ఫిట్‌నెస్', ml: 'ജിം & ഫിറ്റ്നസ്' }, icon: '💪' },
+  { id: 'medical', label: { en: 'Medical Clinic', hi: 'चिकित्सा क्लिनिक', ta: 'மருத்துவ நிலையம்', kn: 'ವೈದ್ಯಕೀಯ ಕ್ಲಿನಿಕ್', te: 'మెడికల్ క్లినిక్', ml: 'മെഡിക്കൽ ക്ലിനിക്' }, icon: '🏥' },
+  { id: 'education', label: { en: 'Education & Training', hi: 'शिक्षा और प्रशिक्षण', ta: 'கல்வி', kn: 'ಶಿಕ್ಷಣ ಮತ್ತು ತರಬೇತಿ', te: 'విద్య & శిక్షణ', ml: 'വിദ്യാഭ്യാസം & പരിശീലനം' }, icon: '📚' },
+  { id: 'professional', label: { en: 'Professional Services', hi: 'व्यावसायिक सेवाएं', ta: 'தொழில்முறை சேவைகள்', kn: 'ವೃತ್ತಿಪರ ಸೇವೆಗಳು', te: 'ప్రొఫెషనల్ సేవలు', ml: 'പ്രൊഫഷണൽ സേവനങ്ങൾ' }, icon: '💼' },
+  { id: 'automotive', label: { en: 'Automotive', hi: 'ऑटोमोटिव', ta: 'வாகனம்', kn: 'ಆಟೋಮೋಟಿವ್', te: 'ఆటోమోటివ్', ml: 'ഓട്ടോമോട്ടീവ്' }, icon: '🚗' },
+  { id: 'hotel', label: { en: 'Hotel & Hospitality', hi: 'होटल और आতिथ्य', ta: 'ஹோட்டல் & விருந்தோம்பல்', kn: 'ಹೋಟೆಲ್ & ಆತಿಥ್ಯ', te: 'హోటల్ & హాస్పిటాలిటీ', ml: 'ഹോട്ടൽ & ഹോസ്പിറ്റാലിറ്റി' }, icon: '🏨' }
 ];
 
 export const subscriptionPlans = [

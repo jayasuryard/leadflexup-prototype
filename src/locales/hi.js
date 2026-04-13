@@ -589,8 +589,9 @@ export default {
   // ══════════════════════════════════════
   // WEBSITE BUILDER
   // ══════════════════════════════════════
-  websiteBuilder: 'वेबसाइट बिल्डर',
-  websiteBuilderDesc: 'अपने बिज़नेस के लिए प्रोफ़ेशनल वेबसाइट बनाओ',
+  websiteBuilder: 'आपकी वेबसाइट',
+  yourWebsite: 'आपकी वेबसाइट',
+  websiteBuilderDesc: 'अपनी बिज़नेस वेबसाइट देखें और मैनेज करें',
   wbWelcomeMsg: 'शहर के सबसे बेहतरीन अनुभव में आपका स्वागत है',
   wbGetStarted: 'शुरू करो',
   wbStepTemplate: 'टेम्पलेट',

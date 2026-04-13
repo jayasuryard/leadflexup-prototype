@@ -676,8 +676,9 @@ export default {
   // ══════════════════════════════════════
   // WEBSITE BUILDER
   // ══════════════════════════════════════
-  websiteBuilder: 'Website Builder',
-  websiteBuilderDesc: 'Auto-build a professional website for your business',
+  websiteBuilder: 'Your Website',
+  yourWebsite: 'Your Website',
+  websiteBuilderDesc: 'View and manage your business website',
   wbWelcomeMsg: 'Welcome to the best experience in town',
   wbGetStarted: 'Get Started',
   wbStepTemplate: 'Template',

@@ -370,6 +370,9 @@ const FileUploadArea = ({ label, desc, icon, uploaded, onUpload }) => (
         <div className="flex items-center justify-center gap-1 mt-2 text-[10px] text-teal-600 font-semibold">
           <Upload className="w-3 h-3" /> Click to upload
         </div>
+        <p className="text-[9px] text-amber-600 mt-1.5 font-medium">
+          💡 No photos? No problem — we'll add professional placeholder images for you
+        </p>
       </>
     )}
   </div>
@@ -456,15 +459,79 @@ const TemplateAutoPreviewPopup = ({ open, onConfirm, template, categoryName }) =
 };
 
 /* ══════════════════════════════════════════════════════════
-   CATEGORY-SPECIFIC BUSINESS INFO POPUP
+   TOOLTIP COMPONENT
    ══════════════════════════════════════════════════════════ */
-const CategoryBusinessInfoPopup = ({ open, onClose, onSave, businessData, category, lang }) => {
+const fieldTooltips = {
+  description: 'Tell customers what makes your business special. Keep it simple and friendly!',
+  tagline: 'A short catchy line about your business — like a slogan customers will remember.',
+  cuisineType: 'What kind of food do you serve? e.g., North Indian, South Indian, Chinese',
+  specialties: 'Your best dishes or services that people love the most.',
+  seatingCapacity: 'How many customers can sit at a time? Just a rough number is fine.',
+  phone: 'Your business phone number — this is already filled from your signup.',
+  email: 'Your email address — already taken from your account.',
+  address: 'Your full business address — already captured from the location you selected.',
+  hours: 'When is your business open? e.g., Mon-Sat: 10 AM - 8 PM',
+  services: 'List the main services you offer, separated by commas.',
+  priceRange: 'Give a rough idea of your pricing so customers know what to expect.',
+  specialists: 'How many staff members or specialists work at your business?',
+  equipment: 'What equipment or tools do you have available?',
+  classes: 'What classes or programs do you offer?',
+  membershipPlans: 'Your pricing plans — monthly, yearly etc.',
+  trainers: 'How many trainers or experts are on your team?',
+  specializations: 'What areas do you specialize in?',
+  doctors: 'List your doctors or specialists with their qualifications.',
+  insuranceAccepted: 'Which insurance plans do you accept?',
+  courses: 'What courses or programs do you teach?',
+  faculty: 'Tell about your teachers and their experience.',
+  certifications: 'Any certifications or awards your business has.',
+  experience: 'How many years of experience does your business have?',
+  team: 'How many people are on your team?',
+  brandsServiced: 'Which brands or types do you work with?',
+  productCategories: 'What types of products do you sell?',
+  brands: 'Which brands are available at your shop?',
+  roomTypes: 'List room types and their prices.',
+  amenities: 'What facilities do you offer? e.g., WiFi, Pool, Parking',
+  checkinTime: 'When can guests check in and check out?',
+  starRating: 'What is your hotel rating?',
+};
+
+const Tooltip = ({ text, children }) => {
+  const [show, setShow] = useState(false);
+  return (
+    <div className="relative" onMouseEnter={() => setShow(true)} onMouseLeave={() => setShow(false)}>
+      {children}
+      <AnimatePresence>
+        {show && text && (
+          <motion.div
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 4 }}
+            className="absolute z-50 bottom-full left-0 mb-1 w-64 px-3 py-2 bg-navy-800 text-white text-[10px] leading-relaxed rounded-lg shadow-lg pointer-events-none"
+          >
+            {text}
+            <div className="absolute top-full left-4 w-2 h-2 bg-navy-800 transform rotate-45 -translate-y-1" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+/* ══════════════════════════════════════════════════════════
+   CATEGORY-SPECIFIC BUSINESS INFO POPUP (with prefill + tooltips)
+   ══════════════════════════════════════════════════════════ */
+const CategoryBusinessInfoPopup = ({ open, onClose, onSave, businessData, currentUser, category, lang }) => {
   const config = categoryFormConfigs[category] || categoryFormConfigs.professional;
   const initFields = {};
   config.fields.forEach(f => {
-    if (f.key === 'address') initFields[f.key] = businessData?.businessAddress || '';
-    else if (f.key === 'phone') initFields[f.key] = businessData?.phone || '';
-    else if (f.key === 'description') initFields[f.key] = businessData?.businessName ? `Welcome to ${businessData.businessName}` : '';
+    if (f.key === 'address') {
+      const parts = [businessData?.businessAddress, businessData?.businessCity, businessData?.businessState, businessData?.businessPincode].filter(Boolean);
+      initFields[f.key] = parts.join(', ') || '';
+    }
+    else if (f.key === 'phone') initFields[f.key] = businessData?.phone || currentUser?.phone || '';
+    else if (f.key === 'email') initFields[f.key] = currentUser?.email || '';
+    else if (f.key === 'description') initFields[f.key] = businessData?.businessName ? `Welcome to ${businessData.businessName} — your trusted ${category} business.` : '';
+    else if (f.key === 'tagline') initFields[f.key] = businessData?.businessName ? `${businessData.businessName} — Quality you can trust` : '';
     else initFields[f.key] = '';
   });
   const initToggles = {};
@@ -490,7 +557,7 @@ const CategoryBusinessInfoPopup = ({ open, onClose, onSave, businessData, catego
               <span className="text-2xl">{config.icon}</span>
               <div>
                 <h2 className="text-base font-bold text-navy-900">{config.title}</h2>
-                <p className="text-xs text-navy-400 mt-0.5">This will appear on your website &middot; Use 🎤 to speak</p>
+                <p className="text-xs text-navy-400 mt-0.5">This will appear on your website &middot; Fields are pre-filled for you &middot; Use 🎤 to speak</p>
               </div>
             </div>
             <button onClick={onClose} className="p-1.5 hover:bg-navy-50 rounded-lg"><X className="w-5 h-5 text-navy-400" /></button>
@@ -499,10 +566,17 @@ const CategoryBusinessInfoPopup = ({ open, onClose, onSave, businessData, catego
           <form onSubmit={e => { e.preventDefault(); onSave({ fields, toggles, uploads }); }}
             className="flex-1 overflow-y-auto p-5 space-y-3">
 
-            {/* Dynamic fields with voice input */}
+            {/* Dynamic fields with voice input + tooltips */}
             {config.fields.map(f => (
               <div key={f.key}>
-                <label className="block text-xs font-semibold text-navy-700 mb-1">{f.label}</label>
+                <Tooltip text={fieldTooltips[f.key]}>
+                  <label className="block text-xs font-semibold text-navy-700 mb-1 cursor-help">
+                    {f.label}
+                    {(f.key === 'phone' || f.key === 'email' || f.key === 'address') && fields[f.key] && (
+                      <span className="ml-2 text-[9px] font-medium text-teal-600 bg-teal-50 px-1.5 py-0.5 rounded">Auto-filled</span>
+                    )}
+                  </label>
+                </Tooltip>
                 <VoiceInput value={fields[f.key] || ''} onChange={v => updateField(f.key, v)}
                   placeholder={f.placeholder} multiline={f.multiline} type={f.type} lang={lang} />
               </div>
@@ -1189,6 +1263,11 @@ export const OnboardingPage = () => {
   const [showSkipConfirm, setShowSkipConfirm] = useState(false);
   const [allDone, setAllDone] = useState(false);
 
+  // Website choice state: null = not chosen, 'existing' = has website, 'build' = build new
+  const [websiteChoice, setWebsiteChoice] = useState(null);
+  const [existingUrl, setExistingUrl] = useState('');
+  const [existingUrlConfirmed, setExistingUrlConfirmed] = useState(false);
+
   // Website flow state
   const [autoTemplate, setAutoTemplate] = useState(null);
   const [showTemplatePreview, setShowTemplatePreview] = useState(false);
@@ -1209,9 +1288,9 @@ export const OnboardingPage = () => {
 
   const totalSteps = 3;
   const stepIds = ['website', 'social_media', 'google_business'];
-  const stepTitles = ['Build Your Website', 'Connect Social Media', 'Google Business Profile'];
+  const stepTitles = ['Your Website', 'Connect Social Media', 'Google Business Profile'];
   const stepDescs = [
-    'AI will build a professional website for your business.',
+    'Link your existing website or let AI build a new one for your business.',
     'Connect or create social media accounts to boost visibility.',
     'Set up your Google Business Profile for local search visibility.'
   ];
@@ -1223,10 +1302,7 @@ export const OnboardingPage = () => {
     const tplId = categoryTemplateMap[category] || 1;
     const tpl = websiteTemplates.find(t => t.id === tplId);
     setAutoTemplate(tpl);
-    if (currentStep === 0 && !templateConfirmed) {
-      const timer = setTimeout(() => setShowTemplatePreview(true), 600);
-      return () => clearTimeout(timer);
-    }
+    // Don't auto-open template preview — wait for user to pick "Build it here"
   }, []);
 
   // Website flow handlers (auto-chain)
@@ -1252,6 +1328,16 @@ export const OnboardingPage = () => {
     setPurchasedDomain(domain);
     setShowDomain(false);
     markStepComplete('website');
+  };
+
+  const handleExistingWebsiteConfirm = () => {
+    setExistingUrlConfirmed(true);
+    markStepComplete('website');
+  };
+
+  const handleStartBuild = () => {
+    setWebsiteChoice('build');
+    setTimeout(() => setShowTemplatePreview(true), 400);
   };
 
   const handleSocialDone = (statuses) => {
@@ -1415,55 +1501,166 @@ export const OnboardingPage = () => {
               </div>
             </div>
 
-            {/* ═══ Step 1: WEBSITE (auto-flow) ═══ */}
+            {/* ═══ Step 1: WEBSITE (choice → existing or build) ═══ */}
             {currentStep === 0 && (
               <>
-                <div className="bg-white rounded-xl border border-navy-100 p-5 mb-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-xs font-bold text-navy-700 uppercase tracking-wider">Auto-Setup Progress</h3>
-                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-teal-100 text-teal-700">
-                      {categoryLabel} Template
-                    </span>
-                  </div>
-                  <div className="space-y-2">
-                    {websiteSubSteps.map((item, i) => (
-                      <div key={item.key}
-                        className={`flex items-center justify-between p-3 rounded-lg border transition-all ${
-                          item.done ? 'bg-teal-50 border-teal-200' : 'bg-white border-navy-100'
-                        }`}>
-                        <div className="flex items-center gap-3">
-                          <div className={`w-7 h-7 rounded-full flex items-center justify-center ${
-                            item.done ? 'bg-teal-600' : 'bg-navy-100'
-                          }`}>
-                            {item.done ? <Check className="w-4 h-4 text-white" /> : <span className="text-[10px] font-bold text-navy-400">{i + 1}</span>}
-                          </div>
-                          <div>
-                            <p className={`text-sm font-semibold ${item.done ? 'text-teal-800' : 'text-navy-800'}`}>{item.label}</p>
-                            <p className="text-[11px] text-navy-400">{item.desc}</p>
-                          </div>
+                {/* Step A: Choose path — only show if not yet chosen */}
+                {!websiteChoice && !existingUrlConfirmed && (
+                  <div className="bg-white rounded-xl border border-navy-100 p-6 mb-6">
+                    <h3 className="text-sm font-bold text-navy-800 mb-1">Do you already have a website?</h3>
+                    <p className="text-xs text-navy-400 mb-6">Choose one option to continue</p>
+
+                    <div className="grid md:grid-cols-2 gap-4">
+                      {/* Option 1: Existing Website */}
+                      <button onClick={() => setWebsiteChoice('existing')}
+                        className="group text-left p-5 border-2 border-navy-100 rounded-xl hover:border-teal-400 hover:bg-teal-50/30 transition-all">
+                        <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-3 group-hover:bg-blue-200 transition-colors">
+                          <ExternalLink className="w-6 h-6 text-blue-600" />
                         </div>
-                        {item.done && <Check className="w-4 h-4 text-teal-600" />}
-                      </div>
-                    ))}
+                        <h4 className="text-sm font-bold text-navy-800 mb-1">I already have a website</h4>
+                        <p className="text-[11px] text-navy-400 leading-relaxed">
+                          Link your existing website to LeadFlexUp for tracking, analytics and growth insights.
+                        </p>
+                      </button>
+
+                      {/* Option 2: Build Here */}
+                      <button onClick={handleStartBuild}
+                        className="group text-left p-5 border-2 border-navy-100 rounded-xl hover:border-teal-400 hover:bg-teal-50/30 transition-all">
+                        <div className="w-12 h-12 bg-teal-100 rounded-xl flex items-center justify-center mb-3 group-hover:bg-teal-200 transition-colors">
+                          <Sparkles className="w-6 h-6 text-teal-600" />
+                        </div>
+                        <h4 className="text-sm font-bold text-navy-800 mb-1">Build it here</h4>
+                        <p className="text-[11px] text-navy-400 leading-relaxed">
+                          Our AI will build a professional website for your {categoryLabel.toLowerCase()} business in minutes.
+                        </p>
+                      </button>
+                    </div>
                   </div>
+                )}
 
-                  {/* Resume button if user closed a popup */}
-                  {!websiteSubSteps.every(s => s.done) && (
-                    <button onClick={resumeWebsiteFlow}
-                      className="w-full mt-4 flex items-center justify-center gap-2 py-3 bg-navy-700 text-white text-sm font-semibold rounded-xl hover:bg-navy-800 transition-colors">
-                      {templateConfirmed ? 'Continue Building' : 'Start Building'} <ArrowRight className="w-4 h-4" />
-                    </button>
-                  )}
-                </div>
+                {/* Path A: Existing Website */}
+                {websiteChoice === 'existing' && !existingUrlConfirmed && (
+                  <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+                    className="bg-white rounded-xl border border-navy-100 p-6 mb-6">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+                        <Globe className="w-5 h-5 text-blue-600" />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-bold text-navy-800">Link Your Existing Website</h3>
+                        <p className="text-xs text-navy-400">We'll connect it to your LeadFlexUp dashboard for tracking</p>
+                      </div>
+                    </div>
 
-                {websiteSubSteps.every(s => s.done) ? (
+                    {/* If system detected a website during analysis */}
+                    {businessData?.detectedWebsite && (
+                      <div className="bg-teal-50 border border-teal-200 rounded-lg p-3 mb-4">
+                        <p className="text-xs text-teal-800 font-semibold mb-1">🔍 Website already detected!</p>
+                        <p className="text-[11px] text-teal-600">
+                          We found <span className="font-bold">{businessData.detectedWebsite}</span> during our analysis.
+                        </p>
+                        <div className="flex gap-2 mt-2">
+                          <button
+                            onClick={() => { setExistingUrl(businessData.detectedWebsite); }}
+                            className="px-3 py-1.5 bg-teal-600 text-white text-[10px] font-semibold rounded-lg hover:bg-teal-700 transition-colors">
+                            Use this website
+                          </button>
+                          <button
+                            onClick={() => setExistingUrl('')}
+                            className="px-3 py-1.5 bg-white text-navy-600 text-[10px] font-semibold rounded-lg border border-navy-200 hover:bg-navy-50 transition-colors">
+                            Enter different URL
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    <div className="mb-4">
+                      <label className="block text-xs font-semibold text-navy-700 mb-1.5">Website URL</label>
+                      <div className="relative">
+                        <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-navy-400" />
+                        <input
+                          value={existingUrl}
+                          onChange={e => setExistingUrl(e.target.value)}
+                          placeholder="e.g., www.yourbusiness.com"
+                          className="w-full pl-10 pr-4 py-2.5 bg-navy-50 border border-navy-100 rounded-lg text-sm text-navy-800 placeholder-navy-400 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <button onClick={() => setWebsiteChoice(null)}
+                        className="px-4 py-2.5 border border-navy-200 text-navy-600 text-xs font-semibold rounded-lg hover:bg-navy-50 transition-colors">
+                        Back
+                      </button>
+                      <button
+                        onClick={handleExistingWebsiteConfirm}
+                        disabled={!existingUrl.trim()}
+                        className={`flex-1 flex items-center justify-center gap-2 py-2.5 text-xs font-semibold rounded-lg transition-colors ${
+                          existingUrl.trim()
+                            ? 'bg-teal-600 text-white hover:bg-teal-700'
+                            : 'bg-navy-200 text-navy-400 cursor-not-allowed'
+                        }`}>
+                        Link Website & Continue <ArrowRight className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* Path B: Build it here — show sub-steps */}
+                {websiteChoice === 'build' && (
+                  <div className="bg-white rounded-xl border border-navy-100 p-5 mb-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-xs font-bold text-navy-700 uppercase tracking-wider">Build Progress</h3>
+                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-teal-100 text-teal-700">
+                        {categoryLabel} Template
+                      </span>
+                    </div>
+                    <div className="space-y-2">
+                      {websiteSubSteps.map((item, i) => (
+                        <div key={item.key}
+                          className={`flex items-center justify-between p-3 rounded-lg border transition-all ${
+                            item.done ? 'bg-teal-50 border-teal-200' : 'bg-white border-navy-100'
+                          }`}>
+                          <div className="flex items-center gap-3">
+                            <div className={`w-7 h-7 rounded-full flex items-center justify-center ${
+                              item.done ? 'bg-teal-600' : 'bg-navy-100'
+                            }`}>
+                              {item.done ? <Check className="w-4 h-4 text-white" /> : <span className="text-[10px] font-bold text-navy-400">{i + 1}</span>}
+                            </div>
+                            <div>
+                              <p className={`text-sm font-semibold ${item.done ? 'text-teal-800' : 'text-navy-800'}`}>{item.label}</p>
+                              <p className="text-[11px] text-navy-400">{item.desc}</p>
+                            </div>
+                          </div>
+                          {item.done && <Check className="w-4 h-4 text-teal-600" />}
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Resume button if user closed a popup */}
+                    {!websiteSubSteps.every(s => s.done) && (
+                      <button onClick={resumeWebsiteFlow}
+                        className="w-full mt-4 flex items-center justify-center gap-2 py-3 bg-navy-700 text-white text-sm font-semibold rounded-xl hover:bg-navy-800 transition-colors">
+                        {templateConfirmed ? 'Continue Building' : 'Start Building'} <ArrowRight className="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
+                )}
+
+                {/* Completed banner */}
+                {(existingUrlConfirmed || (websiteChoice === 'build' && websiteSubSteps.every(s => s.done))) ? (
                   <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
                     className="bg-teal-50 rounded-xl border border-teal-200 p-5 text-center">
                     <div className="w-10 h-10 bg-teal-600 rounded-full flex items-center justify-center mx-auto mb-3">
                       <Check className="w-5 h-5 text-white" />
                     </div>
                     <p className="text-sm font-bold text-teal-800 mb-1">Website Setup Complete!</p>
-                    <p className="text-xs text-teal-600 mb-4">Your website is live at {purchasedDomain}</p>
+                    <p className="text-xs text-teal-600 mb-4">
+                      {existingUrlConfirmed
+                        ? `${existingUrl} is now linked to your dashboard`
+                        : `Your website is live at ${purchasedDomain}`
+                      }
+                    </p>
                     <button onClick={() => markStepComplete('website')}
                       className="inline-flex items-center gap-2 px-6 py-2.5 bg-teal-600 text-white text-sm font-semibold rounded-xl hover:bg-teal-700 transition-colors">
                       Next Step <ArrowRight className="w-4 h-4" />
@@ -1560,7 +1757,7 @@ export const OnboardingPage = () => {
         template={autoTemplate} categoryName={categoryLabel} />
 
       <CategoryBusinessInfoPopup open={showBusinessInfo} onClose={() => setShowBusinessInfo(false)}
-        onSave={handleBusinessInfoSave} businessData={businessData} category={category} lang={language} />
+        onSave={handleBusinessInfoSave} businessData={businessData} currentUser={currentUser} category={category} lang={language} />
 
       <AIBuildingPreviewPopup open={showAiBuild} onComplete={handleAiBuildComplete}
         template={autoTemplate} businessName={businessData?.businessName} />

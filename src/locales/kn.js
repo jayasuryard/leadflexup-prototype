@@ -589,8 +589,9 @@ export default {
   // ══════════════════════════════════════
   // WEBSITE BUILDER
   // ══════════════════════════════════════
-  websiteBuilder: 'ವೆಬ್‌ಸೈಟ ಬಿಲ್ಡರ',
-  websiteBuilderDesc: 'ನಿಮ್ಮ ಬಿಸಿನೆಸ್‌ಗೆ ಪ್ರಫೆಶನಲ ವೆಬ್‌ಸೈಟ ಕ್ರಿಯೇಟ ಮಾಡಿ',
+  websiteBuilder: 'ನಿಮ್ಮ ವೆಬ್‌ಸೈಟ',
+  yourWebsite: 'ನಿಮ್ಮ ವೆಬ್‌ಸೈಟ',
+  websiteBuilderDesc: 'ನಿಮ್ಮ ಬಿಸಿನೆಸ್ ವೆಬ್‌ಸೈಟ ನೋಡಿ ಮತ್ತು ನಿರ್ವಹಿಸಿ',
   wbWelcomeMsg: 'ಊರಿನ ಅತ್ಯುತ್ತಮ ಅನುಭವಕ್ಕೆ ಸ್ವಾಗತ',
   wbGetStarted: 'ಶುರು ಮಾಡಿ',
   wbStepTemplate: 'ಟೆಂಪ್ಲೇಟ',
