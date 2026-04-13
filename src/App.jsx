@@ -43,7 +43,6 @@ function AppRoutes() {
         }
       >
         <Route index element={<NewspaperHome />} />
-        <Route path="chats" element={<DashboardOverview />} />
         <Route path="analytics" element={<AnalyticsDashboard />} />
         <Route path="website" element={<AuthRoute><WebsiteBuilder /></AuthRoute>} />
         <Route path="content" element={<AuthRoute><ContentStudio /></AuthRoute>} />

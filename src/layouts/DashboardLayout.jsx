@@ -22,7 +22,6 @@ export const DashboardLayout = () => {
 
   const navItems = [
     { key: 'home', icon: Home, path: '/dashboard', label: t('nhHome', language) },
-    { key: 'chats', icon: MessageCircle, path: '/dashboard/chats', label: t('nhChats', language) },
     { key: 'analytics', icon: BarChart3, path: '/dashboard/analytics', label: t('analytics', language) },
     ...(isAuthenticated ? [
       { key: 'website', icon: Globe, path: '/dashboard/website', label: t('yourWebsite', language) || t('websiteBuilder', language) },

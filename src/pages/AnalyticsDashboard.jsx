@@ -20,6 +20,23 @@ import { useApp } from '../context/AppContext';
 import { t, getLocalizedText } from '../utils/i18n';
 import { competitorDatabase, subscriptionPlans } from '../data/mockDatabase';
 
+/* ─── Copilot Response Helper ─── */
+const getCopilotResponse = (query, businessData) => {
+  const q = query.toLowerCase();
+  const name = businessData?.name || 'your business';
+  if (q.includes('score') || q.includes('presence') || q.includes('online'))
+    return `Your overall digital presence score is looking strong! Here's what I see for ${name}:\n\n• Google listing: Active but could use more photos\n• Website: Good — consider adding customer testimonials\n• Social media: You're posting regularly, keep it up!\n\nFocus on getting more Google reviews this week — that alone can boost your score by 10-15 points.`;
+  if (q.includes('lead') || q.includes('focus') || q.includes('convert'))
+    return `Based on your lead data, I'd recommend focusing on these leads:\n\n1. Hot leads (score > 80) — You have a few that haven't been contacted in 48+ hours. Reach out today!\n2. Warm leads from Google — These have 3x higher conversion rate for ${name}\n3. Returning visitors — They already know you, a quick WhatsApp message can close the deal\n\nWant me to draft a follow-up message for your top leads?`;
+  if (q.includes('marketing') || q.includes('idea') || q.includes('promote'))
+    return `Here are some marketing ideas tailored for ${name}:\n\n🎯 Quick wins (this week):\n• Post a "behind the scenes" reel — these get 40% more engagement\n• Ask your last 5 happy customers for a Google review\n• Share a special offer on WhatsApp status\n\n📈 Medium-term (this month):\n• Start a weekly content series (e.g., tips, FAQs)\n• Run a small Google Ads campaign targeting nearby areas\n• Partner with a complementary local business for cross-promotion`;
+  if (q.includes('traffic') || q.includes('visitor') || q.includes('low'))
+    return `Looking at your traffic trends for ${name}:\n\n📊 Your traffic has been fluctuating — here's why and what to do:\n\n1. Peak days: Your busiest days are Tuesday and Saturday. Post content on these days!\n2. Top source: Most visitors come from Google Search → keep your listing updated\n3. Mobile: 78% of your traffic is mobile — make sure your website loads fast on phones\n\n💡 Quick tip: Adding "near me" keywords to your website can increase local search traffic by 20%.`;
+  if (q.includes('competitor') || q.includes('competition'))
+    return `Here's a quick competitor analysis:\n\n• Your top competitors are investing heavily in Google Ads and social media\n• Your unique advantage: Better customer reviews and pricing\n• Gap: They have more photos and video content\n\nI suggest focusing on visual content — businesses with 10+ photos get 35% more clicks on Google.`;
+  return `Great question! Based on what I know about ${name}, here are my thoughts:\n\n• Your business is performing well overall with room to grow in digital presence\n• Key opportunity: Leverage your existing customer base for referrals\n• Consider running a limited-time offer to boost foot traffic\n\nWould you like me to dive deeper into any specific area like leads, marketing, or analytics?`;
+};
+
 /* ─── Map marker icons ─── */
 const redIcon = new L.Icon({
   iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
@@ -173,11 +190,21 @@ const MiniGauge = ({ value, label, color, tooltip }) => (
 );
 
 export const AnalyticsDashboard = () => {
-  const { analyticsData, language, businessData, recommendations, isAuthenticated, selectSubscription } = useApp();
+  const { analyticsData, language, businessData, recommendations, isAuthenticated, selectSubscription, subscription } = useApp();
   const [showPlans, setShowPlans] = useState(false);
-  const [mapType, setMapType] = useState('hybrid'); // Default to hybrid (satellite with labels)
+  const [mapType, setMapType] = useState('hybrid');
   const [showMapMenu, setShowMapMenu] = useState(false);
+  const [showCopilot, setShowCopilot] = useState(false);
+  const [copilotMessages, setCopilotMessages] = useState([]);
+  const [copilotInput, setCopilotInput] = useState('');
+  const [copilotThinking, setCopilotThinking] = useState(false);
+  const copilotEndRef = useRef(null);
   const mapMenuRef = useRef(null);
+
+  // Auto-scroll copilot chat
+  useEffect(() => {
+    if (copilotEndRef.current) copilotEndRef.current.scrollIntoView({ behavior: 'smooth' });
+  }, [copilotMessages, copilotThinking]);
   
   if (!analyticsData) return null;
 
@@ -881,65 +908,199 @@ export const AnalyticsDashboard = () => {
 
         {/* Right Sidebar - Sticky */}
         <div className="space-y-3 sm:space-y-4 lg:sticky lg:top-5 lg:self-start">
-          {/* Improve Your Presence (Gaps) */}
-          <motion.div {...fade()} className="bg-white rounded-2xl border border-navy-100 p-4 sm:p-5">
-            <div className="flex items-center gap-2 mb-3">
-              <AlertTriangle className="w-5 h-5 text-yellow-500" />
-              <h3 className="text-sm font-bold text-navy-800">{t('gapTitle', language)}</h3>
-            </div>
-            <p className="text-[11px] text-navy-400 mb-4 leading-relaxed">{t('gapDesc', language)}</p>
-            <div className="space-y-2.5">
-              {gaps.length > 0 ? gaps.map((gap, i) => (
-                <div key={i} className="flex items-start gap-3 p-3 bg-red-50/60 rounded-lg border border-red-100">
-                  <gap.icon className="w-4 h-4 text-red-500 flex-shrink-0 mt-0.5" />
-                  <div className="flex-1">
-                    <p className="text-[11px] font-semibold text-navy-700">{t(gap.key, language)}</p>
-                    <div className="flex items-center gap-1.5 mt-1">
-                      <div className="flex-1 bg-red-100 rounded-full h-1"><div className="bg-red-400 rounded-full h-1" style={{ width: `${gap.score}%` }} /></div>
-                      <span className="text-[9px] font-bold text-red-500">{gap.score}/100</span>
-                    </div>
+          {/* Copilot Section — shown when subscribed */}
+          {isAuthenticated && subscription ? (
+            <>
+              {/* Official Copilot Card */}
+              <motion.div {...fade()} className="bg-gradient-to-br from-navy-800 to-navy-900 rounded-2xl border border-navy-700 p-5 text-white">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-8 h-8 bg-teal-500 rounded-lg flex items-center justify-center">
+                    <Sparkles className="w-4 h-4 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold">LeadFlexUp Copilot</h3>
+                    <p className="text-[9px] text-navy-300">Your AI growth assistant</p>
                   </div>
                 </div>
-              )) : (
-                <div className="p-3 bg-teal-50 rounded-lg border border-teal-100 text-center">
-                  <Check className="w-5 h-5 text-teal-600 mx-auto mb-1" />
-                  <p className="text-[11px] font-semibold text-teal-700">{t('adLookingGood', language)}</p>
-                </div>
-              )}
-            </div>
-            {gaps.length > 0 && (
-              <button onClick={() => setShowPlans(true)}
-                className="w-full mt-4 py-2.5 bg-teal-600 text-white text-xs font-semibold rounded-lg hover:bg-teal-700 flex items-center justify-center gap-1.5">
-                {t('letsHelp', language)} <ArrowRight className="w-3.5 h-3.5" />
-              </button>
-            )}
-          </motion.div>
+                <p className="text-[11px] text-navy-300 leading-relaxed mb-4">
+                  Ask me anything about your analytics, leads, marketing strategies, or get personalized recommendations for your business.
+                </p>
+                <button
+                  onClick={() => setShowCopilot(true)}
+                  className="w-full py-2.5 bg-teal-500 hover:bg-teal-400 text-white text-xs font-semibold rounded-lg transition-colors flex items-center justify-center gap-1.5"
+                >
+                  <Sparkles className="w-3.5 h-3.5" /> Ask Copilot
+                </button>
+              </motion.div>
 
-          {/* Smart Recommendations */}
-          {recommendations && recommendations.length > 0 && (
-            <motion.div {...fade(1)} className="bg-white rounded-2xl border border-navy-100 p-4 sm:p-5">
-              <div className="flex items-center gap-1.5 mb-3">
-                <Lightbulb className="w-4 h-4 text-teal-600" />
-                <h3 className="text-sm font-bold text-navy-800">{t('recommendationsTitle', language)}</h3>
-              </div>
-              <div className="space-y-2.5">
-                {recommendations.slice(0, 5).map((rec, i) => {
-                  const colors = { critical: 'bg-red-500', high: 'bg-yellow-500', medium: 'bg-navy-400', low: 'bg-teal-500' };
-                  return (
-                    <div key={i} className="flex items-start gap-2.5 p-3 bg-navy-50/50 rounded-lg">
-                      <div className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${colors[rec.priority]}`} />
-                      <div>
-                        <p className="text-[11px] font-semibold text-navy-700">{getLocalizedText(rec.title, language)}</p>
-                        <p className="text-[9px] text-navy-400 mt-0.5">{rec.impact} • {rec.timeline}</p>
+              {/* Quick Insights from Copilot */}
+              <motion.div {...fade(1)} className="bg-white rounded-2xl border border-navy-100 p-4 sm:p-5">
+                <div className="flex items-center gap-1.5 mb-3">
+                  <Lightbulb className="w-4 h-4 text-teal-600" />
+                  <h3 className="text-sm font-bold text-navy-800">Copilot Insights</h3>
+                </div>
+                <div className="space-y-2.5">
+                  {[
+                    { text: 'Your website traffic is up 23% this week — keep posting on social media!', priority: 'high' },
+                    { text: 'You have 3 hot leads that haven\'t been contacted in 48hrs. Reach out now.', priority: 'critical' },
+                    { text: 'Competitor "Spice Garden" just updated their Google listing. Consider updating yours.', priority: 'medium' },
+                    { text: 'Add business hours to your website footer — 40% of visitors look for this.', priority: 'low' },
+                  ].map((insight, i) => {
+                    const colors = { critical: 'bg-red-500', high: 'bg-amber-500', medium: 'bg-navy-400', low: 'bg-teal-500' };
+                    return (
+                      <div key={i} className="flex items-start gap-2.5 p-3 bg-navy-50/50 rounded-lg">
+                        <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${colors[insight.priority]}`} />
+                        <p className="text-[11px] text-navy-600 leading-relaxed">{insight.text}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+                <button onClick={() => setShowCopilot(true)}
+                  className="w-full mt-3 py-2 text-[10px] font-semibold text-teal-600 bg-teal-50 rounded-lg hover:bg-teal-100 transition-colors flex items-center justify-center gap-1">
+                  <Sparkles className="w-3 h-3" /> Ask Copilot for more
+                </button>
+              </motion.div>
+            </>
+          ) : (
+            <>
+              {/* Original: Improve Your Presence (Gaps) — for non-subscribed users */}
+              <motion.div {...fade()} className="bg-white rounded-2xl border border-navy-100 p-4 sm:p-5">
+                <div className="flex items-center gap-2 mb-3">
+                  <AlertTriangle className="w-5 h-5 text-yellow-500" />
+                  <h3 className="text-sm font-bold text-navy-800">{t('gapTitle', language)}</h3>
+                </div>
+                <p className="text-[11px] text-navy-400 mb-4 leading-relaxed">{t('gapDesc', language)}</p>
+                <div className="space-y-2.5">
+                  {gaps.length > 0 ? gaps.map((gap, i) => (
+                    <div key={i} className="flex items-start gap-3 p-3 bg-red-50/60 rounded-lg border border-red-100">
+                      <gap.icon className="w-4 h-4 text-red-500 shrink-0 mt-0.5" />
+                      <div className="flex-1">
+                        <p className="text-[11px] font-semibold text-navy-700">{t(gap.key, language)}</p>
+                        <div className="flex items-center gap-1.5 mt-1">
+                          <div className="flex-1 bg-red-100 rounded-full h-1"><div className="bg-red-400 rounded-full h-1" style={{ width: `${gap.score}%` }} /></div>
+                          <span className="text-[9px] font-bold text-red-500">{gap.score}/100</span>
+                        </div>
                       </div>
                     </div>
-                  );
-                })}
-              </div>
-            </motion.div>
+                  )) : (
+                    <div className="p-3 bg-teal-50 rounded-lg border border-teal-100 text-center">
+                      <Check className="w-5 h-5 text-teal-600 mx-auto mb-1" />
+                      <p className="text-[11px] font-semibold text-teal-700">{t('adLookingGood', language)}</p>
+                    </div>
+                  )}
+                </div>
+                {gaps.length > 0 && (
+                  <button onClick={() => setShowPlans(true)}
+                    className="w-full mt-4 py-2.5 bg-teal-600 text-white text-xs font-semibold rounded-lg hover:bg-teal-700 flex items-center justify-center gap-1.5">
+                    {t('letsHelp', language)} <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </motion.div>
+
+              {/* Smart Recommendations — for non-subscribed users */}
+              {recommendations && recommendations.length > 0 && (
+                <motion.div {...fade(1)} className="bg-white rounded-2xl border border-navy-100 p-4 sm:p-5">
+                  <div className="flex items-center gap-1.5 mb-3">
+                    <Lightbulb className="w-4 h-4 text-teal-600" />
+                    <h3 className="text-sm font-bold text-navy-800">{t('recommendationsTitle', language)}</h3>
+                  </div>
+                  <div className="space-y-2.5">
+                    {recommendations.slice(0, 5).map((rec, i) => {
+                      const colors = { critical: 'bg-red-500', high: 'bg-yellow-500', medium: 'bg-navy-400', low: 'bg-teal-500' };
+                      return (
+                        <div key={i} className="flex items-start gap-2.5 p-3 bg-navy-50/50 rounded-lg">
+                          <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${colors[rec.priority]}`} />
+                          <div>
+                            <p className="text-[11px] font-semibold text-navy-700">{getLocalizedText(rec.title, language)}</p>
+                            <p className="text-[9px] text-navy-400 mt-0.5">{rec.impact} • {rec.timeline}</p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              )}
+            </>
           )}
         </div>
         {/* End of Right Sidebar */}
+
+      {/* ─── Copilot Chat Popup ─── */}
+      <AnimatePresence>
+        {showCopilot && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-navy-950/40 backdrop-blur-sm p-4"
+            onClick={() => setShowCopilot(false)}>
+            <motion.div initial={{ scale: 0.95, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.95, y: 20 }}
+              className="bg-white rounded-2xl w-full max-w-lg h-[70vh] flex flex-col shadow-xl overflow-hidden"
+              onClick={e => e.stopPropagation()}>
+              {/* Header */}
+              <div className="px-5 py-4 border-b border-navy-100 flex items-center justify-between bg-gradient-to-r from-navy-800 to-navy-900">
+                <div className="flex items-center gap-2">
+                  <div className="w-8 h-8 bg-teal-500 rounded-lg flex items-center justify-center">
+                    <Sparkles className="w-4 h-4 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-bold text-white">LeadFlexUp Copilot</h3>
+                    <p className="text-[9px] text-navy-300">Ask anything about your business</p>
+                  </div>
+                </div>
+                <button onClick={() => setShowCopilot(false)} className="p-1.5 hover:bg-white/10 rounded-lg">
+                  <X className="w-5 h-5 text-white" />
+                </button>
+              </div>
+              {/* Messages */}
+              <div className="flex-1 overflow-y-auto p-4 space-y-3">
+                {copilotMessages.length === 0 && (
+                  <div className="text-center py-8">
+                    <Sparkles className="w-10 h-10 text-teal-500 mx-auto mb-3 opacity-50" />
+                    <p className="text-sm font-semibold text-navy-700">How can I help you today?</p>
+                    <p className="text-[11px] text-navy-400 mt-1 max-w-xs mx-auto">Ask about your analytics, leads, marketing tips, or any business question.</p>
+                    <div className="flex flex-wrap gap-1.5 justify-center mt-4">
+                      {['How can I improve my online score?', 'Which leads should I focus on?', 'Give me marketing ideas', 'Why is my traffic low?'].map((q, i) => (
+                        <button key={i} onClick={() => { setCopilotMessages([{ role: 'user', text: q }]); setCopilotThinking(true); setTimeout(() => { setCopilotMessages(prev => [...prev, { role: 'ai', text: getCopilotResponse(q, businessData) }]); setCopilotThinking(false); }, 1200); }}
+                          className="text-[10px] px-2.5 py-1 bg-teal-50 text-teal-700 rounded-full border border-teal-200 hover:bg-teal-100 transition-colors">{q}</button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                {copilotMessages.map((msg, i) => (
+                  <div key={i} className={`flex gap-2 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
+                    <div className={`w-6 h-6 rounded-full flex items-center justify-center shrink-0 ${msg.role === 'ai' ? 'bg-teal-100' : 'bg-navy-700'}`}>
+                      {msg.role === 'ai' ? <Sparkles className="w-3 h-3 text-teal-600" /> : <Eye className="w-3 h-3 text-white" />}
+                    </div>
+                    <div className={`max-w-[80%] ${msg.role === 'user' ? 'bg-navy-700 text-white rounded-2xl rounded-tr-sm px-3 py-2' : 'bg-navy-50 text-navy-700 rounded-2xl rounded-tl-sm px-3 py-2'}`}>
+                      <p className="text-[11px] leading-relaxed whitespace-pre-line">{msg.text}</p>
+                    </div>
+                  </div>
+                ))}
+                {copilotThinking && (
+                  <div className="flex gap-2">
+                    <div className="w-6 h-6 rounded-full bg-teal-100 flex items-center justify-center"><Sparkles className="w-3 h-3 text-teal-600" /></div>
+                    <div className="bg-navy-50 rounded-2xl rounded-tl-sm px-3 py-2">
+                      <div className="flex gap-1"><div className="w-1.5 h-1.5 bg-navy-300 rounded-full animate-bounce" /><div className="w-1.5 h-1.5 bg-navy-300 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} /><div className="w-1.5 h-1.5 bg-navy-300 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} /></div>
+                    </div>
+                  </div>
+                )}
+                <div ref={copilotEndRef} />
+              </div>
+              {/* Input */}
+              <div className="p-3 border-t border-navy-100">
+                <div className="flex items-center gap-2">
+                  <input value={copilotInput} onChange={e => setCopilotInput(e.target.value)}
+                    onKeyDown={e => { if (e.key === 'Enter' && copilotInput.trim()) { const q = copilotInput.trim(); setCopilotMessages(prev => [...prev, { role: 'user', text: q }]); setCopilotInput(''); setCopilotThinking(true); setTimeout(() => { setCopilotMessages(prev => [...prev, { role: 'ai', text: getCopilotResponse(q, businessData) }]); setCopilotThinking(false); }, 1200); } }}
+                    placeholder="Ask Copilot anything..."
+                    className="flex-1 px-3 py-2.5 bg-navy-50 border border-navy-100 rounded-xl text-xs text-navy-800 placeholder-navy-400 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500" />
+                  <button onClick={() => { if (!copilotInput.trim()) return; const q = copilotInput.trim(); setCopilotMessages(prev => [...prev, { role: 'user', text: q }]); setCopilotInput(''); setCopilotThinking(true); setTimeout(() => { setCopilotMessages(prev => [...prev, { role: 'ai', text: getCopilotResponse(q, businessData) }]); setCopilotThinking(false); }, 1200); }}
+                    className="p-2.5 bg-teal-600 text-white rounded-xl hover:bg-teal-700 transition-colors">
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
       </div>
       {/* End of Main Layout Grid */}
     </div>
