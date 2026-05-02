@@ -17,6 +17,16 @@ import { UnifiedInbox } from './pages/UnifiedInbox';
 import { SettingsPage } from './pages/SettingsPage';
 import { CheckoutPage } from './pages/CheckoutPage';
 import { OnboardingPage } from './pages/OnboardingPage';
+import { BlogPage } from './pages/BlogPage';
+import { ProductAnalytics } from './pages/products/ProductAnalytics';
+import { ProductWebsiteBuilder } from './pages/products/ProductWebsiteBuilder';
+import { ProductContentStudio } from './pages/products/ProductContentStudio';
+import { ProductAutomation } from './pages/products/ProductAutomation';
+import { ProductLeadManager } from './pages/products/ProductLeadManager';
+import { ProductInbox } from './pages/products/ProductInbox';
+import { ProductProspectIntel } from './pages/products/ProductProspectIntel';
+import { ProductVoiceAgent } from './pages/products/ProductVoiceAgent';
+import { ProductCompetitorIntel } from './pages/products/ProductCompetitorIntel';
 
 // Only require onboarded (analysis done), NOT authenticated
 const OnboardedRoute = ({ children }) => {
@@ -36,6 +46,16 @@ function AppRoutes() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/checkout" element={<CheckoutPage />} />
       <Route path="/onboarding" element={<OnboardingPage />} />
+      <Route path="/blog" element={<BlogPage />} />
+      <Route path="/products/analytics" element={<ProductAnalytics />} />
+      <Route path="/products/website-builder" element={<ProductWebsiteBuilder />} />
+      <Route path="/products/content-studio" element={<ProductContentStudio />} />
+      <Route path="/products/automation" element={<ProductAutomation />} />
+      <Route path="/products/lead-manager" element={<ProductLeadManager />} />
+      <Route path="/products/inbox" element={<ProductInbox />} />
+      <Route path="/products/prospect-intel" element={<ProductProspectIntel />} />
+      <Route path="/products/voice-agent" element={<ProductVoiceAgent />} />
+      <Route path="/products/competitor-intel" element={<ProductCompetitorIntel />} />
       <Route
         path="/dashboard"
         element={
