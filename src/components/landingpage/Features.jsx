@@ -1,19 +1,23 @@
 import { motion } from 'framer-motion';
 import { BarChart3, Zap, ArrowRight } from 'lucide-react';
 import { t } from '../../utils/i18n';
+import { Commentable } from '../../components/CommentBox';
 
 export const Features = ({ language, features, cardFade }) => {
   return (
     <section id="features" className="py-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Commentable id="features-heading" label="Features Section Heading">
         <div className="text-center max-w-2xl mx-auto mb-16">
           <span className="text-xs font-bold text-teal-600 uppercase tracking-widest">{t('lpPlatformCapabilities', language)}</span>
           <h2 className="text-3xl font-extrabold text-navy-900 mt-3 mb-4">{t('lpFeaturesHeading', language)}</h2>
           <p className="text-navy-500">{t('lpFeaturesDesc', language)}</p>
         </div>
+        </Commentable>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {/* Large — Analytics */}
+          <Commentable id="features-card-0" label="Analytics Feature Card">
           <motion.div {...cardFade(0)}
             className="md:col-span-2 lg:col-span-2 bg-navy-700 text-white rounded-2xl p-7 relative overflow-hidden group"
           >
@@ -51,10 +55,12 @@ export const Features = ({ language, features, cardFade }) => {
               </div>
             </div>
           </motion.div>
+          </Commentable>
 
           {/* Competitor + AI cards */}
           {features.slice(1, 3).map((f, i) => (
-            <motion.div key={i} {...cardFade(i + 1)}
+            <Commentable key={i} id={`features-card-${i + 1}`} label={`Feature Card ${i + 1}`}>
+            <motion.div {...cardFade(i + 1)}
               className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-navy-200/40 hover:shadow-lg hover:bg-white/80 transition-all group"
             >
               <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-4 shadow-sm ${i === 0 ? 'bg-navy-700' : 'bg-teal-600'}`}>
@@ -66,9 +72,11 @@ export const Features = ({ language, features, cardFade }) => {
                 {t('learnMore', language)} <ArrowRight className="w-3.5 h-3.5" />
               </span>
             </motion.div>
+            </Commentable>
           ))}
 
           {/* Large — Automation */}
+          <Commentable id="features-card-3" label="Automation Feature Card">
           <motion.div {...cardFade(3)}
             className="md:col-span-2 lg:col-span-2 bg-gradient-to-br from-teal-600 to-teal-800 text-white rounded-2xl p-7 relative overflow-hidden group"
           >
@@ -92,10 +100,12 @@ export const Features = ({ language, features, cardFade }) => {
               </div>
             </div>
           </motion.div>
+          </Commentable>
 
           {/* Last 2 features */}
           {features.slice(4).map((f, i) => (
-            <motion.div key={i} {...cardFade(i + 4)}
+            <Commentable key={i} id={`features-card-${i + 4}`} label={`Feature Card ${i + 4}`}>
+            <motion.div {...cardFade(i + 4)}
               className="bg-white/60 backdrop-blur-sm rounded-2xl p-6 border border-navy-200/40 hover:shadow-lg hover:bg-white/80 transition-all group"
             >
               <div className={`w-11 h-11 rounded-xl flex items-center justify-center mb-4 shadow-sm ${i === 0 ? 'bg-navy-50' : 'bg-teal-50'}`}>
@@ -107,6 +117,7 @@ export const Features = ({ language, features, cardFade }) => {
                 {t('learnMore', language)} <ArrowRight className="w-3.5 h-3.5" />
               </span>
             </motion.div>
+            </Commentable>
           ))}
         </div>
       </div>

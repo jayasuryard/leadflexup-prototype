@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { t } from '../utils/i18n';
+import { Commentable } from '../components/CommentBox';
 
 const fade = (i = 0) => ({ initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, transition: { delay: i * 0.05, duration: 0.3 } });
 
@@ -71,8 +72,10 @@ export const UnifiedInbox = () => {
   const channelIcon = (ch) => channels.find(c => c.id === ch) || channels[0];
 
   return (
+    <Commentable id="unified-inbox" label="Unified Inbox">
     <div className="h-[calc(100vh-80px)] flex flex-col">
       {/* Header */}
+      <Commentable id="unified-inbox-header" label="Inbox Header">
       <motion.div {...fade(0)} className="flex items-center justify-between px-4 sm:px-6 py-4 border-b border-navy-100 bg-white">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 bg-navy-800 rounded-xl flex items-center justify-center">
@@ -89,9 +92,11 @@ export const UnifiedInbox = () => {
           </button>
         </div>
       </motion.div>
+      </Commentable>
 
       <div className="flex flex-1 overflow-hidden">
         {/* Channel Tabs - Left Rail */}
+        <Commentable id="unified-inbox-channel-sidebar" label="Channel Tabs Sidebar">
         <motion.div {...fade(1)} className="hidden sm:flex flex-col w-[72px] border-r border-navy-100 bg-navy-25 py-3 gap-1 items-center overflow-y-auto">
           {channels.map(ch => (
             <button
@@ -107,8 +112,10 @@ export const UnifiedInbox = () => {
             </button>
           ))}
         </motion.div>
+        </Commentable>
 
         {/* Message List */}
+        <Commentable id="unified-inbox-message-list" label="Message List Panel">
         <motion.div {...fade(2)} className={`flex flex-col border-r border-navy-100 bg-white overflow-hidden ${selectedMsg ? 'hidden sm:flex sm:w-[340px]' : 'flex-1 sm:w-[340px]'}`}>
           {/* Search & Filter Bar */}
           <div className="p-3 border-b border-navy-50 space-y-2">
@@ -182,8 +189,10 @@ export const UnifiedInbox = () => {
             })}
           </div>
         </motion.div>
+        </Commentable>
 
         {/* Message Detail / Empty State */}
+        <Commentable id="unified-inbox-message-detail" label="Message Detail Panel">
         <motion.div {...fade(3)} className={`flex-1 flex flex-col bg-white ${selectedMsg ? 'flex' : 'hidden sm:flex'}`}>
           {!selectedMsg ? (
             <div className="flex-1 flex flex-col items-center justify-center text-navy-300">
@@ -279,7 +288,9 @@ export const UnifiedInbox = () => {
             </>
           )}
         </motion.div>
+        </Commentable>
       </div>
     </div>
+    </Commentable>
   );
 };

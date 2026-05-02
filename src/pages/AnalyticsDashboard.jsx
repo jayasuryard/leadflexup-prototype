@@ -22,6 +22,7 @@ import 'leaflet/dist/leaflet.css';
 import { useApp } from '../context/AppContext';
 import { t, getLocalizedText } from '../utils/i18n';
 import { competitorDatabase, subscriptionPlans } from '../data/mockDatabase';
+import { Commentable } from '../components/CommentBox';
 
 /* --- Animation helper --- */
 const fade = (i = 0) => ({
@@ -350,9 +351,11 @@ export const AnalyticsDashboard = () => {
 
       {/* === PRE-SIGNUP VIEW (Old-style analytics) === */}
       {!isAuthenticated && (
+        <Commentable id="analytics-presignup" label="Analytics - Pre-Signup View">
         <div className="grid lg:grid-cols-[1fr_320px] gap-4 sm:gap-5">
           <div className="space-y-4 sm:space-y-5">
             {/* Score Hero */}
+            <Commentable id="analytics-score-hero" label="Digital Presence Score Card">
             <motion.div {...fade()} className="bg-navy-700 text-white rounded-2xl p-4 sm:p-5">
               <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-5">
                 <div className="relative w-32 h-32 sm:w-36 sm:h-36 shrink-0">
@@ -403,8 +406,10 @@ export const AnalyticsDashboard = () => {
                 </div>
               </div>
             </motion.div>
+            </Commentable>
 
             {/* Leaderboard */}
+            <Commentable id="analytics-leaderboard" label="Competitor Leaderboard Table">
             <motion.div {...fade()} className="bg-white rounded-2xl border border-navy-100 overflow-hidden">
               <div className="px-4 sm:px-5 py-3 border-b border-navy-100">
                 <h3 className="text-sm font-bold text-navy-800">{t('competitorLeaderboard', language)}</h3>
@@ -445,9 +450,11 @@ export const AnalyticsDashboard = () => {
                 </table>
               </div>
             </motion.div>
+            </Commentable>
 
             {/* Traffic & Leads + Sources */}
             <div className="grid lg:grid-cols-3 gap-3 sm:gap-4">
+              <Commentable id="analytics-traffic-chart" label="Traffic & Leads Area Chart">
               <motion.div {...fade()} className="lg:col-span-2 bg-white rounded-2xl border border-navy-100 p-4 sm:p-5">
                 <div className="flex items-center justify-between mb-3">
                   <h3 className="text-sm font-bold text-navy-800">{t('adTrafficLeads', language)}</h3>
@@ -471,6 +478,8 @@ export const AnalyticsDashboard = () => {
                   </AreaChart>
                 </ResponsiveContainer>
               </motion.div>
+              </Commentable>
+              <Commentable id="analytics-traffic-sources" label="Traffic Sources Pie Chart">
               <motion.div {...fade(1)} className="bg-white rounded-2xl border border-navy-100 p-4 sm:p-5">
                 <h3 className="text-sm font-bold text-navy-800 mb-3">{t('trafficSources', language)}</h3>
                 <ResponsiveContainer width="100%" height={140}>
@@ -487,10 +496,12 @@ export const AnalyticsDashboard = () => {
                   ))}
                 </div>
               </motion.div>
+              </Commentable>
             </div>
 
             {/* Social Media + Geographic */}
             <div className="grid lg:grid-cols-2 gap-3 sm:gap-4">
+              <Commentable id="analytics-social-media" label="Social Media Platforms Card">
               <motion.div {...fade()} className="bg-white rounded-2xl border border-navy-100 p-4 sm:p-5">
                 <h3 className="text-sm font-bold text-navy-800 mb-3">{t('adSocialMedia', language)}</h3>
                 <div className="space-y-2">
@@ -514,6 +525,8 @@ export const AnalyticsDashboard = () => {
                   })}
                 </div>
               </motion.div>
+              </Commentable>
+              <Commentable id="analytics-geo-insights" label="Geographic Insights Bar Chart">
               <motion.div {...fade(1)} className="bg-white rounded-2xl border border-navy-100 p-4 sm:p-5">
                 <h3 className="text-sm font-bold text-navy-800 mb-3">{t('geoInsights', language)}</h3>
                 <ResponsiveContainer width="100%" height={180}>
@@ -526,9 +539,11 @@ export const AnalyticsDashboard = () => {
                   </BarChart>
                 </ResponsiveContainer>
               </motion.div>
+              </Commentable>
             </div>
 
             {/* Market Map */}
+            <Commentable id="analytics-market-map" label="Competitor Map with Locations">
             <motion.div {...fade(2)} className="bg-white rounded-2xl border border-navy-100 overflow-hidden">
               <div className="px-4 sm:px-5 py-3 border-b border-navy-100">
                 <h3 className="text-sm font-bold text-navy-800">{t('competitorMap', language)}</h3>
@@ -557,8 +572,10 @@ export const AnalyticsDashboard = () => {
                 </div>
               </div>
             </motion.div>
+            </Commentable>
 
             {/* KPI Cards */}
+            <Commentable id="analytics-kpi-cards" label="KPI Stats Cards (Visits, Leads, Conversion, Followers)">
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
               {[
                 { icon: Eye, label: t('monthlyVisits', language), value: last?.visits?.toLocaleString(), delta: `${visitDelta > 0 ? '+' : ''}${visitDelta}%`, up: visitDelta >= 0, accent: 'bg-navy-700' },
@@ -578,8 +595,10 @@ export const AnalyticsDashboard = () => {
                 </motion.div>
               ))}
             </div>
+            </Commentable>
 
             {/* ═══ MARKET OPPORTUNITY SECTION ═══ */}
+            <Commentable id="analytics-market-opportunity" label="Market Opportunity Section">
             <motion.div {...fade(3)} className="bg-linear-to-br from-navy-800 via-navy-900 to-navy-950 rounded-2xl p-5 sm:p-6 text-white overflow-hidden relative">
               {/* Background decoration */}
               <div className="absolute top-0 right-0 w-48 h-48 bg-teal-500/5 rounded-full -translate-y-1/2 translate-x-1/4" />
@@ -682,11 +701,13 @@ export const AnalyticsDashboard = () => {
                 </button>
               </div>
             </motion.div>
+            </Commentable>
           </div>
 
           {/* Right Sidebar (Pre-signup) */}
           <div className="space-y-3 sm:space-y-4 lg:sticky lg:top-5 lg:self-start">
             {/* Improve Your Presence */}
+            <Commentable id="analytics-gaps-card" label="Digital Presence Gaps & Recommendations">
             <motion.div {...fade()} className="bg-white rounded-2xl border border-navy-100 p-4 sm:p-5">
               <div className="flex items-center gap-2 mb-3">
                 <AlertTriangle className="w-5 h-5 text-yellow-500" />
@@ -721,9 +742,11 @@ export const AnalyticsDashboard = () => {
                 </button>
               </div>
             </motion.div>
+            </Commentable>
 
             {/* Smart Recommendations */}
             {recommendations?.length > 0 && (
+              <Commentable id="analytics-recommendations" label="Smart Recommendations List">
               <motion.div {...fade(1)} className="bg-white rounded-2xl border border-navy-100 p-4 sm:p-5">
                 <div className="flex items-center gap-1.5 mb-3">
                   <Lightbulb className="w-4 h-4 text-teal-600" />
@@ -744,13 +767,16 @@ export const AnalyticsDashboard = () => {
                   })}
                 </div>
               </motion.div>
+              </Commentable>
             )}
           </div>
         </div>
+        </Commentable>
       )}
 
       {/* === POST-SIGNUP VIEW (Tabbed Detailed Analytics) === */}
       {isAuthenticated && (
+      <Commentable id="analytics-postsignup" label="Analytics - Detailed Tabbed View">
       <div className="grid lg:grid-cols-[1fr_300px] gap-4 sm:gap-5">
         <div className="space-y-4 sm:space-y-5">
 
@@ -758,6 +784,7 @@ export const AnalyticsDashboard = () => {
           {activeTab === 'overview' && (
             <>
               {/* Overall Score Hero */}
+              <Commentable id="post-score-hero" label="Overall Score Hero">
               <motion.div {...fade(0)} className="bg-linear-to-br from-navy-700 to-navy-800 rounded-2xl p-5 sm:p-6 text-white">
                 <div className="flex flex-col sm:flex-row items-center gap-5">
                   <div className="relative w-28 h-28 sm:w-32 sm:h-32 shrink-0">
@@ -792,8 +819,10 @@ export const AnalyticsDashboard = () => {
                   </div>
                 </div>
               </motion.div>
+              </Commentable>
 
               {/* Quick KPI Cards */}
+              <Commentable id="post-kpi-cards" label="Quick KPI Cards">
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
                 {[
                   { icon: Eye, label: 'People who visited', value: monthlyVisits.toLocaleString(), delta: `${visitDelta > 0 ? '+' : ''}${visitDelta}%`, up: visitDelta >= 0, color: 'bg-indigo-100 text-indigo-600', explain: 'vs last month' },
@@ -812,8 +841,10 @@ export const AnalyticsDashboard = () => {
                   </motion.div>
                 ))}
               </div>
+              </Commentable>
 
               {/* Revenue vs Cost Chart */}
+              <Commentable id="post-revenue-chart" label="Revenue vs Cost Chart">
               <motion.div {...fade(2)} className="bg-white rounded-2xl border border-navy-100 p-5">
                 <div className="flex items-center justify-between mb-1">
                   <h3 className="text-sm font-bold text-navy-800">Revenue vs Cost (Last 6 Months)</h3>
@@ -838,9 +869,11 @@ export const AnalyticsDashboard = () => {
                   <span className="flex items-center gap-1.5"><span className="w-3 h-0.5 bg-red-400 rounded-full" />Cost (money out)</span>
                 </div>
               </motion.div>
+              </Commentable>
 
               {/* Traffic + Conversion Split */}
               <div className="grid lg:grid-cols-2 gap-4">
+                <Commentable id="post-visitors-chart" label="Visitors This Month">
                 <motion.div {...fade(3)} className="bg-white rounded-2xl border border-navy-100 p-5">
                   <h3 className="text-sm font-bold text-navy-800 mb-1">Visitors This Month</h3>
                   <p className="text-[11px] text-navy-400 mb-3">{monthlyVisits.toLocaleString()} people visited your business online</p>
@@ -855,6 +888,8 @@ export const AnalyticsDashboard = () => {
                     </BarChart>
                   </ResponsiveContainer>
                 </motion.div>
+                </Commentable>
+                <Commentable id="post-traffic-sources-chart" label="Traffic Sources Chart">
                 <motion.div {...fade(4)} className="bg-white rounded-2xl border border-navy-100 p-5">
                   <h3 className="text-sm font-bold text-navy-800 mb-1">Where People Find You</h3>
                   <p className="text-[11px] text-navy-400 mb-3">Traffic sources breakdown</p>
@@ -877,6 +912,7 @@ export const AnalyticsDashboard = () => {
                     </div>
                   </div>
                 </motion.div>
+                </Commentable>
               </div>
             </>
           )}
@@ -885,6 +921,7 @@ export const AnalyticsDashboard = () => {
           {activeTab === 'revenue' && (
             <>
               {/* Financial Summary Banner */}
+              <Commentable id="post-financial-banner" label="Financial Summary Banner">
               <motion.div {...fade(0)} className={`rounded-2xl p-5 border ${profit >= 0 ? 'bg-emerald-50 border-emerald-200' : 'bg-red-50 border-red-200'}`}>
                 <div className="flex items-center gap-3 mb-3">
                   <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${profit >= 0 ? 'bg-emerald-100' : 'bg-red-100'}`}>
@@ -896,8 +933,10 @@ export const AnalyticsDashboard = () => {
                   </div>
                 </div>
               </motion.div>
+              </Commentable>
 
               {/* Money Cards */}
+              <Commentable id="post-money-cards" label="Money Cards">
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
                 {[
                   { icon: Banknote, label: 'Total Revenue', value: `₹${(estimatedRevenue/1000).toFixed(0)}K`, sub: `from ${monthlyLeads} leads`, color: 'bg-emerald-100 text-emerald-600' },
@@ -913,8 +952,10 @@ export const AnalyticsDashboard = () => {
                   </motion.div>
                 ))}
               </div>
+              </Commentable>
 
               {/* Revenue Trend (Detailed) */}
+              <Commentable id="post-revenue-trend" label="Revenue Trend">
               <motion.div {...fade(2)} className="bg-white rounded-2xl border border-navy-100 p-5">
                 <h3 className="text-sm font-bold text-navy-800 mb-1">Monthly Revenue Trend</h3>
                 <p className="text-[11px] text-navy-400 mb-4">How much money your business has been making each month</p>
@@ -936,9 +977,11 @@ export const AnalyticsDashboard = () => {
                   <span className="flex items-center gap-2"><span className="w-4 h-0.5 bg-red-400 rounded-full border-dashed" /> Money Spent (Cost)</span>
                 </div>
               </motion.div>
+              </Commentable>
 
               {/* Where Money Goes + ROI Explanation */}
               <div className="grid lg:grid-cols-2 gap-4">
+                <Commentable id="post-cost-breakdown" label="Cost Breakdown">
                 <motion.div {...fade(3)} className="bg-white rounded-2xl border border-navy-100 p-5">
                   <h3 className="text-sm font-bold text-navy-800 mb-1">Where Your Marketing Money Goes</h3>
                   <p className="text-[11px] text-navy-400 mb-4">Breaking down ₹{subscriptionCost.toLocaleString()} monthly spend</p>
@@ -961,7 +1004,9 @@ export const AnalyticsDashboard = () => {
                     ))}
                   </div>
                 </motion.div>
+                </Commentable>
 
+                <Commentable id="post-roi-explanation" label="ROI Explanation">
                 <motion.div {...fade(4)} className="bg-white rounded-2xl border border-navy-100 p-5">
                   <h3 className="text-sm font-bold text-navy-800 mb-1">Is Your Investment Worth It?</h3>
                   <p className="text-[11px] text-navy-400 mb-4">Simple explanation of your return on investment</p>
@@ -990,6 +1035,7 @@ export const AnalyticsDashboard = () => {
                     </p>
                   </div>
                 </motion.div>
+                </Commentable>
               </div>
             </>
           )}
@@ -998,6 +1044,7 @@ export const AnalyticsDashboard = () => {
           {activeTab === 'traffic' && (
             <>
               {/* Traffic Overview */}
+              <Commentable id="post-traffic-overview" label="Traffic Overview">
               <motion.div {...fade(0)} className="bg-white rounded-2xl border border-navy-100 p-5">
                 <h3 className="text-sm font-bold text-navy-800 mb-1">Monthly Visitors & Leads</h3>
                 <p className="text-[11px] text-navy-400 mb-4">Blue = people who visited, Green = people who contacted you</p>
@@ -1020,9 +1067,11 @@ export const AnalyticsDashboard = () => {
                   <span className="flex items-center gap-2"><span className="w-3 h-3 bg-teal-500 rounded-full" /> Leads (people who contacted)</span>
                 </div>
               </motion.div>
+              </Commentable>
 
               {/* Weekly Pattern + Sources */}
               <div className="grid lg:grid-cols-2 gap-4">
+                <Commentable id="post-weekly-pattern" label="Weekly Pattern">
                 <motion.div {...fade(1)} className="bg-white rounded-2xl border border-navy-100 p-5">
                   <h3 className="text-sm font-bold text-navy-800 mb-1">Best Days of the Week</h3>
                   <p className="text-[11px] text-navy-400 mb-3">Which days get the most visitors</p>
@@ -1036,7 +1085,9 @@ export const AnalyticsDashboard = () => {
                     </BarChart>
                   </ResponsiveContainer>
                 </motion.div>
+                </Commentable>
 
+                <Commentable id="post-traffic-sources-detail" label="Traffic Sources Detail">
                 <motion.div {...fade(2)} className="bg-white rounded-2xl border border-navy-100 p-5">
                   <h3 className="text-sm font-bold text-navy-800 mb-1">Where People Find You</h3>
                   <p className="text-[11px] text-navy-400 mb-3">How visitors discover your business</p>
@@ -1061,9 +1112,11 @@ export const AnalyticsDashboard = () => {
                     </div>
                   </div>
                 </motion.div>
+                </Commentable>
               </div>
 
               {/* Conversion Funnel (Detailed) */}
+              <Commentable id="post-conversion-funnel" label="Conversion Funnel">
               <motion.div {...fade(3)} className="bg-white rounded-2xl border border-navy-100 p-5">
                 <h3 className="text-sm font-bold text-navy-800 mb-1">How People Become Your Customers</h3>
                 <p className="text-[11px] text-navy-400 mb-4">The journey from seeing your business to buying from you</p>
@@ -1093,8 +1146,10 @@ export const AnalyticsDashboard = () => {
                   <p className="text-[11px] text-teal-800"><strong>What this means:</strong> Out of every 100 people who see your business online, about {convRate} contact you. Industry average is 2-5%. {parseFloat(convRate) >= 5 ? 'You are doing great!' : 'There is room to improve.'}</p>
                 </div>
               </motion.div>
+              </Commentable>
 
               {/* Geographic Insights */}
+              <Commentable id="post-geo-visitors" label="Geographic Visitors">
               <motion.div {...fade(4)} className="bg-white rounded-2xl border border-navy-100 p-5">
                 <h3 className="text-sm font-bold text-navy-800 mb-1">Where Your Visitors Are From</h3>
                 <p className="text-[11px] text-navy-400 mb-3">Top cities sending traffic to your business</p>
@@ -1108,6 +1163,7 @@ export const AnalyticsDashboard = () => {
                   </BarChart>
                 </ResponsiveContainer>
               </motion.div>
+              </Commentable>
             </>
           )}
 
@@ -1115,6 +1171,7 @@ export const AnalyticsDashboard = () => {
           {activeTab === 'health' && (
             <>
               {/* Health Score Breakdown */}
+              <Commentable id="post-health-report" label="Business Health Report">
               <motion.div {...fade(0)} className="bg-white rounded-2xl border border-navy-100 p-5">
                 <h3 className="text-sm font-bold text-navy-800 mb-1">Your Business Health Report</h3>
                 <p className="text-[11px] text-navy-400 mb-4">A complete checkup of how your business appears online</p>
@@ -1156,8 +1213,10 @@ export const AnalyticsDashboard = () => {
                   ))}
                 </div>
               </motion.div>
+              </Commentable>
 
               {/* Comparison with Competitors */}
+              <Commentable id="post-competitor-comparison" label="Competitor Comparison">
               <motion.div {...fade(2)} className="bg-white rounded-2xl border border-navy-100 p-5">
                 <h3 className="text-sm font-bold text-navy-800 mb-1">How You Compare to Top Competitors</h3>
                 <p className="text-[11px] text-navy-400 mb-4">Your scores vs the average of top 10 competitors in your area</p>
@@ -1188,6 +1247,7 @@ export const AnalyticsDashboard = () => {
                   <span className="flex items-center gap-1.5"><span className="w-3 h-2 bg-navy-200 rounded-sm" /> Competitor average</span>
                 </div>
               </motion.div>
+              </Commentable>
             </>
           )}
 
@@ -1209,6 +1269,7 @@ export const AnalyticsDashboard = () => {
               </motion.div>
 
               {/* Leaderboard */}
+              <Commentable id="post-competitor-leaderboard" label="Competitor Leaderboard">
               <motion.div {...fade(1)} className="bg-white rounded-2xl border border-navy-100 overflow-hidden">
                 <div className="px-5 py-3 border-b border-navy-100">
                   <h3 className="text-sm font-bold text-navy-800">Top Competitors in Your Area</h3>
@@ -1254,8 +1315,10 @@ export const AnalyticsDashboard = () => {
                   </table>
                 </div>
               </motion.div>
+              </Commentable>
 
               {/* Competitor Map */}
+              <Commentable id="post-competitor-map" label="Competitor Map">
               <motion.div {...fade(2)} className="bg-white rounded-2xl border border-navy-100 overflow-hidden">
                 <div className="px-5 py-3 border-b border-navy-100">
                   <h3 className="text-sm font-bold text-navy-800">Competitor Map</h3>
@@ -1284,6 +1347,7 @@ export const AnalyticsDashboard = () => {
                   </div>
                 </div>
               </motion.div>
+              </Commentable>
             </>
           )}
 
@@ -1291,6 +1355,7 @@ export const AnalyticsDashboard = () => {
           {activeTab === 'social' && (
             <>
               {/* Social Overview */}
+              <Commentable id="post-social-overview" label="Social Media Overview">
               <motion.div {...fade(0)} className="bg-white rounded-2xl border border-navy-100 p-5">
                 <h3 className="text-sm font-bold text-navy-800 mb-1">Your Social Media Presence</h3>
                 <p className="text-[11px] text-navy-400 mb-4">How your business is doing across social platforms</p>
@@ -1313,8 +1378,10 @@ export const AnalyticsDashboard = () => {
                   </div>
                 </div>
               </motion.div>
+              </Commentable>
 
               {/* Platform Breakdown */}
+              <Commentable id="post-social-platforms" label="Social Platforms Breakdown">
               <motion.div {...fade(1)} className="bg-white rounded-2xl border border-navy-100 p-5">
                 <h3 className="text-sm font-bold text-navy-800 mb-4">Platform by Platform</h3>
                 <div className="space-y-3">
@@ -1348,6 +1415,7 @@ export const AnalyticsDashboard = () => {
                   })}
                 </div>
               </motion.div>
+              </Commentable>
 
               {/* Social Tips */}
               <motion.div {...fade(2)} className="bg-amber-50 border border-amber-200 rounded-2xl p-5">
@@ -1377,6 +1445,7 @@ export const AnalyticsDashboard = () => {
           {isAuthenticated && subscription ? (
             <>
               {/* Copilot Card */}
+              <Commentable id="post-sidebar-actions" label="Copilot Actions">
               <motion.div {...fade()} className="bg-linear-to-br from-navy-800 to-navy-900 rounded-2xl border border-navy-700 p-5 text-white">
                 <div className="flex items-center gap-2 mb-3">
                   <div className="w-8 h-8 bg-teal-500 rounded-lg flex items-center justify-center"><Sparkles className="w-4 h-4 text-white" /></div>
@@ -1385,8 +1454,10 @@ export const AnalyticsDashboard = () => {
                 <p className="text-[11px] text-navy-300 leading-relaxed mb-4">Ask me anything about your analytics, leads, or marketing strategies.</p>
                 <button onClick={() => setShowCopilot(true)} className="w-full py-2.5 bg-teal-500 hover:bg-teal-400 text-white text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5"><Sparkles className="w-3.5 h-3.5" /> Ask Copilot</button>
               </motion.div>
+              </Commentable>
 
               {/* Quick Insights */}
+              <Commentable id="post-sidebar-whatnext" label="Copilot Insights">
               <motion.div {...fade(1)} className="bg-white rounded-2xl border border-navy-100 p-4">
                 <div className="flex items-center gap-1.5 mb-3"><Lightbulb className="w-4 h-4 text-teal-600" /><h3 className="text-sm font-bold text-navy-800">Copilot Insights</h3></div>
                 <div className="space-y-2">
@@ -1402,6 +1473,7 @@ export const AnalyticsDashboard = () => {
                 </div>
                 <button onClick={() => setShowCopilot(true)} className="w-full mt-3 py-2 text-[10px] font-semibold text-teal-600 bg-teal-50 rounded-lg hover:bg-teal-100 flex items-center justify-center gap-1"><Sparkles className="w-3 h-3" /> Ask Copilot for more</button>
               </motion.div>
+              </Commentable>
             </>
           ) : (
             <>
@@ -1461,6 +1533,7 @@ export const AnalyticsDashboard = () => {
           </div>
         </div>
       </div>
+      </Commentable>
       )}
 
       {/* === Copilot Chat Popup === */}

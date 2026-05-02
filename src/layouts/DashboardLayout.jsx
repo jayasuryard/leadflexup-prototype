@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { t } from '../utils/i18n';
+import { Commentable } from '../components/CommentBox';
 
 export const DashboardLayout = () => {
   const navigate = useNavigate();
@@ -55,6 +56,7 @@ export const DashboardLayout = () => {
 
       {/* ─── Main Sidebar - only render if user is signed up ─── */}
       {showSidebar && (
+        <Commentable id="dashboard-sidebar" label="Dashboard Sidebar Navigation">
         <aside
           onMouseEnter={() => setSidebarExpanded(true)}
           onMouseLeave={() => setSidebarExpanded(false)}
@@ -162,6 +164,7 @@ export const DashboardLayout = () => {
           </div>
         </div>
       </aside>
+      </Commentable>
       )}
 
       {/* ─── Top bar ─── */}

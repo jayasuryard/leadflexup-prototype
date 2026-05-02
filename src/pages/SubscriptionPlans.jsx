@@ -5,6 +5,7 @@ import { useApp } from '../context/AppContext';
 import { t, getLocalizedText } from '../utils/i18n';
 import { subscriptionPlans } from '../data/mockDatabase';
 import { useState } from 'react';
+import { Commentable } from '../components/CommentBox';
 
 const fade = (i = 0) => ({
   initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 },
@@ -18,8 +19,10 @@ export const SubscriptionPlans = () => {
   const [isYearly, setIsYearly] = useState(false);
 
   return (
+    <Commentable id="subscription-plans" label="Subscription Plans & Pricing">
     <div className="space-y-8">
       {/* Header */}
+      <Commentable id="subscription-header" label="Subscription Plans Header & Billing Toggle">
       <motion.div {...fade()} className="text-center">
         <h1 className="text-2xl font-bold text-navy-900 mb-2">{t('choosePlan', language)}</h1>
         <p className="text-sm text-navy-400 max-w-lg mx-auto">
@@ -44,8 +47,10 @@ export const SubscriptionPlans = () => {
           </span>
         </div>
       </motion.div>
+      </Commentable>
 
       {/* Pricing Cards */}
+      <Commentable id="subscription-plan-cards" label="Pricing Plan Cards Grid">
       <div className="grid md:grid-cols-3 gap-5 max-w-5xl mx-auto">
         {subscriptionPlans.map((plan, i) => {
           const Icon = planIcons[plan.id];
@@ -114,8 +119,10 @@ export const SubscriptionPlans = () => {
           );
         })}
       </div>
+      </Commentable>
 
       {/* Value props */}
+      <Commentable id="subscription-value-props" label="Subscription Value Propositions">
       <div className="grid sm:grid-cols-3 gap-4 max-w-4xl mx-auto">
         {[
           { icon: Check, title: t('subNoCommitment', language), desc: t('subNoCommitmentDesc', language) },
@@ -131,13 +138,17 @@ export const SubscriptionPlans = () => {
           </motion.div>
         ))}
       </div>
+      </Commentable>
 
+      <Commentable id="subscription-contact-sales" label="Custom Plan & Contact Sales">
       <div className="text-center">
         <p className="text-xs text-navy-400 mb-2">{t('subCustomPlan', language)}</p>
         <button className="text-xs font-semibold text-navy-600 border border-navy-200 px-4 py-2 rounded-lg hover:bg-navy-50">
           {t('subContactSales', language)}
         </button>
       </div>
+      </Commentable>
     </div>
+    </Commentable>
   );
 };

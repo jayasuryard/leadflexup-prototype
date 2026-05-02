@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Mic, Languages, ArrowRight } from 'lucide-react';
 import { t } from '../../utils/i18n';
 import { LocationPicker } from '../LocationPicker';
+import { Commentable } from '../../components/CommentBox';
 import heroBG from '../../assets/heroBG.png';
 
 export const Hero = ({
@@ -20,6 +21,7 @@ export const Hero = ({
     return (
         <section className={`relative min-h-[120vh] flex items-center justify-center px-4 text-center transition-all duration-500 ${highlighted ? 'grayscale' : ''}`}>
             {/* Hero Background Image */}
+            <Commentable id="hero-background" label="Hero Background Image">
             <div className="absolute inset-0 -top-32 -bottom-32 pointer-events-none overflow-hidden blur-[3px]">
                 <div
                     className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -28,6 +30,7 @@ export const Hero = ({
                 {/* Overlay for better text readability */}
                 <div className="absolute inset-0 bg-gradient-to-b from-navy-900/30 via-navy-900/20 to-transparent" />
             </div>
+            </Commentable>
 
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -36,11 +39,14 @@ export const Hero = ({
                 className="relative z-10 w-full max-w-5xl"
             >
                 {/* Main Headline */}
+                <Commentable id="hero-headline" label="Hero Headline">
                 <h1 className="brand-title text-7xl sm:text-8xl md:text-9xl text-white mb-8 italic -mt-87.5">
                     LeadFlexUp
                 </h1>
+                </Commentable>
 
                 {/* Subtitle */}
+                <Commentable id="hero-subtitle" label="Hero Subtitle">
                 <motion.p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -49,8 +55,10 @@ export const Hero = ({
                 >
                     Empower your local business with AI-driven insights, smart lead management, and data-powered growth strategies - all in one platform.
                 </motion.p>
+                </Commentable>
 
                 {/* Single Row Form - 4 Columns */}
+                <Commentable id="hero-form" label="Hero Search Form">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -216,6 +224,7 @@ export const Hero = ({
                         </div>
                     )}
                 </motion.div>
+                </Commentable>
             </motion.div>
 
             {/* Decorative Image */}

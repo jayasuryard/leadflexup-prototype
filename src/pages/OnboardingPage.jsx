@@ -10,6 +10,7 @@ import {
   Palette, MonitorSmartphone, Image
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
+import { Commentable } from '../components/CommentBox';
 
 /* ══════════════════════════════════════════════════════════
    WEBSITE TEMPLATES
@@ -1456,8 +1457,10 @@ export const OnboardingPage = () => {
   const StepIcon = stepIcons[currentStep];
 
   return (
+    <Commentable id="onboarding-page" label="Onboarding Flow">
     <div className="min-h-screen bg-navy-50">
       {/* Header */}
+      <Commentable id="onboarding-header" label="Onboarding Page Header">
       <div className="bg-white border-b border-navy-100">
         <div className="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -1469,9 +1472,11 @@ export const OnboardingPage = () => {
           <span className="text-xs font-medium text-navy-400">Step {currentStep + 1} of {totalSteps}</span>
         </div>
       </div>
+      </Commentable>
 
       {/* Progress Bar */}
       <div className="max-w-3xl mx-auto px-4 pt-6">
+        <Commentable id="onboarding-progress-bar" label="Onboarding Step Progress Bar">
         <div className="flex gap-2 mb-8">
           {stepIds.map((_, i) => (
             <div key={i} className={`flex-1 h-1.5 rounded-full transition-all duration-500 ${
@@ -1481,6 +1486,7 @@ export const OnboardingPage = () => {
             }`} />
           ))}
         </div>
+        </Commentable>
       </div>
 
       {/* Step Content */}
@@ -1491,6 +1497,7 @@ export const OnboardingPage = () => {
             transition={{ duration: 0.35 }}>
 
             {/* Step Header */}
+            <Commentable id="onboarding-step-header" label="Current Onboarding Step Header">
             <div className="flex items-start gap-4 mb-6">
               <div className={`w-14 h-14 ${stepColors[currentStep]} rounded-xl flex items-center justify-center flex-shrink-0`}>
                 <StepIcon className="w-7 h-7 text-white" />
@@ -1500,10 +1507,11 @@ export const OnboardingPage = () => {
                 <p className="text-sm text-navy-400 mt-1">{stepDescs[currentStep]}</p>
               </div>
             </div>
+            </Commentable>
 
             {/* ═══ Step 1: WEBSITE (choice → existing or build) ═══ */}
             {currentStep === 0 && (
-              <>
+              <Commentable id="onboarding-website-step" label="Onboarding Website Setup Step">
                 {/* Step A: Choose path — only show if not yet chosen */}
                 {!websiteChoice && !existingUrlConfirmed && (
                   <div className="bg-white rounded-xl border border-navy-100 p-6 mb-6">
@@ -1675,12 +1683,12 @@ export const OnboardingPage = () => {
                     </button>
                   </div>
                 )}
-              </>
+              </Commentable>
             )}
 
             {/* ═══ Step 2: SOCIAL MEDIA (redesigned) ═══ */}
             {currentStep === 1 && (
-              <>
+              <Commentable id="onboarding-social-media-step" label="Onboarding Social Media Step">
                 <div className="bg-white rounded-xl border border-navy-100 p-5 mb-6">
                   <h3 className="text-xs font-bold text-navy-700 uppercase tracking-wider mb-4">Social Media Platforms</h3>
                   <p className="text-sm text-navy-500 mb-4">
@@ -1706,12 +1714,12 @@ export const OnboardingPage = () => {
                     <SkipForward className="w-4 h-4" /> Skip
                   </button>
                 </div>
-              </>
+              </Commentable>
             )}
 
             {/* ═══ Step 3: GOOGLE BUSINESS PROFILE ═══ */}
             {currentStep === 2 && (
-              <>
+              <Commentable id="onboarding-google-business-step" label="Onboarding Google Business Profile Step">
                 <div className="bg-white rounded-xl border border-navy-100 p-5 mb-6">
                   <h3 className="text-xs font-bold text-navy-700 uppercase tracking-wider mb-4">Complete Setup Guide</h3>
                   <p className="text-sm text-navy-500 mb-4">
@@ -1746,7 +1754,7 @@ export const OnboardingPage = () => {
                     <SkipForward className="w-4 h-4" /> Skip
                   </button>
                 </div>
-              </>
+              </Commentable>
             )}
           </motion.div>
         </AnimatePresence>
@@ -1834,5 +1842,6 @@ export const OnboardingPage = () => {
         }
       `}</style>
     </div>
+    </Commentable>
   );
 };

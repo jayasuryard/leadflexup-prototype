@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { t } from '../utils/i18n';
+import { Commentable } from '../components/CommentBox';
 
 const fade = (i = 0) => ({ initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, transition: { delay: i * 0.06, duration: 0.35 } });
 
@@ -227,8 +228,10 @@ export const AutomationHub = () => {
   ];
 
   return (
+    <Commentable id="automation-hub" label="Marketing Automation Hub">
     <div className="space-y-5">
       {/* Header */}
+      <Commentable id="automation-hub-header" label="Automation Hub Header">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-navy-900">{t('automationHub', language)}</h1>
@@ -241,8 +244,10 @@ export const AutomationHub = () => {
           </div>
         </div>
       </div>
+      </Commentable>
 
       {/* KPI Cards */}
+      <Commentable id="automation-hub-kpi-cards" label="Automation KPI Cards">
       <div className="grid grid-cols-4 gap-3">
         {kpis.map((kpi, i) => {
           const Icon = kpi.icon;
@@ -259,8 +264,10 @@ export const AutomationHub = () => {
           );
         })}
       </div>
+      </Commentable>
 
       {/* Social Media Flow Highlight */}
+      <Commentable id="automation-hub-social-flow" label="Social Media Content Flow">
       <motion.div {...fade(1)} className="bg-navy-700 rounded-xl p-5 text-white">
         <div className="flex items-center gap-2 mb-3">
           <Share2 className="w-5 h-5" />
@@ -275,8 +282,10 @@ export const AutomationHub = () => {
           ))}
         </div>
       </motion.div>
+      </Commentable>
 
       {/* Lead Pipeline Flow Highlight */}
+      <Commentable id="automation-hub-lead-flow" label="Lead Pipeline Flow">
       <motion.div {...fade(2)} className="bg-teal-700 rounded-xl p-5 text-white">
         <div className="flex items-center gap-2 mb-3">
           <Target className="w-5 h-5" />
@@ -291,8 +300,10 @@ export const AutomationHub = () => {
           ))}
         </div>
       </motion.div>
+      </Commentable>
 
       {/* All Automation Pipelines */}
+      <Commentable id="automation-hub-pipelines-grid" label="All Automation Pipelines Grid">
       <div>
         <h2 className="text-sm font-bold text-navy-800 mb-3">All Automations</h2>
         <div className="grid md:grid-cols-2 gap-3">
@@ -351,9 +362,11 @@ export const AutomationHub = () => {
           })}
         </div>
       </div>
+      </Commentable>
 
       {/* Popup */}
       <PipelineFlowPopup pipeline={previewPipeline} onClose={() => setPreviewPipeline(null)} />
     </div>
+    </Commentable>
   );
 };

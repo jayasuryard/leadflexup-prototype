@@ -19,6 +19,7 @@ import {
 import { useApp } from '../context/AppContext';
 import { t } from '../utils/i18n';
 import { competitorDatabase } from '../data/mockDatabase';
+import { Commentable } from '../components/CommentBox';
 
 /* --- Animation helper --- */
 const fade = (i = 0) => ({
@@ -122,14 +123,18 @@ export const NewspaperHome = () => {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
 
         {/* === SECTION 1: WELCOME + HEALTH STATUS === */}
+        <Commentable id="home-welcome-health" label="Welcome + Health Status">
         <motion.div {...fade(0)} className="mb-6">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+            <Commentable id="home-welcome-greeting" label="Welcome Greeting">
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold text-navy-900">
                 Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 17 ? 'Afternoon' : 'Evening'}!
               </h1>
               <p className="text-sm text-navy-500 mt-1">Here is how <span className="font-semibold text-navy-700">{bizName}</span> is doing today</p>
             </div>
+            </Commentable>
+            <Commentable id="home-welcome-health-badge" label="Health Status Badge">
             <div className={`flex items-center gap-2 px-4 py-2 rounded-xl border ${healthBg}`}>
               <HealthIcon className={`w-5 h-5 ${healthColor}`} />
               <div>
@@ -137,10 +142,13 @@ export const NewspaperHome = () => {
                 <p className="text-[10px] text-navy-500">Score {score}/100</p>
               </div>
             </div>
+            </Commentable>
           </div>
         </motion.div>
+        </Commentable>
 
         {/* === SECTION 2: THE BIG NUMBERS (Money) === */}
+        <Commentable id="home-big-numbers" label="Big Numbers - Revenue & Costs">
         <motion.div {...fade(1)} className="mb-6">
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-lg font-bold text-navy-800 flex items-center gap-2">
@@ -154,6 +162,7 @@ export const NewspaperHome = () => {
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             {/* Revenue */}
+            <Commentable id="home-stat-revenue" label="Revenue Stat Card">
             <div className="bg-white rounded-2xl border border-navy-100 p-4 hover:shadow-md transition-shadow">
               <div className="flex items-center justify-between mb-2">
                 <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center">
@@ -167,8 +176,10 @@ export const NewspaperHome = () => {
               <p className="text-xs text-navy-500 mt-1">Money you earned</p>
               <p className="text-[10px] text-navy-400 mt-0.5">from {monthlyLeads} leads this month</p>
             </div>
+            </Commentable>
 
             {/* Spent */}
+            <Commentable id="home-stat-spent" label="Marketing Spend Card">
             <div className="bg-white rounded-2xl border border-navy-100 p-4 hover:shadow-md transition-shadow">
               <div className="flex items-center justify-between mb-2">
                 <div className="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center">
@@ -180,8 +191,10 @@ export const NewspaperHome = () => {
               <p className="text-xs text-navy-500 mt-1">Marketing spend</p>
               <p className="text-[10px] text-navy-400 mt-0.5">your LeadFlexUp plan</p>
             </div>
+            </Commentable>
 
             {/* Profit */}
+            <Commentable id="home-stat-profit" label="Profit Card">
             <div className={`bg-white rounded-2xl border p-4 hover:shadow-md transition-shadow ${profit >= 0 ? 'border-emerald-200' : 'border-red-200'}`}>
               <div className="flex items-center justify-between mb-2">
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${profit >= 0 ? 'bg-emerald-100' : 'bg-red-100'}`}>
@@ -195,8 +208,10 @@ export const NewspaperHome = () => {
               <p className="text-xs text-navy-500 mt-1">Your profit</p>
               <p className="text-[10px] text-navy-400 mt-0.5">revenue minus marketing cost</p>
             </div>
+            </Commentable>
 
             {/* Cost per customer */}
+            <Commentable id="home-stat-cost-per-customer" label="Cost Per Customer Card">
             <div className="bg-white rounded-2xl border border-navy-100 p-4 hover:shadow-md transition-shadow">
               <div className="flex items-center justify-between mb-2">
                 <div className="w-10 h-10 bg-amber-100 rounded-xl flex items-center justify-center">
@@ -208,12 +223,16 @@ export const NewspaperHome = () => {
               <p className="text-xs text-navy-500 mt-1">Cost to get 1 customer</p>
               <p className="text-[10px] text-navy-400 mt-0.5">you got {estimatedCustomers} customers this month</p>
             </div>
+            </Commentable>
           </div>
         </motion.div>
+        </Commentable>
 
         {/* === SECTION 3: REVENUE TREND CHART + COST BREAKDOWN === */}
+        <Commentable id="home-revenue-chart" label="Revenue Trend Chart + Cost Breakdown">
         <motion.div {...fade(2)} className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
           {/* Revenue chart */}
+          <Commentable id="home-revenue-chart-graph" label="Revenue vs Cost Area Chart">
           <div className="lg:col-span-2 bg-white rounded-2xl border border-navy-100 p-5">
             <div className="flex items-center justify-between mb-4">
               <div>
@@ -248,8 +267,10 @@ export const NewspaperHome = () => {
               <span className="flex items-center gap-1.5"><span className="w-3 h-0.5 bg-red-400 rounded-full" />Cost (money out)</span>
             </div>
           </div>
+          </Commentable>
 
           {/* Cost breakdown */}
+          <Commentable id="home-cost-breakdown" label="Cost Breakdown Panel">
           <div className="bg-white rounded-2xl border border-navy-100 p-5">
             <h3 className="text-sm font-bold text-navy-800 mb-1">Where Your Money Goes</h3>
             <p className="text-[11px] text-navy-400 mb-4">Breaking down &#8377;{subscriptionCost.toLocaleString()} spent</p>
@@ -277,11 +298,15 @@ export const NewspaperHome = () => {
               </p>
             </div>
           </div>
+          </Commentable>
         </motion.div>
+        </Commentable>
 
         {/* === SECTION 4: CUSTOMER JOURNEY (Funnel + Visitors) === */}
+        <Commentable id="home-customer-journey" label="Customer Journey Funnel">
         <motion.div {...fade(3)} className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
           {/* Funnel */}
+          <Commentable id="home-journey-funnel" label="Customer Conversion Funnel">
           <div className="bg-white rounded-2xl border border-navy-100 p-5 cursor-pointer hover:shadow-md transition-shadow"
             onClick={() => navigate('/dashboard/leads')}>
             <h3 className="text-sm font-bold text-navy-800 mb-1 flex items-center gap-2">
@@ -324,8 +349,10 @@ export const NewspaperHome = () => {
               </span>
             </div>
           </div>
+          </Commentable>
 
           {/* Visitors chart */}
+          <Commentable id="home-journey-visitors-chart" label="Visitors Bar Chart + Sources">
           <div className="bg-white rounded-2xl border border-navy-100 p-5 cursor-pointer hover:shadow-md transition-shadow"
             onClick={() => navigate('/dashboard/analytics')}>
             <div className="flex items-center justify-between mb-1">
@@ -378,9 +405,12 @@ export const NewspaperHome = () => {
               </div>
             </div>
           </div>
+          </Commentable>
         </motion.div>
+        </Commentable>
 
         {/* === SECTION 5: BUSINESS HEALTH DETAILS === */}
+        <Commentable id="home-health-details" label="Business Health Details">
         <motion.div {...fade(4)} className="mb-6">
           <div className="flex items-center justify-between mb-3">
             <h2 className="text-lg font-bold text-navy-800 flex items-center gap-2">
@@ -392,6 +422,7 @@ export const NewspaperHome = () => {
               Full Analysis <ChevronRight className="w-3 h-3" />
             </button>
           </div>
+          <Commentable id="home-health-score-cards" label="Health Score Cards Grid">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             {[
               { label: 'Website', score: analyticsData?.digitalPresence?.website || 0, good: 'Website is working well', bad: 'Your website needs improvement', tip: 'Add photos, customer reviews' },
@@ -430,15 +461,21 @@ export const NewspaperHome = () => {
               );
             })}
           </div>
+          </Commentable>
         </motion.div>
+        </Commentable>
 
         {/* === SECTION 6: WHAT TO DO NEXT === */}
+        <Commentable id="home-what-to-do" label="What To Do Next - Actions">
         {topActions.length > 0 && (
           <motion.div {...fade(5)} className="mb-6">
+            <Commentable id="home-actions-heading" label="Growth Actions Heading">
             <h2 className="text-lg font-bold text-navy-800 mb-3 flex items-center gap-2">
               <Zap className="w-5 h-5 text-amber-500" />
               Do These Things to Grow Faster
             </h2>
+            </Commentable>
+            <Commentable id="home-actions-list" label="Recommended Actions Cards">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               {topActions.map((rec, i) => {
                 const title = typeof rec.title === 'object' ? (rec.title[language] || rec.title.en) : rec.title;
@@ -467,12 +504,16 @@ export const NewspaperHome = () => {
                 );
               })}
             </div>
+            </Commentable>
           </motion.div>
         )}
+        </Commentable>
 
         {/* === SECTION 7: COMPETITORS + QUICK LINKS === */}
+        <Commentable id="home-competitors" label="Competitors + Quick Links">
         <motion.div {...fade(6)} className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
           {/* Competitors */}
+          <Commentable id="home-competitor-table" label="Competitor Rankings Table">
           <div className="lg:col-span-2 bg-white rounded-2xl border border-navy-100 p-5 cursor-pointer hover:shadow-md transition-shadow"
             onClick={() => navigate('/dashboard/competitors')}>
             <div className="flex items-center justify-between mb-3">
@@ -509,9 +550,11 @@ export const NewspaperHome = () => {
               See full competitor analysis <ArrowRight className="w-3 h-3" />
             </p>
           </div>
+          </Commentable>
 
           {/* Quick links + social */}
           <div className="space-y-3">
+            <Commentable id="home-social-media-card" label="Social Media Followers Card">
             <div className="bg-white rounded-2xl border border-navy-100 p-4 cursor-pointer hover:shadow-md transition-shadow"
               onClick={() => navigate('/dashboard/analytics')}>
               <h3 className="text-xs font-bold text-navy-800 mb-2 flex items-center gap-1.5">
@@ -529,7 +572,9 @@ export const NewspaperHome = () => {
                 ))}
               </div>
             </div>
+            </Commentable>
 
+            <Commentable id="home-quick-actions" label="Quick Action Links">
             <div className="bg-white rounded-2xl border border-navy-100 p-4">
               <h3 className="text-xs font-bold text-navy-800 mb-2">Quick Actions</h3>
               <div className="space-y-1.5">
@@ -548,13 +593,17 @@ export const NewspaperHome = () => {
                 ))}
               </div>
             </div>
+            </Commentable>
           </div>
         </motion.div>
+        </Commentable>
 
         {/* === SECTION 8: SUBSCRIPTION VALUE === */}
+        <Commentable id="home-subscription-value" label="Subscription Value CTA">
         <motion.div {...fade(7)}
           className="bg-linear-to-r from-teal-600 to-emerald-600 rounded-2xl p-5 sm:p-6 text-white">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <Commentable id="home-subscription-details" label="Plan Details Text">
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <Shield className="w-4 h-4 text-teal-200" />
@@ -568,6 +617,8 @@ export const NewspaperHome = () => {
                 That is &#8377;{(estimatedRevenue / subscriptionCost).toFixed(1)} back for every &#8377;1 spent.
               </p>
             </div>
+            </Commentable>
+            <Commentable id="home-subscription-stats" label="Plan ROI Stats">
             <div className="grid grid-cols-3 gap-4 text-center">
               <div>
                 <p className="text-2xl font-black">{roi > 0 ? `${roi}%` : '\u2014'}</p>
@@ -582,8 +633,10 @@ export const NewspaperHome = () => {
                 <p className="text-[9px] text-teal-100">Growth</p>
               </div>
             </div>
+            </Commentable>
           </div>
         </motion.div>
+        </Commentable>
 
       </div>
     </div>

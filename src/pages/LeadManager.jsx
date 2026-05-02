@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { t } from '../utils/i18n';
+import { Commentable } from '../components/CommentBox';
 
 /* ─── Lead Copilot Response Helper ─── */
 const getLeadCopilotResponse = (query, lead, businessData) => {
@@ -160,8 +161,10 @@ export const LeadManager = () => {
   const showRightSidebar = showFilters;
 
   return (
+    <Commentable id="lead-manager" label="Lead Manager">
     <div className="space-y-5">
       {/* Header */}
+      <Commentable id="lead-manager-header" label="Lead Manager Header">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-navy-900">{t('leadManager', language)}</h1>
@@ -173,8 +176,10 @@ export const LeadManager = () => {
           </button>
         </div>
       </div>
+      </Commentable>
 
       {/* KPI Row */}
+      <Commentable id="lead-manager-kpi-row" label="Lead KPI Statistics Row">
       <div className={`grid gap-3 ${showRightSidebar ? 'grid-cols-5' : 'grid-cols-5'}`}>
         {kpis.map((kpi, i) => {
           const Icon = kpi.icon;
@@ -189,12 +194,14 @@ export const LeadManager = () => {
           );
         })}
       </div>
+      </Commentable>
 
       {/* Main Layout: Content + Right Sidebar */}
       <div className="flex gap-4 items-start">
         {/* Left: Main Content */}
         <div className="flex-1 min-w-0 space-y-4">
           {/* Toolbar */}
+          <Commentable id="lead-manager-toolbar" label="Lead Search and Filter Toolbar">
           <div className="flex items-center gap-3">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-navy-400" />
@@ -216,6 +223,7 @@ export const LeadManager = () => {
               <button onClick={() => setView('table')} className={`px-3 py-1.5 rounded-md text-[11px] font-semibold transition-colors ${view === 'table' ? 'bg-navy-700 text-white' : 'text-navy-500'}`}>Table</button>
             </div>
           </div>
+          </Commentable>
 
           {/* Active Filter Chips Bar */}
           {activeFilterCount > 0 && (
@@ -246,6 +254,7 @@ export const LeadManager = () => {
           )}
 
           {/* Pipeline View */}
+          <Commentable id="lead-manager-pipeline-view" label="Lead Pipeline View">
           {view === 'pipeline' && (
             <div className="flex gap-3 overflow-x-auto pb-2">
               {stages.map(stage => {
@@ -289,8 +298,10 @@ export const LeadManager = () => {
               })}
             </div>
           )}
+          </Commentable>
 
           {/* Table View */}
+          <Commentable id="lead-manager-table-view" label="Lead Table View">
           {view === 'table' && (
             <div className="bg-white rounded-xl border border-navy-100 overflow-hidden">
               <div className="overflow-x-auto">
@@ -333,9 +344,11 @@ export const LeadManager = () => {
               </div>
             </div>
           )}
+          </Commentable>
         </div>
 
         {/* ─── Right Sidebar: Filters ─── */}
+        <Commentable id="lead-manager-filter-sidebar" label="Lead Filter Sidebar">
         <AnimatePresence mode="wait">
           {showRightSidebar && (
             <motion.div
@@ -508,6 +521,7 @@ export const LeadManager = () => {
             </motion.div>
           )}
         </AnimatePresence>
+        </Commentable>
       </div>
 
       {/* ─── Lead Detail Panel (full-screen slide-in) ─── */}
@@ -713,5 +727,6 @@ export const LeadManager = () => {
         )}
       </AnimatePresence>
     </div>
+    </Commentable>
   );
 };

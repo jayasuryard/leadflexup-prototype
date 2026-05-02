@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { t } from '../utils/i18n';
+import { Commentable } from '../components/CommentBox';
 
 const fade = (i = 0) => ({ initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, transition: { delay: i * 0.06, duration: 0.35 } });
 
@@ -91,14 +92,18 @@ export const SettingsPage = () => {
   };
 
   return (
+    <Commentable id="settings-page" label="Settings Page">
     <div className="max-w-2xl mx-auto space-y-5">
       {/* Header */}
+      <Commentable id="settings-header" label="Settings Page Header">
       <div>
         <h1 className="text-xl font-bold text-navy-900">{t('settings', language)}</h1>
         <p className="text-sm text-navy-400 mt-0.5">Manage your account, preferences, and notifications</p>
       </div>
+      </Commentable>
 
       {/* ═══ Appearance ═══ */}
+      <Commentable id="settings-appearance" label="Appearance Settings">
       <SettingSection title="Appearance" desc="Customize how LeadFlexUp looks" icon={Palette} iconColor="bg-purple-600" index={0}>
         <SettingRow label="Dark Mode" desc="Switch to a dark color theme for reduced eye strain">
           <Toggle enabled={darkMode} onChange={handleDarkMode} />
@@ -124,8 +129,10 @@ export const SettingsPage = () => {
           </motion.div>
         )}
       </SettingSection>
+      </Commentable>
 
       {/* ═══ Email Notifications ═══ */}
+      <Commentable id="settings-notifications" label="Notification Settings">
       <SettingSection title="Email Notifications" desc="Control what emails you receive" icon={Mail} iconColor="bg-blue-600" index={1}>
         <SettingRow label="Email Notifications" desc="Master toggle for all email notifications">
           <Toggle enabled={emailNotifications} onChange={(v) => { setEmailNotifications(v); showSaved('email'); }} />
@@ -161,8 +168,10 @@ export const SettingsPage = () => {
           </motion.div>
         )}
       </SettingSection>
+      </Commentable>
 
       {/* ═══ Profile & Account ═══ */}
+      <Commentable id="settings-profile-section" label="Profile & Account Settings">
       <SettingSection title="Profile & Account" desc="Your personal information" icon={User} iconColor="bg-teal-600" index={2}>
         {editingProfile ? (
           <div className="space-y-3">
@@ -218,8 +227,10 @@ export const SettingsPage = () => {
           </motion.div>
         )}
       </SettingSection>
+      </Commentable>
 
       {/* ═══ Security ═══ */}
+      <Commentable id="settings-security" label="Security Settings">
       <SettingSection title="Security" desc="Password and login settings" icon={Shield} iconColor="bg-amber-600" index={3}>
         <SettingRow label="Change Password" desc="Update your account password">
           <button className="px-3 py-1.5 text-[11px] font-semibold text-navy-600 border border-navy-200 rounded-lg hover:bg-navy-50 flex items-center gap-1">
@@ -233,8 +244,10 @@ export const SettingsPage = () => {
           <span className="text-[10px] font-semibold text-navy-500">1 device</span>
         </SettingRow>
       </SettingSection>
+      </Commentable>
 
       {/* ═══ Data & Export ═══ */}
+      <Commentable id="settings-data-export" label="Data & Export Settings">
       <SettingSection title="Data & Export" desc="Download your data" icon={Download} iconColor="bg-indigo-600" index={4}>
         <SettingRow label="Export All Data" desc="Download all your business data, leads, and analytics">
           <button className="px-3 py-1.5 text-[11px] font-semibold text-indigo-600 border border-indigo-200 rounded-lg hover:bg-indigo-50 flex items-center gap-1">
@@ -247,8 +260,10 @@ export const SettingsPage = () => {
           </button>
         </SettingRow>
       </SettingSection>
+      </Commentable>
 
       {/* ═══ Account Maintenance ═══ */}
+      <Commentable id="settings-account-maintenance" label="Account Maintenance & Deactivation">
       <SettingSection title="Account Maintenance" desc="Manage your account status" icon={AlertTriangle} iconColor="bg-red-600" index={5}>
         <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-2">
           <p className="text-[11px] text-amber-800 font-semibold">⚠️ Important Notice</p>
@@ -277,6 +292,7 @@ export const SettingsPage = () => {
           </p>
         </div>
       </SettingSection>
+      </Commentable>
 
       {/* Deactivate Confirmation Modal */}
       {showDeactivateConfirm && (
@@ -375,5 +391,6 @@ export const SettingsPage = () => {
       {/* Bottom spacing */}
       <div className="h-8" />
     </div>
+    </Commentable>
   );
 };

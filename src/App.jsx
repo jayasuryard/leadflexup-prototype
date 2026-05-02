@@ -27,6 +27,8 @@ import { ProductInbox } from './pages/products/ProductInbox';
 import { ProductProspectIntel } from './pages/products/ProductProspectIntel';
 import { ProductVoiceAgent } from './pages/products/ProductVoiceAgent';
 import { ProductCompetitorIntel } from './pages/products/ProductCompetitorIntel';
+import { CommentProvider } from './context/CommentContext';
+import { CommentPanel } from './components/CommentPanel';
 
 // Only require onboarded (analysis done), NOT authenticated
 const OnboardedRoute = ({ children }) => {
@@ -84,9 +86,12 @@ function App() {
   return (
     <Router>
       <AppProvider>
-        <SpeedInsights />
-        <Analytics />
-        <AppRoutes />
+        <CommentProvider>
+          <SpeedInsights />
+          <Analytics />
+          <AppRoutes />
+          <CommentPanel />
+        </CommentProvider>
       </AppProvider>
     </Router>
   );

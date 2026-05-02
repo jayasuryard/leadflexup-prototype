@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { TrendingUp, ChevronDown, BarChart3, Globe, Palette, Zap, Users, Inbox, Telescope, Mic, Trophy, ArrowRight, LayoutGrid } from 'lucide-react';
 import { t } from '../../utils/i18n';
+import { Commentable } from '../../components/CommentBox';
 
 const products = [
   { icon: BarChart3, title: 'Analytics Dashboard', desc: 'Real-time digital presence scoring', href: '/products/analytics', color: 'bg-blue-50 text-blue-600' },
@@ -35,27 +36,31 @@ export const Navbar = ({ language, onGetStartedClick, onLoginClick, hasSubscript
       <div className="bg-white/60 backdrop-blur-xl rounded-full shadow-lg border border-white/50 px-6 py-3 mt-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <motion.div
-            initial={{ scale: 0.9 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="flex items-center gap-2"
-          >
-            <div className="w-8 h-8 bg-navy-700 rounded-xl flex items-center justify-center">
-              <TrendingUp className="w-4 h-4 text-white" />
-            </div>
-            <span className="text-lg font-bold text-navy-800 hidden sm:inline">LeadFlexUp</span>
-          </motion.div>
+          <Commentable id="navbar-logo" label="Navbar Logo">
+            <motion.div
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="flex items-center gap-2"
+            >
+              <div className="w-8 h-8 bg-navy-700 rounded-xl flex items-center justify-center">
+                <TrendingUp className="w-4 h-4 text-white" />
+              </div>
+              <span className="text-lg font-bold text-navy-800 hidden sm:inline">LeadFlexUp</span>
+            </motion.div>
+          </Commentable>
 
           {/* Center Navigation Links */}
-          <div className="hidden md:flex items-center gap-1">
+          <Commentable id="navbar-links" label="Navbar Navigation Links">
+            <div className="hidden md:flex items-center gap-1">
             <motion.a href="#" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
               className="px-3 py-1.5 text-sm font-medium text-navy-600 hover:text-navy-900 rounded-full hover:bg-white/40 transition-all">
               {t('lpNavHome', language)}
             </motion.a>
 
             {/* Products Dropdown */}
-            <div ref={dropdownRef} className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+            <Commentable id="navbar-products-dropdown" label="Products Dropdown Menu">
+              <div ref={dropdownRef} className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
               <button
                 className={`flex items-center gap-1 px-3 py-1.5 text-sm font-medium rounded-full transition-all ${showProducts ? 'text-navy-900 bg-white/60' : 'text-navy-600 hover:text-navy-900 hover:bg-white/40'}`}
               >
@@ -108,6 +113,7 @@ export const Navbar = ({ language, onGetStartedClick, onLoginClick, hasSubscript
                 )}
               </AnimatePresence>
             </div>
+            </Commentable>
 
             <motion.a href="#pricing" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
               className="px-3 py-1.5 text-sm font-medium text-navy-600 hover:text-navy-900 rounded-full hover:bg-white/40 transition-all">
@@ -118,9 +124,11 @@ export const Navbar = ({ language, onGetStartedClick, onLoginClick, hasSubscript
               Blog
             </motion.a>
           </div>
+          </Commentable>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-3">
+          <Commentable id="navbar-cta" label="Navbar CTA Buttons">
+            <div className="flex items-center gap-3">
             {hasSubscription && (
               <button
                 onClick={onLoginClick}
@@ -135,7 +143,8 @@ export const Navbar = ({ language, onGetStartedClick, onLoginClick, hasSubscript
             >
               Get Started
             </button>
-          </div>
+            </div>
+          </Commentable>
         </div>
       </div>
     </motion.nav>

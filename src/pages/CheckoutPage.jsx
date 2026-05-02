@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { subscriptionPlans } from '../data/mockDatabase';
+import { Commentable } from '../components/CommentBox';
 
 const planIcons = { starter: Sparkles, professional: Crown, enterprise: Rocket };
 
@@ -120,8 +121,10 @@ export const CheckoutPage = () => {
   const displayPrice = price ? (price / 100).toFixed(0) : '0';
 
   return (
+    <Commentable id="checkout-page" label="Checkout & Payment Page">
     <div className="min-h-screen bg-navy-50">
       {/* Header */}
+      <Commentable id="checkout-header" label="Checkout Page Header">
       <div className="bg-white border-b border-navy-100">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -136,9 +139,11 @@ export const CheckoutPage = () => {
           </div>
         </div>
       </div>
+      </Commentable>
 
       {/* Progress Steps */}
       <div className="max-w-4xl mx-auto px-4 py-6">
+        <Commentable id="checkout-step-indicator" label="Checkout Progress Step Indicator">
         <div className="flex items-center justify-center gap-2 mb-8">
           {[
             { n: 1, label: 'Plan' },
@@ -163,11 +168,13 @@ export const CheckoutPage = () => {
             </div>
           ))}
         </div>
+        </Commentable>
 
         <AnimatePresence mode="wait">
           {/* Step 1: Plan Selection */}
           {step === 1 && (
             <motion.div key="plan" {...fade}>
+              <Commentable id="checkout-plan-selection" label="Checkout Plan Selection Step">
               <div className="text-center mb-6">
                 <h2 className="text-xl font-bold text-navy-900">Choose Your Plan</h2>
                 <p className="text-sm text-navy-400 mt-1">Select the plan that fits your business needs</p>
@@ -255,12 +262,14 @@ export const CheckoutPage = () => {
                   <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
+              </Commentable>
             </motion.div>
           )}
 
           {/* Step 2: Sign Up */}
           {step === 2 && (
             <motion.div key="signup" {...fade}>
+              <Commentable id="checkout-signup-form" label="Checkout Signup Form">
               <div className="max-w-md mx-auto">
                 <div className="text-center mb-6">
                   <h2 className="text-xl font-bold text-navy-900">Create Your Account</h2>
@@ -422,12 +431,14 @@ export const CheckoutPage = () => {
                   </div>
                 </form>
               </div>
+              </Commentable>
             </motion.div>
           )}
 
           {/* Step 3: Payment */}
           {step === 3 && (
             <motion.div key="payment" {...fade}>
+              <Commentable id="checkout-payment-form" label="Checkout Payment Form">
               <div className="max-w-md mx-auto">
                 <div className="text-center mb-6">
                   <h2 className="text-xl font-bold text-navy-900">Payment Details</h2>
@@ -607,12 +618,14 @@ export const CheckoutPage = () => {
                   </div>
                 </form>
               </div>
+              </Commentable>
             </motion.div>
           )}
 
           {/* Step 4: Success */}
           {step === 4 && (
             <motion.div key="success" {...fade}>
+              <Commentable id="checkout-success" label="Checkout Success Confirmation">
               <div className="max-w-md mx-auto text-center">
                 {/* Success Animation */}
                 <motion.div
@@ -675,6 +688,7 @@ export const CheckoutPage = () => {
                   <ArrowRight className="w-4 h-4" />
                 </motion.button>
               </div>
+              </Commentable>
             </motion.div>
           )}
         </AnimatePresence>
@@ -695,5 +709,6 @@ export const CheckoutPage = () => {
         }
       `}</style>
     </div>
+    </Commentable>
   );
 };

@@ -8,6 +8,7 @@ import {
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { t } from '../utils/i18n';
+import { Commentable } from '../components/CommentBox';
 
 const fade = (i = 0) => ({ initial: { opacity: 0, y: 12 }, animate: { opacity: 1, y: 0 }, transition: { delay: i * 0.06, duration: 0.35 } });
 
@@ -160,8 +161,10 @@ export const ContentStudio = () => {
   };
 
   return (
+    <Commentable id="content-studio" label="Content Studio">
     <div className="space-y-5">
       {/* Header */}
+      <Commentable id="content-studio-header" label="Content Studio Header">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-navy-900">{t('contentStudio', language)}</h1>
@@ -174,8 +177,10 @@ export const ContentStudio = () => {
           {isGenerating ? <><RefreshCw className="w-3.5 h-3.5 animate-spin" /> Generating...</> : <><Sparkles className="w-3.5 h-3.5" /> Generate New Content</>}
         </button>
       </div>
+      </Commentable>
 
       {/* Flow Summary Banner */}
+      <Commentable id="content-studio-pipeline-banner" label="Content Pipeline Banner">
       <motion.div {...fade(0)} className="bg-navy-700 rounded-xl p-4 text-white">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -191,8 +196,10 @@ export const ContentStudio = () => {
           </div>
         </div>
       </motion.div>
+      </Commentable>
 
       {/* Status Filter Tabs */}
+      <Commentable id="content-studio-status-filters" label="Content Status Filter Tabs">
       <div className="flex items-center gap-2 overflow-x-auto pb-1">
         {filters.map(f => {
           const cfg = f === 'all' ? null : statusConfig[f];
@@ -209,8 +216,10 @@ export const ContentStudio = () => {
           );
         })}
       </div>
+      </Commentable>
 
       {/* Platform Filter */}
+      <Commentable id="content-studio-platform-filters" label="Platform Filter Tabs">
       <div className="flex items-center gap-2">
         {platformFilters.map(p => {
           const cfg = p === 'all' ? null : platformIcons[p];
@@ -224,8 +233,10 @@ export const ContentStudio = () => {
           );
         })}
       </div>
+      </Commentable>
 
       {/* Content Grid */}
+      <Commentable id="content-studio-content-grid" label="Content Cards Grid">
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3">
         {filtered.map((item, i) => {
           const plat = platformIcons[item.platform];
@@ -332,6 +343,7 @@ export const ContentStudio = () => {
           <p className="text-xs text-navy-400 mt-1">Try a different filter or generate new content</p>
         </div>
       )}
+      </Commentable>
 
       {/* Rejection Modal */}
       <AnimatePresence>
@@ -357,5 +369,6 @@ export const ContentStudio = () => {
         )}
       </AnimatePresence>
     </div>
+    </Commentable>
   );
 };

@@ -4,6 +4,7 @@ import { BarChart3, Target, Sparkles, Zap, Globe, Rocket, Crown } from 'lucide-r
 import { useApp } from '../context/AppContext';
 import { t } from '../utils/i18n';
 import { subscriptionPlans } from '../data/mockDatabase';
+import { Commentable } from '../components/CommentBox';
 
 // Import landing page components
 import {
@@ -148,14 +149,17 @@ export const LandingPage = () => {
   return (
     <div className="min-h-screen bg-blue-300 relative overflow-hidden">
       <div className={`transition-all duration-500 ${highlightForm ? 'grayscale' : ''}`}>
+        <Commentable id="lp-navbar" label="Navbar">
         <Navbar
           language={language}
           onGetStartedClick={handleGetStarted}
           onLoginClick={() => setShowLogin(true)}
           hasSubscription={!!subscription}
         />
+        </Commentable>
       </div>
 
+      <Commentable id="lp-hero" label="Hero Section (Form + Intro)">
       <Hero
         language={language}
         formData={formData}
@@ -169,19 +173,25 @@ export const LandingPage = () => {
         highlighted={highlightForm}
         onFormFocus={() => setHighlightForm(false)}
       />
+      </Commentable>
 
       <div className={`transition-all duration-500 ${highlightForm ? 'grayscale' : ''}`}>
+        <Commentable id="lp-features" label="Features Section">
         <Features
           language={language}
           features={features}
           cardFade={cardFade}
         />
+        </Commentable>
 
+        <Commentable id="lp-how-it-works" label="How It Works Section">
         <HowItWorks
           language={language}
           steps={steps}
         />
+        </Commentable>
 
+        <Commentable id="lp-pricing" label="Pricing Section">
         <Pricing
           language={language}
           subscriptionPlans={subscriptionPlans}
@@ -189,23 +199,30 @@ export const LandingPage = () => {
           onSignUpClick={(planId, isYearly) => navigate('/checkout', { state: { planId, isYearly } })}
           cardFade={cardFade}
         />
+        </Commentable>
 
+        <Commentable id="lp-faq" label="FAQ Section">
         <FAQ
           language={language}
           faqOpen={faqOpen}
           setFaqOpen={setFaqOpen}
         />
+        </Commentable>
 
+        <Commentable id="lp-cta" label="CTA Section">
         <CTA
           language={language}
           onSignUpClick={() => navigate('/checkout')}
           cardFade={cardFade}
         />
+        </Commentable>
 
+        <Commentable id="lp-footer" label="Footer">
         <Footer
           language={language}
           changeLanguage={changeLanguage}
         />
+        </Commentable>
       </div>
 
       {/* Modals */}

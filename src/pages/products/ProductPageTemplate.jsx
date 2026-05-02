@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { ArrowRight, Check, TrendingUp } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { Commentable } from '../../components/CommentBox';
 
 const fade = (i = 0) => ({ initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 }, transition: { delay: i * 0.1, duration: 0.5 } });
 
@@ -8,6 +9,7 @@ export const ProductPageTemplate = ({ icon: Icon, title, tagline, description, c
   const navigate = useNavigate();
 
   return (
+    <Commentable id={`product-${title.toLowerCase().replace(/\s+/g, '-')}`} label={`Product: ${title}`}>
     <div className="min-h-screen bg-white">
       {/* Navbar */}
       <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-navy-100">
@@ -109,5 +111,6 @@ export const ProductPageTemplate = ({ icon: Icon, title, tagline, description, c
         </div>
       </footer>
     </div>
+    </Commentable>
   );
 };
