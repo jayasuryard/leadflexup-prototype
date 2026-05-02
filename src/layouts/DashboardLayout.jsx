@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { NavLink, Outlet, useNavigate, useLocation } from 'react-router-dom';
 import {
-  LayoutDashboard, TrendingUp, Home, MessageCircle,
+  LayoutDashboard, TrendingUp, Home, MessageCircle, Inbox,
   Rocket, Settings, LogOut, Menu, X, Bell, Search, ChevronDown,
   BarChart3, CreditCard, Globe, Palette, Zap, Users, UserPlus, Terminal,
   Workflow, Telescope
@@ -25,6 +25,7 @@ export const DashboardLayout = () => {
     { key: 'analytics', icon: BarChart3, path: '/dashboard/analytics', label: t('analytics', language) },
     ...(isAuthenticated ? [
       { key: 'website', icon: Globe, path: '/dashboard/website', label: t('yourWebsite', language) || t('websiteBuilder', language) },
+      { key: 'inbox', icon: Inbox, path: '/dashboard/inbox', label: 'Inbox' },
       { key: 'content', icon: Palette, path: '/dashboard/content', label: t('contentStudio', language) },
       { key: 'automation', icon: Zap, path: '/dashboard/automation', label: t('automationHub', language) },
       { key: 'leads', icon: Users, path: '/dashboard/leads', label: t('leadManager', language) },

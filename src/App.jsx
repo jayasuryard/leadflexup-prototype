@@ -13,6 +13,7 @@ import { ContentStudio } from './pages/ContentStudio';
 import { AutomationHub } from './pages/AutomationHub';
 import { LeadManager } from './pages/LeadManager';
 import { ProspectIntelligence } from './pages/ProspectIntelligence';
+import { UnifiedInbox } from './pages/UnifiedInbox';
 import { SettingsPage } from './pages/SettingsPage';
 import { CheckoutPage } from './pages/CheckoutPage';
 import { OnboardingPage } from './pages/OnboardingPage';
@@ -49,6 +50,7 @@ function AppRoutes() {
         <Route path="content" element={<AuthRoute><ContentStudio /></AuthRoute>} />
         <Route path="automation" element={<AuthRoute><AutomationHub /></AuthRoute>} />
         <Route path="leads" element={<AuthRoute><LeadManager /></AuthRoute>} />
+        <Route path="inbox" element={<UnifiedInbox />} />
         <Route path="prospects" element={<AuthRoute><ProspectIntelligence /></AuthRoute>} />
         <Route path="subscription" element={<SubscriptionPlans />} />
         <Route path="settings" element={<AuthRoute><SettingsPage /></AuthRoute>} />
