@@ -19,7 +19,8 @@ import {
   LanguageSelectorPopup,
   VoiceInputModal,
   SignUpModal,
-  LoginModal
+  LoginModal,
+  SocialMediaSidebar
 } from '../components/landingpage';
 
 // Business illustration imports
@@ -236,6 +237,9 @@ export const LandingPage = () => {
         onClose={() => setShowLogin(false)}
         onLogin={handleLogin}
       />
+
+      {/* Sticky Social Media Sidebar */}
+      <SocialMediaSidebar />
     </div>
   );
 };

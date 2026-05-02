@@ -4,7 +4,7 @@ import {
   LayoutDashboard, TrendingUp, Home, MessageCircle,
   Rocket, Settings, LogOut, Menu, X, Bell, Search, ChevronDown,
   BarChart3, CreditCard, Globe, Palette, Zap, Users, UserPlus, Terminal,
-  Workflow
+  Workflow, Telescope
 } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { t } from '../utils/i18n';
@@ -28,6 +28,7 @@ export const DashboardLayout = () => {
       { key: 'content', icon: Palette, path: '/dashboard/content', label: t('contentStudio', language) },
       { key: 'automation', icon: Zap, path: '/dashboard/automation', label: t('automationHub', language) },
       { key: 'leads', icon: Users, path: '/dashboard/leads', label: t('leadManager', language) },
+      { key: 'prospects', icon: Telescope, path: '/dashboard/prospects', label: 'Prospect Intel' },
       { key: 'subscription', icon: CreditCard, path: '/dashboard/subscription', label: t('subscription', language) },
       { key: 'settings', icon: Settings, path: '/dashboard/settings', label: t('settings', language) },
     ] : [])

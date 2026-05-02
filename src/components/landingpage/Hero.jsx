@@ -1,8 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Mic, Languages, ArrowRight } from 'lucide-react';
-import { t, getLocalizedText } from '../../utils/i18n';
+import { t } from '../../utils/i18n';
 import { LocationPicker } from '../LocationPicker';
-import { businessCategories } from '../../data/mockDatabase';
 import heroBG from '../../assets/heroBG.png';
 
 export const Hero = ({
@@ -104,17 +103,23 @@ export const Hero = ({
                                     </div>
 
                                     {/* Column 3: Category */}
-                                    <select
-                                        required
-                                        value={formData.category}
-                                        onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                                        className="w-full px-4 py-4 bg-transparent text-navy-800 text-sm focus:outline-none appearance-none cursor-pointer"
-                                    >
-                                        <option value="">Select category...</option>
-                                        {businessCategories.map(c => (
-                                            <option key={c.id} value={c.id}>{c.icon} {getLocalizedText(c.label, language)}</option>
-                                        ))}
-                                    </select>
+                                    <div className="relative">
+                                        <input
+                                            required
+                                            type="text"
+                                            value={formData.category}
+                                            onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                                            placeholder="Business category..."
+                                            className="w-full px-4 py-4 bg-transparent text-navy-800 placeholder-navy-400 text-sm focus:outline-none"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={onVoiceClick}
+                                            className="absolute right-2 top-1/2 -translate-y-1/2 p-2 hover:bg-navy-100 rounded-lg transition-colors"
+                                        >
+                                            <Mic className="w-4 h-4 text-navy-500" />
+                                        </button>
+                                    </div>
 
                                     {/* Column 4: Location + Language + Submit */}
                                     <div className="flex items-center gap-1">
