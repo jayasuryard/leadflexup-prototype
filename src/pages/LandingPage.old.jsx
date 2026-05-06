@@ -12,7 +12,7 @@ import { useApp } from '../context/AppContext';
 import { t, getLocalizedText } from '../utils/i18n';
 import { businessCategories, subscriptionPlans } from '../data/mockDatabase';
 import { LocationPicker } from '../components/LocationPicker';
-import heroBG from '../assets/heroBG.png';
+import heroBG from '../assets/heroBG.webp';
 
 /* ─── Language Selector Popup ─── */
 const LanguageSelectorPopup = ({ open, onClose, onSelect, currentLanguage, position }) => {

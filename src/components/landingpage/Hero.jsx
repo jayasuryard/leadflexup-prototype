@@ -3,7 +3,7 @@ import { Mic, Languages, ArrowRight } from 'lucide-react';
 import { t } from '../../utils/i18n';
 import { LocationPicker } from '../LocationPicker';
 import { Commentable } from '../../components/CommentBox';
-import heroBG from '../../assets/heroBG.png';
+import heroBG from '../../assets/heroBG.webp';
 
 export const Hero = ({
     language,
@@ -21,8 +21,8 @@ export const Hero = ({
     return (
         <section className={`relative min-h-[120vh] flex items-center justify-center px-4 text-center transition-all duration-500 ${highlighted ? 'grayscale' : ''}`}>
             {/* Hero Background Image */}
-            <Commentable id="hero-background" label="Hero Background Image">
-            <div className="absolute inset-0 -top-32 -bottom-32 pointer-events-none overflow-hidden blur-[3px]">
+            <Commentable id="hero-background" label="Hero Background Image" className="absolute inset-0 -top-32 -bottom-32">
+            <div className="absolute inset-0 pointer-events-none overflow-hidden blur-[3px]">
                 <div
                     className="absolute inset-0 bg-cover bg-center bg-no-repeat"
                     style={{ backgroundImage: `url(${heroBG})` }}
